@@ -128,13 +128,25 @@ update_status ModulePlayer::Update(float dt)
 
 	if(App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
 	{
-		if(turn > -TURN_DEGREES)
+		if (turn > -TURN_DEGREES)
 			turn -= TURN_DEGREES;
 	}
 
 	if(App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
 	{
-		brake = BRAKE_POWER;
+		acceleration = -MAX_ACCELERATION;
+
+	}
+	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT)
+	{
+			brake = 100;
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_F) == KEY_REPEAT)
+	{
+		btVector3 p = vehicle->GetPos();
+		vehicle->ResetCarOrientation();
+		vehicle->SetPos(p.x(), p.y(), p.z());
 	}
 
 	vehicle->ApplyEngineForce(acceleration);
@@ -148,6 +160,20 @@ update_status ModulePlayer::Update(float dt)
 	App->window->SetTitle(title);
 
 	return UPDATE_CONTINUE;
+}
+
+void ModulePlayer::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
+{
+	p2List_item<CheckPoint>* checkItem = App->scene_intro->checkPointList.getFirst();
+	while (checkItem != NULL) {
+		if (checkItem->data.body->id == body2->id && checkItem->data.passed == false && body2->id != 6) {
+			checkItem->data.passed = true;
+			checkpointCount++;
+		}
+
+		checkItem = checkItem->next;
+	}
+
 }
 
 

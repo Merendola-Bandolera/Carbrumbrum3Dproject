@@ -3,7 +3,7 @@
 #include "p2DynArray.h"
 #include "Globals.h"
 #include "Primitive.h"
-
+#include "Color.h"
 #define MAX_SNAKE 2
 
 struct PhysBody3D;
@@ -20,7 +20,9 @@ public:
 	bool CleanUp();
 
 	void OnCollision(PhysBody3D* body1, PhysBody3D* body2);
-
+	void createGround();
+	void addCube(vec3 pos, vec3 size, Color rgb, float rotX, float rotY , float rotZ );
+	void addCubeSensor(vec3 pos, vec3 size, Color rgb, int angle = 0, bool rot_X = false, bool rot_Y = false, bool rot_Z = false, int id = -1);
 public:
 	/*
 	PhysBody3D* pb_snake[MAX_SNAKE];
@@ -41,4 +43,9 @@ public:
 
 	PhysMotor3D* left_wheel;
 	PhysMotor3D* right_wheel;
+
+	Cube box;
+
+	p2List<Cube> buildingBlocks;
+
 };

@@ -49,6 +49,7 @@ public:
 	void ApplyEngineForce(float force);
 	void Brake(float force);
 	void Turn(float degrees);
+	void ResetCarOrientation(float angle = 0);
 	float GetKmh() const;
 public:
 
