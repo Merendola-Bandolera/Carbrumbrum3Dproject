@@ -18,6 +18,13 @@ struct Booster
 	bool passed;
 };
 
+struct Checkpoint
+{
+	PhysBody3D* body;
+	Cube cube;
+	bool passed;
+};
+
 class ModuleSceneIntro : public Module
 {
 public:
@@ -31,8 +38,10 @@ public:
 	void OnCollision(PhysBody3D* body1, PhysBody3D* body2);
 	void createGround();
 	void addCube(vec3 pos, vec3 size, Color rgb, float rotX, float rotY , float rotZ );
+
 	void addCubeSensor(vec3 pos, vec3 size, Color rgb, int angle = 0, bool rot_X = false, bool rot_Y = false, bool rot_Z = false, int id = -1);
 	void addBooster(vec3 pos, vec3 size, Color rgb, int angle = 0, bool rot_X = false, bool rot_Y = false, bool rot_Z = false, int id = -1, bool passed_ = false);
+	void addCheckpoint(vec3 pos, vec3 size, Color rgb, int angle = 0, bool rot_X = false, bool rot_Y = false, bool rot_Z = false, int id = -1, bool passed_ = false);
 public:
 	/*
 	PhysBody3D* pb_snake[MAX_SNAKE];
@@ -52,6 +61,7 @@ public:
 	Cylinder p_wheel2;
 
 	p2List<Booster> boosterPointList;
+	p2List<Checkpoint> checkpointPointList;
 
 
 	PhysMotor3D* left_wheel;

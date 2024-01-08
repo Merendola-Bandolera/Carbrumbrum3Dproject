@@ -27,6 +27,7 @@ public:
 	float revs = 0.0f;
 	PhysVehicle3D* vehicle;
 	float turn;
+	btVector3 checkpoint;
 	float acceleration;
 	float brake;
 };

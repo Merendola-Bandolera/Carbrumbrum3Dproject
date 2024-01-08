@@ -27,6 +27,8 @@ bool ModuleSceneIntro::Start()
 	addCube({ 25, 1, 100 }, { 2, 2, 100 }, Grey, 0, 0, 0);
 	
 	addBooster({ 0, 3, 120 }, { 5, 5, 5 }, Red, 0, 0, 0);
+
+	addCheckpoint({ 0, 2, 90 }, { 2, 2, 2 }, Yellow, 0, 0, 0);
 	
 	//cubos de ivo
 	addCube({ 10, -0.5f, 100 }, { 30, 2, 100 }, Grey, 0, 0, 0);
@@ -72,16 +74,12 @@ update_status ModuleSceneIntro::Update(float dt)
 
 	while (currentItem != NULL) {
 		
-		
-
-
-
 		currentItem->data.cube.Render();
-			btVector3 coinPos = currentItem->data.body->GetPos();
+			btVector3 boosterPos = currentItem->data.body->GetPos();
 			btVector3 carPos = App->player->vehicle->GetPos();
-			float Xdistance = abs(coinPos.x()) - abs(carPos.x());
-			float Ydistance = abs(coinPos.y()) - abs(carPos.y());
-			float Zdistance = abs(coinPos.z()) - abs(carPos.z());
+			float Xdistance = abs(boosterPos.x()) - abs(carPos.x());
+			float Ydistance = abs(boosterPos.y()) - abs(carPos.y());
+			float Zdistance = abs(boosterPos.z()) - abs(carPos.z());
 
 			// Homebrew collision detection for sensors
 			if ((Xdistance > -3 && Xdistance < 3) && (Ydistance > -3 && Ydistance < 3) && (Zdistance > -3 && Zdistance < 3) ) {
@@ -91,7 +89,7 @@ update_status ModuleSceneIntro::Update(float dt)
 				currentItem = currentItem->next;
 				//App->audio->PlayFx(coinFx);
 				App->player->vehicle->Push(0,0,500);
-		
+			
 
 			}
 			else {
@@ -101,6 +99,34 @@ update_status ModuleSceneIntro::Update(float dt)
 		
 	}
 
+	p2List_item<Checkpoint>* currentItem2 = checkpointPointList.getFirst();
+
+	while (currentItem2 != NULL) {
+
+		currentItem2->data.cube.Render();
+		btVector3 checkpointPos = currentItem2->data.body->GetPos();
+		btVector3 carPos = App->player->vehicle->GetPos();
+		float Xdistance = abs(checkpointPos.x()) - abs(carPos.x());
+		float Ydistance = abs(checkpointPos.y()) - abs(carPos.y());
+		float Zdistance = abs(checkpointPos.z()) - abs(carPos.z());
+
+		// Homebrew collision detection for sensors
+		if ((Xdistance > -3 && Xdistance < 3) && (Ydistance > -3 && Ydistance < 3) && (Zdistance > -3 && Zdistance < 3)) {
+			LOG("car touch coing");
+			//currentItem->data->pendingToDelete = true;
+
+			currentItem2 = currentItem2->next;
+			//App->audio->PlayFx(coinFx);
+			App->player->checkpoint = checkpointPos;
+
+
+		}
+		else {
+			currentItem2 = currentItem2->next;
+		}
+
+
+	}
 
 	return UPDATE_CONTINUE;
 }
@@ -170,18 +196,44 @@ void ModuleSceneIntro::addBooster(vec3 pos, vec3 size, Color rgb, int angle, boo
 	if (rot_Z == true)
 		cube.SetRotation(angle, { 0, 0, 1 });	// Z-axis
 
-	Booster checkpoint;
-	checkpoint.body = App->physics->AddBody(cube, 0.0f);
+	Booster booster;
+	booster.body = App->physics->AddBody(cube, 0.0f);
 	
-	checkpoint.body->SetAsSensor(true);
-	checkpoint.body->SetId(id);
-	checkpoint.cube = cube;
-	checkpoint.passed = passed_;
-	boosterPointList.add(checkpoint);
+	booster.body->SetAsSensor(true);
+	booster.body->SetId(id);
+	booster.cube = cube;
+	booster.passed = passed_;
+	boosterPointList.add(booster);
 
 	
 }
 
+void ModuleSceneIntro::addCheckpoint(vec3 pos, vec3 size, Color rgb, int angle, bool rot_X, bool rot_Y, bool rot_Z, int id, bool passed_)
+{
+	Cube cube;
+
+	cube.SetPos(pos.x, pos.y, pos.z);
+	cube.size = size;
+	cube.color = rgb;
+
+	if (rot_X == true)
+		cube.SetRotation(angle, { 1, 0, 0 });	// X-axis
+	if (rot_Y == true)
+		cube.SetRotation(angle, { 0, 1, 0 });	// Y-axis
+	if (rot_Z == true)
+		cube.SetRotation(angle, { 0, 0, 1 });	// Z-axis
+
+	Checkpoint checkpoint;
+	checkpoint.body = App->physics->AddBody(cube, 0.0f);
+
+	checkpoint.body->SetAsSensor(true);
+	checkpoint.body->SetId(id);
+	checkpoint.cube = cube;
+	checkpoint.passed = passed_;
+	checkpointPointList.add(checkpoint);
+
+
+}
 
 void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 {
