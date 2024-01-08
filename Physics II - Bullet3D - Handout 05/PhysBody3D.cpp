@@ -46,6 +46,23 @@ void PhysBody3D::SetPos(float x, float y, float z)
 	body->setWorldTransform(t);
 }
 
+void PhysBody3D::SetAsSensor(bool issensor)
+{
+	if (this->isSensor != issensor)
+	{
+		this->isSensor = issensor;
+		if (issensor == true)
+			body->setCollisionFlags(body->getCollisionFlags() | btCollisionObject::CF_NO_CONTACT_RESPONSE);
+		else
+			body->setCollisionFlags(body->getCollisionFlags() & ~btCollisionObject::CF_NO_CONTACT_RESPONSE);
+	}
+}
+
+void PhysBody3D::SetId(int id)
+{
+	this->id = id;
+}
+
 btVector3 PhysBody3D::GetPos()
 {
 	btVector3 pos = body->getWorldTransform().getOrigin();

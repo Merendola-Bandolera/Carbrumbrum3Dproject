@@ -99,6 +99,9 @@ bool ModulePlayer::Start()
 	vehicle = App->physics->AddVehicle(car);
 	vehicle->SetPos(0, 12, 10);
 	
+	vehicle->collision_listeners.add(this);
+	vehicle->SetId(1);
+
 	return true;
 }
 
@@ -115,9 +118,66 @@ update_status ModulePlayer::Update(float dt)
 {
 	turn = acceleration = brake = 0.0f;
 
-	if(App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
+	if (App->input->GetKey(SDL_SCANCODE_Z) == KEY_DOWN && gears != 0) {
+		gears--;
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_X) == KEY_DOWN && gears != 6) {
+		gears++;
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT && gears == 0)
 	{
-		acceleration = MAX_ACCELERATION;
+		if (revs <= 250) {
+			revs = revs + 2.5f;
+		}
+		acceleration = -MAX_ACCELERATION * revs;
+	}
+	if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_UP)
+	{
+		revs = 0.0f;
+	}
+	if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT && gears == 1)
+	{
+		if (revs <= 250) {
+			revs = revs + 10.0f;
+		}
+		acceleration = MAX_ACCELERATION * revs;
+	}
+	if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT && gears == 2)
+	{
+		if (revs <= 500) {
+			revs = revs + 5.0f;
+		}
+		acceleration = MAX_ACCELERATION * revs;
+	}
+	if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT && gears == 3)
+	{
+		if (revs <= 750) {
+			revs = revs + 2.5f;
+		}
+		acceleration = MAX_ACCELERATION * revs;
+	}
+	if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT && gears == 4)
+	{
+		if (revs <= 1000) {
+			revs = revs + 1.0f;
+		}
+		acceleration = MAX_ACCELERATION * revs;
+	}
+	if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT && gears == 5)
+	{
+		if (revs <= 1500) {
+			revs = revs + 0.5f;
+		}
+		acceleration = MAX_ACCELERATION * revs;
+	}
+	if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT && gears == 6)
+	{
+		if (revs <= 2000) {
+			revs = revs + 0.1f;
+		}
+		acceleration = MAX_ACCELERATION * revs;
 	}
 
 	if(App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
@@ -132,11 +192,7 @@ update_status ModulePlayer::Update(float dt)
 			turn -= TURN_DEGREES;
 	}
 
-	if(App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
-	{
-		acceleration = -MAX_ACCELERATION;
-
-	}
+	
 	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT)
 	{
 			brake = 100;
@@ -164,15 +220,15 @@ update_status ModulePlayer::Update(float dt)
 
 void ModulePlayer::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 {
-	//p2List_item<CheckPoint>* checkItem = App->scene_intro->checkPointList.getFirst();
-	//while (checkItem != NULL) {
-	//	if (checkItem->data.body->id == body2->id && checkItem->data.passed == false && body2->id != 6) {
-	//		checkItem->data.passed = true;
-	//		checkpointCount++;
-	//	}
+	p2List_item<Booster>* checkItem = App->scene_intro->boosterPointList.getFirst();
+	while (checkItem != NULL) {
+		if (checkItem->data.body->id == body2->id && checkItem->data.passed == false && body2->id != 6) {
+			checkItem->data.passed = true;
+			vehicle->Push(0,100,0);
+		}
 
-	//	checkItem = checkItem->next;
-	//}
+		checkItem = checkItem->next;
+	}
 
 }
 

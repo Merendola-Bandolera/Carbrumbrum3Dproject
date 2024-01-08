@@ -4,10 +4,18 @@
 #include "Globals.h"
 #include "Primitive.h"
 #include "Color.h"
+#include "ModulePlayer.h"
 #define MAX_SNAKE 2
 
 struct PhysBody3D;
 struct PhysMotor3D;
+
+struct Booster
+{
+	PhysBody3D* body;
+	Cube cube;
+	bool passed;
+};
 
 class ModuleSceneIntro : public Module
 {
@@ -23,6 +31,7 @@ public:
 	void createGround();
 	void addCube(vec3 pos, vec3 size, Color rgb, float rotX, float rotY , float rotZ );
 	void addCubeSensor(vec3 pos, vec3 size, Color rgb, int angle = 0, bool rot_X = false, bool rot_Y = false, bool rot_Z = false, int id = -1);
+	void addBooster(vec3 pos, vec3 size, Color rgb, int angle = 0, bool rot_X = false, bool rot_Y = false, bool rot_Z = false, int id = -1, bool passed_ = false);
 public:
 	/*
 	PhysBody3D* pb_snake[MAX_SNAKE];
@@ -40,6 +49,9 @@ public:
 
 	PhysBody3D* pb_wheel2;
 	Cylinder p_wheel2;
+
+	p2List<Booster> boosterPointList;
+
 
 	PhysMotor3D* left_wheel;
 	PhysMotor3D* right_wheel;

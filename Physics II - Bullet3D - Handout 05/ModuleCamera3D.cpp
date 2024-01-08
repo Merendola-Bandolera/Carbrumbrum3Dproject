@@ -68,8 +68,6 @@ update_status ModuleCamera3D::Update(float dt)
 	float playerPosY = App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getY() + 15 * App->player->vehicle->vehicle->getForwardVector().getY();
 	float playerPosZ = App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getZ() + 10 * App->player->vehicle->vehicle->getForwardVector().getZ();
 
-	//win condition
-
 	LookAt(vec3(playerPosX, playerPosY, playerPosZ));
 
 	// Mouse motion ----------------
