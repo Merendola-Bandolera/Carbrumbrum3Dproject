@@ -5,6 +5,7 @@
 #include "PhysBody3D.h"
 #include "ModulePlayer.h"
 
+
 ModuleSceneIntro::ModuleSceneIntro(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
 }
@@ -24,8 +25,8 @@ bool ModuleSceneIntro::Start()
 	createGround();
 
 	addCube({ 25, 1, 100 }, { 2, 2, 100 }, Grey, 0, 0, 0);
-	addCube({ 10, 1, 20 }, { 20, 50, 6 }, Grey, 0, 0, -65);
-	addBooster({ 50, 1, 20 }, { 5, 5, 5 }, Red, 0, 0, 0);
+	
+	addBooster({ 0, 3, 120 }, { 5, 5, 5 }, Red, 0, 0, 0);
 	
 	//cubos de ivo
 	addCube({ 10, -0.5f, 100 }, { 30, 2, 100 }, Grey, 0, 0, 0);
@@ -69,36 +70,36 @@ update_status ModuleSceneIntro::Update(float dt)
 	}*/
 	p2List_item<Booster>* currentItem = boosterPointList.getFirst();
 
-	//while (currentItem != NULL) {
-	//	
-	//	
-	//		
+	while (currentItem != NULL) {
+		
+		
 
 
 
-	//	//btVector3 coinPos = currentItem->data.body->GetPos();
-	//	//	btVector3 carPos = App->player->vehicle->GetPos();
-	//	//	float Xdistance = abs(coinPos.x()) - abs(carPos.x());
-	//	//	float Ydistance = abs(coinPos.y()) - abs(carPos.y());
-	//	//	float Zdistance = abs(coinPos.z()) - abs(carPos.z());
+		currentItem->data.cube.Render();
+			btVector3 coinPos = currentItem->data.body->GetPos();
+			btVector3 carPos = App->player->vehicle->GetPos();
+			float Xdistance = abs(coinPos.x()) - abs(carPos.x());
+			float Ydistance = abs(coinPos.y()) - abs(carPos.y());
+			float Zdistance = abs(coinPos.z()) - abs(carPos.z());
 
-	//	//	// Homebrew collision detection for sensors
-	//	//	if ((Xdistance > -2 && Xdistance < 2) && (Ydistance > -2 && Ydistance < 2) && (Zdistance > -2 && Zdistance < 2) && !currentItem->data->pendingToDelete) {
-	//	//		LOG("car touch coing");
-	//	//		//currentItem->data->pendingToDelete = true;
+			// Homebrew collision detection for sensors
+			if ((Xdistance > -3 && Xdistance < 3) && (Ydistance > -3 && Ydistance < 3) && (Zdistance > -3 && Zdistance < 3) ) {
+				LOG("car touch coing");
+				//currentItem->data->pendingToDelete = true;
 
-	//	//		currentItem = currentItem->next;
-	//	//		//App->audio->PlayFx(coinFx);
-	//	//		App->player->vehicle;
-	//	//		
+				currentItem = currentItem->next;
+				//App->audio->PlayFx(coinFx);
+				App->player->vehicle->Push(0,0,500);
+		
 
-	//	//	}
-	//	//	else {
-	//	//		currentItem = currentItem->next;
-	//	//	}
-	//	
-	//	
-	//}
+			}
+			else {
+				currentItem = currentItem->next;
+			}
+		
+		
+	}
 
 
 	return UPDATE_CONTINUE;
@@ -172,7 +173,7 @@ void ModuleSceneIntro::addBooster(vec3 pos, vec3 size, Color rgb, int angle, boo
 	Booster checkpoint;
 	checkpoint.body = App->physics->AddBody(cube, 0.0f);
 	
-	checkpoint.body->SetAsSensor(false);
+	checkpoint.body->SetAsSensor(true);
 	checkpoint.body->SetId(id);
 	checkpoint.cube = cube;
 	checkpoint.passed = passed_;

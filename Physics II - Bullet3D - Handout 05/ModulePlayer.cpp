@@ -21,15 +21,15 @@ bool ModulePlayer::Start()
 	VehicleInfo car;
 
 	// Car properties ----------------------------------------
-	car.chassis_size.Set(2, 2, 4);
-	car.chassis_offset.Set(0, 1.5, 0);
+	car.chassis_size.Set(2, 1, 4);
+	car.chassis_offset.Set(0, 1, 0);
 	car.mass = 500.0f;
 	car.suspensionStiffness = 15.88f;
 	car.suspensionCompression = 0.83f;
-	car.suspensionDamping = 0.88f;
+	car.suspensionDamping = 20;
 	car.maxSuspensionTravelCm = 1000.0f;
 	car.frictionSlip = 50.5;
-	car.maxSuspensionForce = 6000.0f;
+	car.maxSuspensionForce = 2000.0f;
 
 	// Wheel properties ---------------------------------------
 	float connection_height = 1.2f;
@@ -125,8 +125,18 @@ update_status ModulePlayer::Update(float dt)
 	if (App->input->GetKey(SDL_SCANCODE_X) == KEY_DOWN && gears != 6) {
 		gears++;
 	}
+	if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
+	{
+			
+		acceleration = -MAX_ACCELERATION;
 
-	if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT && gears == 0)
+	}if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
+	{
+		
+		acceleration = MAX_ACCELERATION;
+
+	}
+	/*if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT && gears == 0)
 	{
 		if (revs <= 250) {
 			revs = revs + 2.5f;
@@ -178,7 +188,7 @@ update_status ModulePlayer::Update(float dt)
 			revs = revs + 0.1f;
 		}
 		acceleration = MAX_ACCELERATION * revs;
-	}
+	}*/
 
 	if(App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
 	{
@@ -231,6 +241,8 @@ void ModulePlayer::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 	}
 
 }
+
+
 
 
 

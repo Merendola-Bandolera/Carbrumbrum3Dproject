@@ -5,6 +5,7 @@
 #include "Primitive.h"
 #include "Color.h"
 #include "ModulePlayer.h"
+#include "PhysVehicle3D.h"
 #define MAX_SNAKE 2
 
 struct PhysBody3D;

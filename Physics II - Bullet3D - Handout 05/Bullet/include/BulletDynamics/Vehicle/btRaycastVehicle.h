@@ -61,8 +61,8 @@ private:
 	btVehicleRaycaster*	m_vehicleRaycaster;
 	btScalar		m_pitchControl;
 	btScalar	m_steeringValue; 
+	
 	btScalar m_currentVehicleSpeedKmHour;
-
 	btRigidBody* m_chassisBody;
 
 	int m_indexRightAxis;
@@ -75,7 +75,7 @@ public:
 
 	//constructor to create a car from an existing rigidbody
 	btRaycastVehicle(const btVehicleTuning& tuning,btRigidBody* chassis,	btVehicleRaycaster* raycaster );
-
+	
 	virtual ~btRaycastVehicle() ;
 
 
