@@ -164,15 +164,15 @@ update_status ModulePlayer::Update(float dt)
 
 void ModulePlayer::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 {
-	p2List_item<CheckPoint>* checkItem = App->scene_intro->checkPointList.getFirst();
-	while (checkItem != NULL) {
-		if (checkItem->data.body->id == body2->id && checkItem->data.passed == false && body2->id != 6) {
-			checkItem->data.passed = true;
-			checkpointCount++;
-		}
+	//p2List_item<CheckPoint>* checkItem = App->scene_intro->checkPointList.getFirst();
+	//while (checkItem != NULL) {
+	//	if (checkItem->data.body->id == body2->id && checkItem->data.passed == false && body2->id != 6) {
+	//		checkItem->data.passed = true;
+	//		checkpointCount++;
+	//	}
 
-		checkItem = checkItem->next;
-	}
+	//	checkItem = checkItem->next;
+	//}
 
 }
 
