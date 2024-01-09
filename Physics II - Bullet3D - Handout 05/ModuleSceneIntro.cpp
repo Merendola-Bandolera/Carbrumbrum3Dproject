@@ -18,22 +18,22 @@ bool ModuleSceneIntro::Start()
 {
 	LOG("Loading Intro assets");
 	bool ret = true;
-	
+
 	App->camera->Move(vec3(1.0f, 1.0f, 0.0f));
 	App->camera->LookAt(vec3(0, 0, 0));
 
 	createGround();
 
 	addCube({ 25, 1, 100 }, { 2, 2, 100 }, Grey, 0, 0, 0);
-	
+
 	addBooster({ 0, 3, 120 }, { 5, 5, 5 }, Red, 0, 0, 0);
 
 	addCheckpoint({ 0, 2, 90 }, { 2, 2, 2 }, Yellow, 0, 0, 0);
 
 	addGravityChanger({ 0, 2, 150 }, { 2, 2, 2 }, Blue, 0, 0, 0);
 	addGravityChanger({ 0, 10, 150 }, { 2, 2, 2 }, Blue, 0, 0, 0);
-	
-	
+
+
 	//cubos de pau
 	addCube({ 10, 12, 100 }, { 30, 2, 100 }, Grey, 0, 0, 0);
 	addCube({ 1.7f, 12, 195 }, { 30, 2, 100 }, Grey, 0, -10, 0);
@@ -59,21 +59,32 @@ bool ModuleSceneIntro::Start()
 	addCube({ 694, -0.5f, 657 }, { 100, 2, 30 }, Grey, 0, -40, 0);
 	addCube({ 754, -0.5f, 728 }, { 100, 2, 30 }, Grey, 0, -60, 0);
 	addCube({ 786, -0.5f, 816 }, { 100, 2, 30 }, Grey, 0, -80, 0);
-	addCube({ 807, -0.5f, 900 }, { 30, 2, 100 }, Grey, 0, 0, 30);
-	addCube({ 817, 4, 1000 }, { 30, 2, 100 }, Grey, 0, 0, 60);
+	addCube({ 807, -0.5f, 900 }, { 30, 2, 100 }, Grey, 0, 0, 30);	//Wallride
+	addCube({ 817, 4, 1000 }, { 30, 2, 100 }, Grey, 0, 0, 60);		//Wallride
 	addCube({ 800, 4, 1110 }, { 30, 2, 100 }, Grey, 0, -10, 0);
 
 
 	//CURVAS DE IVO
 	addCube({ 1.7f + 782, 4, 195 + 1009 }, { 30, 2, 100 }, Grey, 0, -10, 0);
-	addCube({ -24 + 782, 4, 288 + 1009 }, { 30, 2, 100 }, Grey, 0, -20, 0);
-	addCube({ -64.8 + 782, 4, 375 + 1009 }, { 30, 2, 100 }, Grey, 0, -30, 0);
+	addCube({ -24 + 782,  4, 288 + 1009 }, { 30, 2, 100 }, Grey, 0, -20, 0);
+	addCube({ -64.8 + 782,4, 375 + 1009 }, { 30, 2, 100 }, Grey, 0, -30, 0);
 	addCube({ -120 + 782, 4, 453 + 1009 }, { 30, 2, 100 }, Grey, 0, -40, 0);
 	addCube({ -188 + 782, 4, 520 + 1009 }, { 30, 2, 100 }, Grey, 0, -50, 0);
 	addCube({ -262 + 782, 4, 570 + 1009 }, { 30, 2, 100 }, Grey, 0, -60, 0);
 	addCube({ -350 + 782, 4, 610 + 1009 }, { 30, 2, 100 }, Grey, 0, -70, 0);
 	addCube({ -443 + 782, 4, 635 + 1009 }, { 30, 2, 100 }, Grey, 0, -80, 0);
 	addCube({ -539 + 782, 4, 643 + 1009 }, { 30, 2, 100 }, Grey, 0, -90, 0);
+	addCube({ 244,	13, 1652 }, { 100, 2, 30 }, Grey, 0, 0, -10);
+	addCube({ 149,	38, 1652 }, { 100, 2, 30 }, Grey, 0, 0, -20);
+	addCube({ -148,	55, 1652 }, { 500, 2, 120 }, Grey, 0, 0, 0);
+	addCube({ -448,	55, 1652 }, { 100, 2, 30 }, Grey, 0, 0, 0);
+	addCube({ -534,	55, 1629 }, { 100, 2, 30 }, Grey, 0, -30, 0);
+	addCube({ -597,	55, 1566 }, { 100, 2, 30 }, Grey, 0, -60, 0);
+	addCube({ -627 ,	55, 1486}, { 30, 2, 100 }, Grey, 0, 0, -40);
+	addCube({ -643 ,	79, 1486 }, { 30, 2, 100 }, Grey, 0, 0, -70);
+	addCube({ -630 ,	79, 1400 }, { 2, 30, 100 }, Grey, 0, -20, 0);
+	addCube({ -600 ,	79, 1300 }, { 2, 30, 100 }, Grey, 0, -60, 0);
+	addCube({ -600,	65, 1370 }, { 30, 2, 100 }, Grey, 0, -60, 0);
 	/*
 	addCube({ -10, -0.5f, -100 }, { 30, 2, 100 }, Grey, 0, 0, 0);
 	addCube({ -1.7f, -0.5f, -195 }, { 30, 2, 100 }, Grey, 0, -10, 0);
@@ -120,30 +131,30 @@ update_status ModuleSceneIntro::Update(float dt)
 	p2List_item<Booster>* currentItem = boosterPointList.getFirst();
 
 	while (currentItem != NULL) {
-		
+
 		currentItem->data.cube.Render();
-			btVector3 boosterPos = currentItem->data.body->GetPos();
-			btVector3 carPos = App->player->vehicle->GetPos();
-			float Xdistance = abs(boosterPos.x()) - abs(carPos.x());
-			float Ydistance = abs(boosterPos.y()) - abs(carPos.y());
-			float Zdistance = abs(boosterPos.z()) - abs(carPos.z());
+		btVector3 boosterPos = currentItem->data.body->GetPos();
+		btVector3 carPos = App->player->vehicle->GetPos();
+		float Xdistance = abs(boosterPos.x()) - abs(carPos.x());
+		float Ydistance = abs(boosterPos.y()) - abs(carPos.y());
+		float Zdistance = abs(boosterPos.z()) - abs(carPos.z());
 
-			// Homebrew collision detection for sensors
-			if ((Xdistance > -3 && Xdistance < 3) && (Ydistance > -3 && Ydistance < 3) && (Zdistance > -3 && Zdistance < 3) ) {
-				LOG("car touch coing");
-				//currentItem->data->pendingToDelete = true;
+		// Homebrew collision detection for sensors
+		if ((Xdistance > -3 && Xdistance < 3) && (Ydistance > -3 && Ydistance < 3) && (Zdistance > -3 && Zdistance < 3)) {
+			LOG("car touch coing");
+			//currentItem->data->pendingToDelete = true;
 
-				currentItem = currentItem->next;
-				//App->audio->PlayFx(coinFx);
-				App->player->vehicle->Push(0,0,500);
-				
-			
-			}
-			else {
-				currentItem = currentItem->next;
-			}
-		
-		
+			currentItem = currentItem->next;
+			//App->audio->PlayFx(coinFx);
+			App->player->vehicle->Push(0, 0, 500);
+
+
+		}
+		else {
+			currentItem = currentItem->next;
+		}
+
+
 	}
 
 	p2List_item<Checkpoint>* currentItem2 = checkpointPointList.getFirst();
@@ -164,9 +175,9 @@ update_status ModuleSceneIntro::Update(float dt)
 
 			currentItem2 = currentItem2->next;
 			//App->audio->PlayFx(coinFx);
-			
+
 			App->player->checkpoint = checkpointPos;
-			
+
 
 		}
 		else {
@@ -341,103 +352,103 @@ update_status ModuleSceneIntro::Update(float dt)
 					inverted = true;
 				}
 				else {
-				VehicleInfo car;
+					VehicleInfo car;
 
-				float half_width = 2 * 0.5f;
-				float half_length = 4 * 0.5f;
+					float half_width = 2 * 0.5f;
+					float half_length = 4 * 0.5f;
 
-				float connection_height = 1.2f;
-				float wheel_radius = 0.6f;
-				float wheel_width = 0.5f;
-				float suspensionRestLength = 1.2f;
+					float connection_height = 1.2f;
+					float wheel_radius = 0.6f;
+					float wheel_width = 0.5f;
+					float suspensionRestLength = 1.2f;
 
-				// Car properties ----------------------------------------
-				car.chassis_size.Set(2, 1, 4);
-				car.chassis_offset.Set(0, 1, 0);
-				car.mass = 500.0f;
-				car.suspensionStiffness = 15.88f;
-				car.suspensionCompression = 0.83f;
-				car.suspensionDamping = 20;
-				car.maxSuspensionTravelCm = 1000.0f;
-				car.frictionSlip = 50.5;
-				car.maxSuspensionForce = 2000.0f;
+					// Car properties ----------------------------------------
+					car.chassis_size.Set(2, 1, 4);
+					car.chassis_offset.Set(0, 1, 0);
+					car.mass = 500.0f;
+					car.suspensionStiffness = 15.88f;
+					car.suspensionCompression = 0.83f;
+					car.suspensionDamping = 20;
+					car.maxSuspensionTravelCm = 1000.0f;
+					car.frictionSlip = 50.5;
+					car.maxSuspensionForce = 2000.0f;
 
-				// Wheel properties ---------------------------------------
-				btVector3 p = App->player->vehicle->GetPos();
-				float acx = App->player->acceleration;
-				App->player->vehicle->SetPos(1000, 10, -1000);
+					// Wheel properties ---------------------------------------
+					btVector3 p = App->player->vehicle->GetPos();
+					float acx = App->player->acceleration;
+					App->player->vehicle->SetPos(1000, 10, -1000);
 
-				// Don't change anything below this line ------------------
+					// Don't change anything below this line ------------------
 
 
 
-				vec3 direction(0, -1, 0);
-				vec3 axis(-1, 0, 0);
+					vec3 direction(0, -1, 0);
+					vec3 axis(-1, 0, 0);
 
-				car.num_wheels = 4;
-				car.wheels = new Wheel[4];
+					car.num_wheels = 4;
+					car.wheels = new Wheel[4];
 
-				// FRONT-LEFT ------------------------
-				car.wheels[0].connection.Set(half_width - 0.3f * wheel_width, connection_height, half_length - wheel_radius);
-				car.wheels[0].direction = direction;
-				car.wheels[0].axis = axis;
-				car.wheels[0].suspensionRestLength = suspensionRestLength;
-				car.wheels[0].radius = wheel_radius;
-				car.wheels[0].width = wheel_width;
-				car.wheels[0].front = true;
-				car.wheels[0].drive = true;
-				car.wheels[0].brake = false;
-				car.wheels[0].steering = true;
+					// FRONT-LEFT ------------------------
+					car.wheels[0].connection.Set(half_width - 0.3f * wheel_width, connection_height, half_length - wheel_radius);
+					car.wheels[0].direction = direction;
+					car.wheels[0].axis = axis;
+					car.wheels[0].suspensionRestLength = suspensionRestLength;
+					car.wheels[0].radius = wheel_radius;
+					car.wheels[0].width = wheel_width;
+					car.wheels[0].front = true;
+					car.wheels[0].drive = true;
+					car.wheels[0].brake = false;
+					car.wheels[0].steering = true;
 
-				// FRONT-RIGHT ------------------------
-				car.wheels[1].connection.Set(-half_width + 0.3f * wheel_width, connection_height, half_length - wheel_radius);
-				car.wheels[1].direction = direction;
-				car.wheels[1].axis = axis;
-				car.wheels[1].suspensionRestLength = suspensionRestLength;
-				car.wheels[1].radius = wheel_radius;
-				car.wheels[1].width = wheel_width;
-				car.wheels[1].front = true;
-				car.wheels[1].drive = true;
-				car.wheels[1].brake = false;
-				car.wheels[1].steering = true;
+					// FRONT-RIGHT ------------------------
+					car.wheels[1].connection.Set(-half_width + 0.3f * wheel_width, connection_height, half_length - wheel_radius);
+					car.wheels[1].direction = direction;
+					car.wheels[1].axis = axis;
+					car.wheels[1].suspensionRestLength = suspensionRestLength;
+					car.wheels[1].radius = wheel_radius;
+					car.wheels[1].width = wheel_width;
+					car.wheels[1].front = true;
+					car.wheels[1].drive = true;
+					car.wheels[1].brake = false;
+					car.wheels[1].steering = true;
 
-				// REAR-LEFT ------------------------
-				car.wheels[2].connection.Set(half_width - 0.3f * wheel_width, connection_height, -half_length + wheel_radius);
-				car.wheels[2].direction = direction;
-				car.wheels[2].axis = axis;
-				car.wheels[2].suspensionRestLength = suspensionRestLength;
-				car.wheels[2].radius = wheel_radius;
-				car.wheels[2].width = wheel_width;
-				car.wheels[2].front = false;
-				car.wheels[2].drive = false;
-				car.wheels[2].brake = true;
-				car.wheels[2].steering = false;
+					// REAR-LEFT ------------------------
+					car.wheels[2].connection.Set(half_width - 0.3f * wheel_width, connection_height, -half_length + wheel_radius);
+					car.wheels[2].direction = direction;
+					car.wheels[2].axis = axis;
+					car.wheels[2].suspensionRestLength = suspensionRestLength;
+					car.wheels[2].radius = wheel_radius;
+					car.wheels[2].width = wheel_width;
+					car.wheels[2].front = false;
+					car.wheels[2].drive = false;
+					car.wheels[2].brake = true;
+					car.wheels[2].steering = false;
 
-				// REAR-RIGHT ------------------------
-				car.wheels[3].connection.Set(-half_width + 0.3f * wheel_width, connection_height, -half_length + wheel_radius);
-				car.wheels[3].direction = direction;
-				car.wheels[3].axis = axis;
-				car.wheels[3].suspensionRestLength = suspensionRestLength;
-				car.wheels[3].radius = wheel_radius;
-				car.wheels[3].width = wheel_width;
-				car.wheels[3].front = false;
-				car.wheels[3].drive = false;
-				car.wheels[3].brake = true;
-				car.wheels[3].steering = false;
+					// REAR-RIGHT ------------------------
+					car.wheels[3].connection.Set(-half_width + 0.3f * wheel_width, connection_height, -half_length + wheel_radius);
+					car.wheels[3].direction = direction;
+					car.wheels[3].axis = axis;
+					car.wheels[3].suspensionRestLength = suspensionRestLength;
+					car.wheels[3].radius = wheel_radius;
+					car.wheels[3].width = wheel_width;
+					car.wheels[3].front = false;
+					car.wheels[3].drive = false;
+					car.wheels[3].brake = true;
+					car.wheels[3].steering = false;
 
-				App->player->vehicle = App->physics->AddVehicle(car);
-				App->player->vehicle->SetPos(p.x(), p.y(), p.z());
-				App->physics->world->setGravity(GRAVITY);
-				acx = App->player->acceleration;
-				inverted = false;
+					App->player->vehicle = App->physics->AddVehicle(car);
+					App->player->vehicle->SetPos(p.x(), p.y(), p.z());
+					App->physics->world->setGravity(GRAVITY);
+					acx = App->player->acceleration;
+					inverted = false;
 				}
 
 
-			
+
 				timerGrav = 0;
 			}
-		
-			
+
+
 
 		}
 		else {
@@ -459,13 +470,13 @@ void ModuleSceneIntro::addCube(vec3 pos, vec3 size, Color rgb, float rotX, float
 	cube.color = rgb;
 
 	if (rotX != 0)
-	cube.SetRotation(rotX, { 1, 0, 0 });	
-	
+		cube.SetRotation(rotX, { 1, 0, 0 });
+
 	if (rotY != 0)
-	cube.SetRotation(rotY, { 0, 1, 0 });	
+		cube.SetRotation(rotY, { 0, 1, 0 });
 
 	if (rotZ != 0)
-	cube.SetRotation(rotZ, { 0, 0, 1 });	
+		cube.SetRotation(rotZ, { 0, 0, 1 });
 
 	App->physics->AddBody(cube, 0);
 	buildingBlocks.add(cube);
@@ -487,15 +498,15 @@ void ModuleSceneIntro::createGround() {
 
 			groundToAdd.SetPos(i * -groundTerrainSize + groundTerrainSize, 0, j * groundTerrainSize);
 
-			
-				groundToAdd.color = White;	// Ground color
 
-				App->physics->AddBody(groundToAdd, 0);
-				buildingBlocks.add(groundToAdd);
+			groundToAdd.color = White;	// Ground color
+
+			App->physics->AddBody(groundToAdd, 0);
+			buildingBlocks.add(groundToAdd);
 
 
-				
-			
+
+
 		}
 	}
 }
@@ -534,7 +545,7 @@ void ModuleSceneIntro::addBooster(vec3 pos, vec3 size, Color rgb, int angle, boo
 	cube.SetPos(pos.x, pos.y, pos.z);
 	cube.size = size;
 	cube.color = rgb;
-	
+
 	if (rot_X == true)
 		cube.SetRotation(angle, { 1, 0, 0 });	// X-axis
 	if (rot_Y == true)
@@ -544,14 +555,14 @@ void ModuleSceneIntro::addBooster(vec3 pos, vec3 size, Color rgb, int angle, boo
 
 	Booster booster;
 	booster.body = App->physics->AddBody(cube, 0.0f);
-	
+
 	booster.body->SetAsSensor(true);
 	booster.body->SetId(id);
 	booster.cube = cube;
 	booster.passed = passed_;
 	boosterPointList.add(booster);
 
-	
+
 }
 
 void ModuleSceneIntro::addCheckpoint(vec3 pos, vec3 size, Color rgb, int angle, bool rot_X, bool rot_Y, bool rot_Z, int id, bool passed_)
