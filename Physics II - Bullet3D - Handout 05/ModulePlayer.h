@@ -30,4 +30,12 @@ public:
 	btVector3 checkpoint;
 	float acceleration;
 	float brake;
+
+	float half_width = 2 * 0.5f;
+	float half_length = 4 * 0.5f;
+
+	float connection_height = 1.2f;
+	float wheel_radius = 0.6f;
+	float wheel_width = 0.5f;
+	float suspensionRestLength = 1.2f;
 };
