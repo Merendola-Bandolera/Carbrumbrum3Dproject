@@ -16,8 +16,9 @@ ModulePlayer::~ModulePlayer()
 // Load assets
 bool ModulePlayer::Start()
 {
+	timer = 0;
 	LOG("Loading player");
-	gears = 0;
+	gears = 1;
 	VehicleInfo car;
 
 	// Car properties ----------------------------------------
@@ -118,17 +119,17 @@ update_status ModulePlayer::Update(float dt)
 {
 	turn = acceleration = brake = 0.0f;
 
-	if (App->input->GetKey(SDL_SCANCODE_Z) == KEY_DOWN && gears != 0) {
+	if (App->input->GetKey(SDL_SCANCODE_Z) == KEY_DOWN && gears != 1) {
 		gears--;
 	}
 
-	if (App->input->GetKey(SDL_SCANCODE_X) == KEY_DOWN && gears != 6) {
+	if (App->input->GetKey(SDL_SCANCODE_X) == KEY_DOWN && gears != 3) {
 		gears++;
 	}
 	if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
 	{
 			
-		acceleration = -MAX_ACCELERATION;
+		acceleration = -MAX_ACCELERATION * 600;
 
 	}if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
 	{
@@ -136,59 +137,45 @@ update_status ModulePlayer::Update(float dt)
 		acceleration = MAX_ACCELERATION;
 
 	}
-	/*if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT && gears == 0)
-	{
-		if (revs <= 250) {
-			revs = revs + 2.5f;
-		}
-		acceleration = -MAX_ACCELERATION * revs;
-	}
 	if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_UP)
 	{
 		revs = 0.0f;
 	}
 	if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT && gears == 1)
 	{
-		if (revs <= 250) {
-			revs = revs + 10.0f;
+		if (revs <= 3000) {
+			revs = revs + 100.0f;
+			acceleration = MAX_ACCELERATION * revs;
 		}
-		acceleration = MAX_ACCELERATION * revs;
+		else if (revs <= 4000) {
+			revs = revs + 10.0f;
+			acceleration = MAX_ACCELERATION * revs;
+		}
+		if (revs >= 4000) {
+			acceleration = MAX_ACCELERATION;
+		}
+		
 	}
 	if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT && gears == 2)
 	{
-		if (revs <= 500) {
-			revs = revs + 5.0f;
+		if (revs <= 4500) {
+			revs = revs + 10.0f;
+			acceleration = MAX_ACCELERATION * revs;
 		}
-		acceleration = MAX_ACCELERATION * revs;
+		if (revs >= 4500) {
+			acceleration = MAX_ACCELERATION;
+		}
 	}
 	if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT && gears == 3)
 	{
-		if (revs <= 750) {
-			revs = revs + 2.5f;
+		if (revs <= 5000) {
+			revs = revs + 5.0f;
+			acceleration = MAX_ACCELERATION * revs;
 		}
-		acceleration = MAX_ACCELERATION * revs;
+		if (revs >= 5000) {
+			acceleration = MAX_ACCELERATION;
+		}
 	}
-	if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT && gears == 4)
-	{
-		if (revs <= 1000) {
-			revs = revs + 1.0f;
-		}
-		acceleration = MAX_ACCELERATION * revs;
-	}
-	if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT && gears == 5)
-	{
-		if (revs <= 1500) {
-			revs = revs + 0.5f;
-		}
-		acceleration = MAX_ACCELERATION * revs;
-	}
-	if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT && gears == 6)
-	{
-		if (revs <= 2000) {
-			revs = revs + 0.1f;
-		}
-		acceleration = MAX_ACCELERATION * revs;
-	}*/
 
 	if(App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
 	{
@@ -205,7 +192,9 @@ update_status ModulePlayer::Update(float dt)
 	
 	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT)
 	{
-			brake = 100;
+		if (gears == 1) { brake = 100; }
+		if (gears == 2) { brake = 75; }
+		if (gears == 3) { brake = 50; }
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_F) == KEY_REPEAT)
