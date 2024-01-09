@@ -32,6 +32,13 @@ struct Checkpoint
 	bool passed;
 };
 
+struct Train
+{
+	PhysBody3D* body;
+	Cube cube;
+	bool passed;
+};
+
 class ModuleSceneIntro : public Module
 {
 public:
@@ -68,7 +75,10 @@ public:
 	PhysBody3D* pb_wheel2;
 	Cylinder p_wheel2;
 
+	Train train;
+
 	p2List<Booster> boosterPointList;
+	p2List<Train> trainPointList;
 	p2List<Checkpoint> checkpointPointList;
 	p2List<GravityChange> gravityChangePointList;
 

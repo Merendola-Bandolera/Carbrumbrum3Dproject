@@ -86,6 +86,24 @@ bool ModuleSceneIntro::Start()
 	addCube({ 443, -0.5f, -635 }, { 30, 2, 100 }, Grey, 0, -80, 0);
 	addCube({ 539, -0.5f, -643 }, { 30, 2, 100 }, Grey, 0, -90, 0);*/
 
+	Cube trainn;
+
+	trainn.SetPos(-10, 0.5f, -20);
+	trainn.size = vec3(20,1,20);
+	trainn.color = Yellow;
+	
+	Train traino;
+	traino.body = App->physics->AddBody(trainn, 0.0f);
+
+	traino.body->SetAsSensor(true);
+	traino.body->SetId(1);
+	traino.cube = trainn;
+	traino.passed = false;
+	trainPointList.add(traino);
+
+	App->physics->AddBody(trainn, 0);
+
+	
 	box = Cube(1, 1, 1);
 	App->physics->AddBody(box, 1.0f);
 	return ret;
@@ -106,7 +124,42 @@ update_status ModuleSceneIntro::Update(float dt)
 	timerGrav++;
 	box.SetPos(1, 1, 1);
 	box.Render();
+	
 
+	
+	/*p2List_item<Booster>* d = boosterPointList.getFirst();
+	while (d != NULL) {
+		d->data.cube.Render();
+		d = d->next;
+	}*/
+	p2List_item<Train>* currentItem4 = trainPointList.getFirst();
+
+	while (currentItem4 != NULL) {
+
+		currentItem4->data.cube.Render();
+		btVector3 boosterPos = currentItem4->data.body->GetPos();
+		btVector3 carPos = App->player->vehicle->GetPos();
+		float Xdistance = abs(boosterPos.x()) - abs(carPos.x());
+		float Ydistance = abs(boosterPos.y()) - abs(carPos.y());
+		float Zdistance = abs(boosterPos.z()) - abs(carPos.z());
+
+		// Homebrew collision detection for sensors
+		if ((Xdistance > -3 && Xdistance < 3) && (Ydistance > -3 && Ydistance < 3) && (Zdistance > -3 && Zdistance < 3) && currentItem4 != nullptr) {
+			LOG("car touch coing");
+			//currentItem->data->pendingToDelete = true;
+
+			currentItem4 = currentItem4->next;
+			//App->audio->PlayFx(coinFx);
+
+
+		}
+		else {
+			currentItem4 = currentItem4->next;
+		}
+
+
+	}
+   
 	p2List_item<Cube>* c = buildingBlocks.getFirst();
 	while (c != NULL) {
 		c->data.Render();
@@ -432,7 +485,7 @@ update_status ModuleSceneIntro::Update(float dt)
 				inverted = false;
 				}
 
-
+				
 			
 				timerGrav = 0;
 			}
