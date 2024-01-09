@@ -11,6 +11,13 @@
 struct PhysBody3D;
 struct PhysMotor3D;
 
+struct GravityChange
+{
+	PhysBody3D* body;
+	Cube cube;
+	bool passed;
+};
+
 struct Booster
 {
 	PhysBody3D* body;
@@ -39,6 +46,7 @@ public:
 	void createGround();
 	void addCube(vec3 pos, vec3 size, Color rgb, float rotX, float rotY , float rotZ );
 
+	void addGravityChanger(vec3 pos, vec3 size, Color rgb, int angle = 0, bool rot_X = false, bool rot_Y = false, bool rot_Z = false, int id = -1, bool passed_ = false);
 	void addCubeSensor(vec3 pos, vec3 size, Color rgb, int angle = 0, bool rot_X = false, bool rot_Y = false, bool rot_Z = false, int id = -1);
 	void addBooster(vec3 pos, vec3 size, Color rgb, int angle = 0, bool rot_X = false, bool rot_Y = false, bool rot_Z = false, int id = -1, bool passed_ = false);
 	void addCheckpoint(vec3 pos, vec3 size, Color rgb, int angle = 0, bool rot_X = false, bool rot_Y = false, bool rot_Z = false, int id = -1, bool passed_ = false);
@@ -62,11 +70,12 @@ public:
 
 	p2List<Booster> boosterPointList;
 	p2List<Checkpoint> checkpointPointList;
+	p2List<GravityChange> gravityChangePointList;
 
-
+	bool inverted = false;
 	PhysMotor3D* left_wheel;
 	PhysMotor3D* right_wheel;
-
+	float timerGrav = 0;
 	Cube box;
 
 	p2List<Cube> buildingBlocks;

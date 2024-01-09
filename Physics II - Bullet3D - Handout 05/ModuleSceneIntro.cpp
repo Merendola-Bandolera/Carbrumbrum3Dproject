@@ -18,7 +18,7 @@ bool ModuleSceneIntro::Start()
 {
 	LOG("Loading Intro assets");
 	bool ret = true;
-
+	
 	App->camera->Move(vec3(1.0f, 1.0f, 0.0f));
 	App->camera->LookAt(vec3(0, 0, 0));
 
@@ -29,6 +29,9 @@ bool ModuleSceneIntro::Start()
 	addBooster({ 0, 3, 120 }, { 5, 5, 5 }, Red, 0, 0, 0);
 
 	addCheckpoint({ 0, 2, 90 }, { 2, 2, 2 }, Yellow, 0, 0, 0);
+
+	addGravityChanger({ 0, 2, 150 }, { 2, 2, 2 }, Blue, 0, 0, 0);
+	addGravityChanger({ 0, 10, 150 }, { 2, 2, 2 }, Blue, 0, 0, 0);
 	
 	//cubos de ivo
 	addCube({ 10, -0.5f, 100 }, { 30, 2, 100 }, Grey, 0, 0, 0);
@@ -42,6 +45,7 @@ bool ModuleSceneIntro::Start()
 	addCube({ -443, -0.5f, 635 }, { 30, 2, 100 }, Grey, 0, -80, 0);
 	addCube({ -539, -0.5f, 643 }, { 30, 2, 100 }, Grey, 0, -90, 0);
 
+	//cubos de dani
 	addCube({ -10, -0.5f, -100 }, { 30, 2, 100 }, Grey, 0, 0, 0);
 	addCube({ -1.7f, -0.5f, -195 }, { 30, 2, 100 }, Grey, 0, -10, 0);
 	addCube({ 24, -0.5f, -288 }, { 30, 2, 100 }, Grey, 0, -20, 0);
@@ -53,6 +57,17 @@ bool ModuleSceneIntro::Start()
 	addCube({ 443, -0.5f, -635 }, { 30, 2, 100 }, Grey, 0, -80, 0);
 	addCube({ 539, -0.5f, -643 }, { 30, 2, 100 }, Grey, 0, -90, 0);
 
+	//cubos de pau
+	addCube({ 10, 12, 100 }, { 30, 2, 100 }, Grey, 0, 0, 0);
+	addCube({ 1.7f, 12, 195 }, { 30, 2, 100 }, Grey, 0, -10, 0);
+	addCube({ -24, 12, 288 }, { 30, 2, 100 }, Grey, 0, -20, 0);
+	addCube({ -64.8, 12, 375 }, { 30, 2, 100 }, Grey, 0, -30, 0);
+	addCube({ -120, 12, 453 }, { 30, 2, 100 }, Grey, 0, -40, 0);
+	addCube({ -188, 12, 520 }, { 30, 2, 100 }, Grey, 0, -50, 0);
+	addCube({ -262, 12, 570 }, { 30, 2, 100 }, Grey, 0, -60, 0);
+	addCube({ -350, 12, 610 }, { 30, 2, 100 }, Grey, 0, -70, 0);
+	addCube({ -443, 12, 635 }, { 30, 2, 100 }, Grey, 0, -80, 0);
+	addCube({ -539, 12, 643 }, { 30, 2, 100 }, Grey, 0, -90, 0);
 
 	box = Cube(1, 1, 1);
 	App->physics->AddBody(box, 1.0f);
@@ -71,7 +86,7 @@ bool ModuleSceneIntro::CleanUp()
 update_status ModuleSceneIntro::Update(float dt)
 {
 
-	
+	timerGrav++;
 	box.SetPos(1, 1, 1);
 	box.Render();
 
@@ -104,8 +119,8 @@ update_status ModuleSceneIntro::Update(float dt)
 				currentItem = currentItem->next;
 				//App->audio->PlayFx(coinFx);
 				App->player->vehicle->Push(0,0,500);
+				
 			
-
 			}
 			else {
 				currentItem = currentItem->next;
@@ -132,12 +147,56 @@ update_status ModuleSceneIntro::Update(float dt)
 
 			currentItem2 = currentItem2->next;
 			//App->audio->PlayFx(coinFx);
+			
 			App->player->checkpoint = checkpointPos;
-
+			
 
 		}
 		else {
 			currentItem2 = currentItem2->next;
+		}
+
+
+	}
+
+
+	p2List_item<GravityChange>* currentItem3 = gravityChangePointList.getFirst();
+
+	while (currentItem3 != NULL) {
+
+		currentItem3->data.cube.Render();
+		btVector3 checkpointPos = currentItem3->data.body->GetPos();
+		btVector3 carPos = App->player->vehicle->GetPos();
+		float Xdistance = abs(checkpointPos.x()) - abs(carPos.x());
+		float Ydistance = abs(checkpointPos.y()) - abs(carPos.y());
+		float Zdistance = abs(checkpointPos.z()) - abs(carPos.z());
+
+		// Homebrew collision detection for sensors
+		if ((Xdistance > -3 && Xdistance < 3) && (Ydistance > -3 && Ydistance < 3) && (Zdistance > -3 && Zdistance < 3)) {
+			LOG("car touch coing");
+			//currentItem->data->pendingToDelete = true;
+
+			currentItem3 = currentItem3->next;
+			//App->audio->PlayFx(coinFx);
+
+			if (timerGrav > 60) {
+				if (inverted == false)
+				{
+					App->physics->world->setGravity(-GRAVITY);
+					inverted = true;
+				}
+				else {
+					App->physics->world->setGravity(GRAVITY);
+					inverted = false;
+				}
+				timerGrav = 0;
+			}
+		
+			
+
+		}
+		else {
+			currentItem3 = currentItem3->next;
 		}
 
 
@@ -194,6 +253,33 @@ void ModuleSceneIntro::createGround() {
 			
 		}
 	}
+}
+
+void ModuleSceneIntro::addGravityChanger(vec3 pos, vec3 size, Color rgb, int angle, bool rot_X, bool rot_Y, bool rot_Z, int id, bool passed_)
+{
+	Cube cube;
+
+	cube.SetPos(pos.x, pos.y, pos.z);
+	cube.size = size;
+	cube.color = rgb;
+
+	if (rot_X == true)
+		cube.SetRotation(angle, { 1, 0, 0 });	// X-axis
+	if (rot_Y == true)
+		cube.SetRotation(angle, { 0, 1, 0 });	// Y-axis
+	if (rot_Z == true)
+		cube.SetRotation(angle, { 0, 0, 1 });	// Z-axis
+
+	GravityChange gravityChang;
+	gravityChang.body = App->physics->AddBody(cube, 0.0f);
+
+	gravityChang.body->SetAsSensor(true);
+	gravityChang.body->SetId(id);
+	gravityChang.cube = cube;
+	gravityChang.passed = passed_;
+	gravityChangePointList.add(gravityChang);
+
+
 }
 
 void ModuleSceneIntro::addBooster(vec3 pos, vec3 size, Color rgb, int angle, bool rot_X, bool rot_Y, bool rot_Z, int id, bool passed_)

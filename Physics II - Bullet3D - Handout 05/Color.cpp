@@ -7,4 +7,5 @@ Color Blue = Color(0.0f, 0.0f, 1.0f);
 Color Black = Color(0.0f, 0.0f, 0.0f);
 Color White = Color(1.0f, 1.0f, 1.0f);
 Color Grey = Color(.5f, .5f, .5f);
-Color Yellow = Color(1.0f, 1.0f, 0.0f);
+Color Yellow = Color(1.0f, 1.0f, 0.0f); 
+Color Invisible = Color(0.0f, 0.0f, 0.0f,.1f);
