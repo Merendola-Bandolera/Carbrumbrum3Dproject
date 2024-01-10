@@ -188,9 +188,12 @@ update_status ModulePlayer::Update(float dt)
 	//	acceleration = MAX_ACCELERATION;
 
 	//}
-	if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_UP)
+	if (vehicle->GetKmh() <= 0 && App->input->GetKey(SDL_SCANCODE_DOWN) != KEY_REPEAT && revs >= 0) { revs = 0; }
+
+	if (App->input->GetKey(SDL_SCANCODE_UP) != KEY_REPEAT && revs >= 0.5f && vehicle->GetKmh() >= 0)
 	{
-		revs = 0.0f;
+		revs = revs - 5.0f;
+		acceleration = acceleration - 400;
 	}
 	if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT && gears == 1)
 	{
@@ -228,16 +231,22 @@ update_status ModulePlayer::Update(float dt)
 		}
 	}
 
-	if(App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
+	if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
 	{
-		if(turn < TURN_DEGREES)
-			turn +=  TURN_DEGREES;
+		if (turn < TURN_DEGREES) {
+			if (gears == 1) { turn += TURN_DEGREES; }
+			if (gears == 2) { turn += TURN_DEGREES * 0.5f; }
+			if (gears == 3) { turn += TURN_DEGREES * 0.3f; }
+		}
 	}
 
 	if(App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
 	{
-		if (turn > -TURN_DEGREES)
-			turn -= TURN_DEGREES;
+		if (turn > -TURN_DEGREES) {
+			if (gears == 1) { turn -= TURN_DEGREES; }
+			if (gears == 2) { turn -= TURN_DEGREES * 0.5f; }
+			if (gears == 3) { turn -= TURN_DEGREES * 0.3f; }
+		}
 	}
 
 	
