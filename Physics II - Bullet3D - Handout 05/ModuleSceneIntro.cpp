@@ -35,10 +35,10 @@ bool ModuleSceneIntro::Start()
 	
 	
 	//cubos de pau
-	addCube({ 10, 12, 100 }, { 30, 2, 100 }, Grey, 0, 0, 0);
+	addCube({ 10, 12, 100 }, { 30, 2, 100 },   Grey, 0, 0, 0);
 	addCube({ 1.7f, 12, 195 }, { 30, 2, 100 }, Grey, 0, -10, 0);
-	addCube({ -24, 12, 288 }, { 30, 2, 100 }, Grey, 0, -20, 0);
-	addCube({ -64.8, 12, 375 }, { 30, 2, 100 }, Grey, 0, -30, 0);
+	addCube({ -24, 12, 288 }, { 30, 2, 100 },  Grey, 0, -20, 0);
+	addCube({ -64.8, 12, 375 }, { 30, 2, 100 },Grey, 0, -30, 0);
 	addCube({ -120, 12, 453 }, { 30, 2, 100 }, Grey, 0, -40, 0);
 	addCube({ -188, 12, 520 }, { 30, 2, 100 }, Grey, 0, -50, 0);
 	addCube({ -262, 12, 570 }, { 30, 2, 100 }, Grey, 0, -60, 0);
@@ -62,6 +62,7 @@ bool ModuleSceneIntro::Start()
 	addCube({ 807, -0.5f, 900 }, { 30, 2, 100 }, Grey, 0, 0, 30);	//Wallride
 	addCube({ 817, 4, 1000 }, { 30, 2, 100 }, Grey, 0, 0, 60);		//Wallride
 	addCube({ 800, 4, 1110 }, { 30, 2, 100 }, Grey, 0, -10, 0);
+	addCube({ 819, 4, 1085 }, { 2, 30, 30 }, Grey, 0, -15, 0);
 
 
 	//CURVAS DE IVO
@@ -83,8 +84,19 @@ bool ModuleSceneIntro::Start()
 	addCube({ -627 ,	55, 1486 }, { 30, 2, 100 }, Grey, 0, 0, -40); //Wallride
 	addCube({ -653 ,	79, 1486 }, { 30, 2, 100 }, Grey, 0, 0, -60); //Wallride
 	addCube({ -653,	45, 1300 }, { 30, 2, 300 }, Grey, -10, 0, 0);
-	addCube({ -653,	19, 1010 }, { 30, 2, 300 }, Grey, 0, 0, 0);
+	addCube({ -653,	19, 1010 }, { 30, 2, 300 }, Grey, 0, 0, 0); //MAS O MENOS POR AQUI LA SETA 1
 	addCube({ -653,	19, 710 }, { 120, 20, 500 }, Grey, 0, 0, 0); //Hielo
+	addCube({ -653,	19, 430 }, { 30, 20, 60 }, Grey, 0, 0, 0);  //SETA 2
+	addCube({ -653,	39, 150 }, { 120, 20, 500 }, Grey, 0, 0, 0); //Hielo
+	addCube({ -653,	10, -133 }, { 30, 2, 100 }, Grey, -50, 0, 0);
+	addCube({ -653-15,	25, -143 }, { 2, 60, 70 }, Grey, 0, 0, 0);
+	addCube({ -653 + 15,25, -143 }, { 2, 60, 70 }, Grey, 0, 0, 0);
+	addCube({ -653,	45, -123 }, { 30, 2, 30 }, Grey, -40, 0, 0);
+	addCube({ -653,8, -143 }, { 30, 2, 100 }, Grey, -30, 0, 0);
+	addCube({ -653,	5, -153 }, { 30, 2, 100 }, Grey, -10, 0, 0);
+	addCube({ -653,	-0.5f, -203 }, { 30, 2, 100 }, Grey, 0, 0, 0);
+	addCube({ -653,	-0.5f, -303 }, { 30, 2, 200 }, Grey, 0, 0, 0);
+	addCube({ -653 -15,	-0.5f, -353 }, { 30, 2, 50 }, Grey, 0, 0, -20);
 	
 
 	Cube trainn;
