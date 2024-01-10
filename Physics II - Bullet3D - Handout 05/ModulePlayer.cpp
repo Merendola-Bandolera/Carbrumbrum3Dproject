@@ -197,36 +197,36 @@ update_status ModulePlayer::Update(float dt)
 	}
 	if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT && gears == 1)
 	{
-		if (revs <= 3000) {
-			revs = revs + 100.0f;
+		if (revs <= 2000) {
+			revs = revs + 200.0f;
 			acceleration = MAX_ACCELERATION * revs;
 		}
-		else if (revs <= 4000) {
+		else if (revs <= 2500) {
 			revs = revs + 10.0f;
 			acceleration = MAX_ACCELERATION * revs;
 		}
-		if (revs >= 4000) {
+		if (revs >= 2500) {
 			acceleration = MAX_ACCELERATION;
 		}
 		
 	}
 	if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT && gears == 2)
 	{
-		if (revs <= 4500) {
-			revs = revs + 10.0f;
+		if (revs <= 3500) {
+			revs = revs + 5.0f;
 			acceleration = MAX_ACCELERATION * revs;
 		}
-		if (revs >= 4500) {
+		if (revs >= 3500) {
 			acceleration = MAX_ACCELERATION;
 		}
 	}
 	if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT && gears == 3)
 	{
-		if (revs <= 5000) {
+		if (revs <= 4000) {
 			revs = revs + 5.0f;
 			acceleration = MAX_ACCELERATION * revs;
 		}
-		if (revs >= 5000) {
+		if (revs >= 4000) {
 			acceleration = MAX_ACCELERATION;
 		}
 	}
