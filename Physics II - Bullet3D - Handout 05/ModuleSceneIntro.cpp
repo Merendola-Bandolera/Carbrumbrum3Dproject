@@ -46,7 +46,9 @@ bool ModuleSceneIntro::Start()
 	addCube({ -443, 12, 635 }, { 30, 2, 100 }, Grey, 0, -80, 0);
 	addCube({ -539, 12, 643 }, { 30, 2, 100 }, Grey, 0, -90, 0);
 
-	//Circuito
+	//CIRCUITO
+	
+	//SALIDA
 	addCube({ 10, -0.5f, 300 }, { 30, 2, 500 }, Grey, 0, 0, 0);
 	addCube({ 100, -0.5f, 580 }, { 200, 2, 30 }, Grey, 0, -30, 0);
 	addCube({ 279, -0.5f, 628 }, { 200, 2, 30 }, Grey, 0, 0, 0);
@@ -54,6 +56,8 @@ bool ModuleSceneIntro::Start()
 	addCube({ 185, -0.5f, 636 }, { 50, 2, 10 }, Grey, 0, 0, 3);
 	addCube({ 360, -0.5f, 618 }, { 50, 2, 10 }, Grey, 0, 0, 10);//rampa
 	addCube({ 355, -0.5f, 618 }, { 50, 2, 10 }, Grey, 0, 0, 3);	//rampa
+
+	//ZONA ANTES DEL WALLRIDE
 	addCube({ 475, -0.5f, 611 }, { 200, 2, 30 }, Grey, 0, 10, 0);
 	addCube({ 613, -0.5f, 610 }, { 100, 2, 30 }, Grey, 0, -20, 0);
 	addCube({ 694, -0.5f, 657 }, { 100, 2, 30 }, Grey, 0, -40, 0);
