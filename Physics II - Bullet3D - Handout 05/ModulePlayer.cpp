@@ -190,9 +190,10 @@ update_status ModulePlayer::Update(float dt)
 	//}
 	if (vehicle->GetKmh() <= 0 && App->input->GetKey(SDL_SCANCODE_DOWN) != KEY_REPEAT && revs >= 0) { revs = 0; }
 
-	if (App->input->GetKey(SDL_SCANCODE_UP) != KEY_REPEAT && revs >= 0.5f && vehicle->GetKmh() >= 0)
+	if (App->input->GetKey(SDL_SCANCODE_UP) != KEY_REPEAT && revs >= 0.5f && vehicle->GetKmh() >= 0 )
 	{
 		revs = revs - 5.0f;
+		if (ice == false)
 		acceleration = acceleration - 400;
 	}
 	if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT && gears == 1)
@@ -237,6 +238,7 @@ update_status ModulePlayer::Update(float dt)
 			if (gears == 1) { turn += TURN_DEGREES; }
 			if (gears == 2) { turn += TURN_DEGREES * 0.5f; }
 			if (gears == 3) { turn += TURN_DEGREES * 0.3f; }
+			if (ice == true) { turn += TURN_DEGREES * 2; }
 		}
 	}
 
@@ -246,15 +248,28 @@ update_status ModulePlayer::Update(float dt)
 			if (gears == 1) { turn -= TURN_DEGREES; }
 			if (gears == 2) { turn -= TURN_DEGREES * 0.5f; }
 			if (gears == 3) { turn -= TURN_DEGREES * 0.3f; }
+			if (ice == true) { turn -= TURN_DEGREES * 2; }
 		}
 	}
 
+	if (App->input->GetKey(SDL_SCANCODE_I) == KEY_DOWN)
+	{
+		if (ice == false)
+		{
+			ice = true;
+
+		}
+		else {
+			ice = false;
+		}
+	}
 	
 	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT)
 	{
 		if (gears == 1) { brake = 100; }
 		if (gears == 2) { brake = 75; }
 		if (gears == 3) { brake = 50; }
+		if (ice == true) { brake = 0; }
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_F) == KEY_REPEAT)

@@ -11,11 +11,17 @@
 struct PhysBody3D;
 struct PhysMotor3D;
 
+enum vehicles
+{
+	GravityVehicle = 0, NormalVehicle = 1,
+};
+
 struct GravityChange
 {
 	PhysBody3D* body;
 	Cube cube;
 	bool passed;
+	int id2 = 0;
 };
 
 struct Booster
@@ -39,7 +45,7 @@ struct Checkpoint
 	bool passed;
 };
 
-struct Train
+struct Brake
 {
 	PhysBody3D* body;
 	Cube cube;
@@ -74,6 +80,7 @@ public:
 	void addGravityChanger(vec3 pos, vec3 size, Color rgb, int angle = 0, bool rot_X = false, bool rot_Y = false, bool rot_Z = false, int id = -1, bool passed_ = false);
 	void addCubeSensor(vec3 pos, vec3 size, Color rgb, int angle = 0, bool rot_X = false, bool rot_Y = false, bool rot_Z = false, int id = -1);
 	void addBooster(vec3 pos, vec3 size, Color rgb, int angle = 0, bool rot_X = false, bool rot_Y = false, bool rot_Z = false, int id = -1, bool passed_ = false);
+	void addBrake(vec3 pos, vec3 size, Color rgb, int angle = 0, bool rot_X = false, bool rot_Y = false, bool rot_Z = false, int id = -1, bool passed_ = false);
 	void addBoosterUp(vec3 pos, vec3 size, Color rgb, int angle = 0, bool rot_X = false, bool rot_Y = false, bool rot_Z = false, int id = -1, bool passed_ = false);
 	void addCheckpoint(vec3 pos, vec3 size, Color rgb, int angle = 0, bool rot_X = false, bool rot_Y = false, bool rot_Z = false, int id = -1, bool passed_ = false);
 public:
@@ -94,10 +101,9 @@ public:
 	PhysBody3D* pb_wheel2;
 	Cylinder p_wheel2;
 
-	Train train;
-
 	p2List<Booster> boosterPointList;
 	p2List<BoosterUp> boosterUpPointList;
+	p2List<Brake> brakePointList;
 	
 	p2List<Checkpoint> checkpointPointList;
 	p2List<GravityChange> gravityChangePointList;
@@ -108,7 +114,7 @@ public:
 	PhysMotor3D* right_wheel;
 	float timerGrav = 0;
 	Cube box;
-
+	int timer2 = 0;
 	int coin = 0;
 
 	p2List<Cube> buildingBlocks;
