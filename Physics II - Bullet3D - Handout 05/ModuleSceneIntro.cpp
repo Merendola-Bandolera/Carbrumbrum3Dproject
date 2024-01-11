@@ -56,17 +56,20 @@ bool ModuleSceneIntro::Start()
 	addCube({ 10, -0.5f, 300 }, { 30, 2, 500 }, Grey, 0, 0, 0);
 	addCube({ 100, -0.5f, 580 }, { 200, 2, 30 }, Grey, 0, -30, 0);
 	addCube({ 279, -0.5f, 628 }, { 200, 2, 30 }, Grey, 0, 0, 0);
-	addCube({ 190, -0.5f, 636 }, { 50, 2, 10 }, Grey, 0, 0, 10);
-	addCube({ 185, -0.5f, 636 }, { 50, 2, 10 }, Grey, 0, 0, 3);
+	addCube({ 190, -0.5f, 636 }, { 50, 2, 10 }, Grey, 0, 0, 10);	//rampa
+	addCube({ 185, -0.5f, 636 }, { 50, 2, 10 }, Grey, 0, 0, 3);		//rampa
 	addCube({ 360, -0.5f, 618 }, { 50, 2, 10 }, Grey, 0, 0, 10);//rampa
 	addCube({ 355, -0.5f, 618 }, { 50, 2, 10 }, Grey, 0, 0, 3);	//rampa
+	addCoin({ 355, 3, 618 }, { 5, 5, 5 }, Yellow, 0, 0, 30);
+	addCoin({ 190, 3, 636 }, { 5, 5, 5 }, Yellow, 0, 0, 30);
 
 	//ZONA ANTES DEL WALLRIDE
-	addCube({ 475, -0.5f, 611 }, { 200, 2, 30 }, Grey, 0, 10, 0);
+	addCube({ 475, -0.5f, 611 }, { 200, 2, 40 }, Grey, 0, 10, 0);
 	addCube({ 613, -0.5f, 610 }, { 100, 2, 30 }, Grey, 0, -20, 0);
 	addCube({ 694, -0.5f, 657 }, { 100, 2, 30 }, Grey, 0, -40, 0);
 	addCube({ 754, -0.5f, 728 }, { 100, 2, 30 }, Grey, 0, -60, 0);
 	addCube({ 786, -0.5f, 816 }, { 100, 2, 30 }, Grey, 0, -80, 0);
+	addCoin({ 816, 7, 900 }, { 5, 5, 5 }, Yellow, 0, 0, 30);
 	addCube({ 807, -0.5f, 900 }, { 30, 2, 100 }, Grey, 0, 0, 30);	//Wallride
 	addCube({ 817, 4, 1000 }, { 30, 2, 100 }, Grey, 0, 0, 60);		//Wallride
 	addCube({ 800, 4, 1110 }, { 30, 2, 100 }, Grey, 0, -10, 0);
@@ -101,7 +104,9 @@ bool ModuleSceneIntro::Start()
 	addCube({ -653,	19, 710 }, { 120, 20, 500 }, Grey, 0, 0, 0);
 
 	//SETA 2
-	addCube({ -653,	19, 430 }, { 30, 20, 60 }, Grey, 0, 0, 0);  
+	addCube({ -653,	19, 430 }, { 30, 20, 60 }, Grey, 0, 0, 0); 
+	addBoosterUp({ -653, 29, 430 }, { 5, 5, 5 }, Orange, 0, 0, 0);
+
 
 	//HIELO 2 + TUNEL
 	addCube({ -653,	39, 150 }, { 120, 20, 500 }, Grey, 0, 0, 0); 
