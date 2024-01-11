@@ -25,6 +25,13 @@ struct Booster
 	bool passed;
 };
 
+struct BoosterUp
+{
+	PhysBody3D* body;
+	Cube cube;
+	bool passed;
+};
+
 struct Checkpoint
 {
 	PhysBody3D* body;
@@ -56,6 +63,7 @@ public:
 	void addGravityChanger(vec3 pos, vec3 size, Color rgb, int angle = 0, bool rot_X = false, bool rot_Y = false, bool rot_Z = false, int id = -1, bool passed_ = false);
 	void addCubeSensor(vec3 pos, vec3 size, Color rgb, int angle = 0, bool rot_X = false, bool rot_Y = false, bool rot_Z = false, int id = -1);
 	void addBooster(vec3 pos, vec3 size, Color rgb, int angle = 0, bool rot_X = false, bool rot_Y = false, bool rot_Z = false, int id = -1, bool passed_ = false);
+	void addBoosterUp(vec3 pos, vec3 size, Color rgb, int angle = 0, bool rot_X = false, bool rot_Y = false, bool rot_Z = false, int id = -1, bool passed_ = false);
 	void addCheckpoint(vec3 pos, vec3 size, Color rgb, int angle = 0, bool rot_X = false, bool rot_Y = false, bool rot_Z = false, int id = -1, bool passed_ = false);
 public:
 	/*
@@ -78,6 +86,7 @@ public:
 	Train train;
 
 	p2List<Booster> boosterPointList;
+	p2List<BoosterUp> boosterUpPointList;
 	p2List<Train> trainPointList;
 	p2List<Checkpoint> checkpointPointList;
 	p2List<GravityChange> gravityChangePointList;

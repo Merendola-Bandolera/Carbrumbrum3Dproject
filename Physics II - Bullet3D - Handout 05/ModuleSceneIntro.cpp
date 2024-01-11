@@ -26,7 +26,9 @@ bool ModuleSceneIntro::Start()
 
 	addCube({ 25, 1, 100 }, { 2, 2, 100 }, Grey, 0, 0, 0);
 	
-	addBooster({ 0, 3, 120 }, { 5, 5, 5 }, Red, 0, 0, 0);
+	//addBooster({ 0, 3, 120 }, { 5, 5, 5 }, Red, 0, 0, 0);
+
+	addBoosterUp({ 0, 3, 120 }, { 5, 5, 5 }, Orange, 0, 0, 0);
 
 	addCheckpoint({ 0, 2, 90 }, { 2, 2, 2 }, Yellow, 0, 0, 0);
 
@@ -245,6 +247,35 @@ update_status ModuleSceneIntro::Update(float dt)
 			}
 		
 		
+	}
+
+	p2List_item<BoosterUp>* currentItem6 = boosterUpPointList.getFirst();
+
+	while (currentItem6 != NULL) {
+
+		currentItem6->data.cube.Render();
+		btVector3 boosterPos = currentItem6->data.body->GetPos();
+		btVector3 carPos = App->player->vehicle->GetPos();
+		float Xdistance = abs(boosterPos.x()) - abs(carPos.x());
+		float Ydistance = abs(boosterPos.y()) - abs(carPos.y());
+		float Zdistance = abs(boosterPos.z()) - abs(carPos.z());
+
+		// Homebrew collision detection for sensors
+		if ((Xdistance > -3 && Xdistance < 3) && (Ydistance > -3 && Ydistance < 3) && (Zdistance > -3 && Zdistance < 3)) {
+			LOG("car touch coing");
+			//currentItem->data->pendingToDelete = true;
+
+			currentItem6 = currentItem6->next;
+			//App->audio->PlayFx(coinFx);
+			App->player->vehicle->Push(0, 500, 0);
+
+
+		}
+		else {
+			currentItem6 = currentItem6->next;
+		}
+
+
 	}
 
 	p2List_item<Checkpoint>* currentItem2 = checkpointPointList.getFirst();
@@ -653,6 +684,33 @@ void ModuleSceneIntro::addBooster(vec3 pos, vec3 size, Color rgb, int angle, boo
 	boosterPointList.add(booster);
 
 	
+}
+
+void ModuleSceneIntro::addBoosterUp(vec3 pos, vec3 size, Color rgb, int angle, bool rot_X, bool rot_Y, bool rot_Z, int id, bool passed_)
+{
+	Cube cube;
+
+	cube.SetPos(pos.x, pos.y, pos.z);
+	cube.size = size;
+	cube.color = rgb;
+
+	if (rot_X == true)
+		cube.SetRotation(angle, { 1, 0, 0 });	// X-axis
+	if (rot_Y == true)
+		cube.SetRotation(angle, { 0, 1, 0 });	// Y-axis
+	if (rot_Z == true)
+		cube.SetRotation(angle, { 0, 0, 1 });	// Z-axis
+
+	BoosterUp booster;
+	booster.body = App->physics->AddBody(cube, 0.0f);
+
+	booster.body->SetAsSensor(true);
+	booster.body->SetId(id);
+	booster.cube = cube;
+	booster.passed = passed_;
+	boosterUpPointList.add(booster);
+
+
 }
 
 void ModuleSceneIntro::addCheckpoint(vec3 pos, vec3 size, Color rgb, int angle, bool rot_X, bool rot_Y, bool rot_Z, int id, bool passed_)
