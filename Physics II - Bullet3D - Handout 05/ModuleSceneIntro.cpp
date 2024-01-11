@@ -95,6 +95,7 @@ bool ModuleSceneIntro::Start()
 
 	//HIELO 1 + SETA 1
 	addCube({ -653,	19, 1010 }, { 30, 2, 300 }, Grey, 0, 0, 0); 
+	addBoosterUp({ -653, 19, 1010 }, { 5, 5, 5 }, Orange, 0, 0, 0);
 	addCube({ -653,	19, 710 }, { 120, 20, 500 }, Grey, 0, 0, 0);
 
 	//SETA 2
@@ -267,7 +268,7 @@ update_status ModuleSceneIntro::Update(float dt)
 
 			currentItem6 = currentItem6->next;
 			//App->audio->PlayFx(coinFx);
-			App->player->vehicle->Push(0, 500, 0);
+			App->player->vehicle->Push(0, 2500, 0);
 
 
 		}

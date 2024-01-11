@@ -36,3 +36,4 @@ extern Color Purple;
 extern Color Grey;
 extern Color DarkGrey;
 extern Color Invisible;
+extern Color Brown;
