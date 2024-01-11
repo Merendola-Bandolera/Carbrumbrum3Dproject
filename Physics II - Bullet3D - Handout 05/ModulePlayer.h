@@ -37,7 +37,7 @@ public:
 	float half_length = 4 * 0.5f;
 
 	float connection_height = 1.2f;
-	float wheel_radius = 0.4f;
+	float wheel_radius = 0.6f;
 	float wheel_width = 0.5f;
-	float suspensionRestLength = 0.5f;
+	float suspensionRestLength = 1.2f;
 };
