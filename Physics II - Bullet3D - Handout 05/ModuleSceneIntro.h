@@ -46,6 +46,16 @@ struct Train
 	bool passed;
 };
 
+struct Coin
+{
+	PhysBody3D* body;
+	Cylinder cylinder;
+	bool passed;
+	int timer = 0;
+	bool deleted = false;
+};
+
+
 class ModuleSceneIntro : public Module
 {
 public:
@@ -59,7 +69,8 @@ public:
 	void OnCollision(PhysBody3D* body1, PhysBody3D* body2);
 	void createGround();
 	void addCube(vec3 pos, vec3 size, Color rgb, float rotX, float rotY , float rotZ );
-
+	
+	void addCoin(vec3 pos, vec3 size, Color rgb, int angle = 0, bool rot_X = false, bool rot_Y = false, bool rot_Z = false, int id = -1, bool passed_ = false);
 	void addGravityChanger(vec3 pos, vec3 size, Color rgb, int angle = 0, bool rot_X = false, bool rot_Y = false, bool rot_Z = false, int id = -1, bool passed_ = false);
 	void addCubeSensor(vec3 pos, vec3 size, Color rgb, int angle = 0, bool rot_X = false, bool rot_Y = false, bool rot_Z = false, int id = -1);
 	void addBooster(vec3 pos, vec3 size, Color rgb, int angle = 0, bool rot_X = false, bool rot_Y = false, bool rot_Z = false, int id = -1, bool passed_ = false);
@@ -87,15 +98,18 @@ public:
 
 	p2List<Booster> boosterPointList;
 	p2List<BoosterUp> boosterUpPointList;
-	p2List<Train> trainPointList;
+	
 	p2List<Checkpoint> checkpointPointList;
 	p2List<GravityChange> gravityChangePointList;
+	p2List<Coin> coinPointList;
 
 	bool inverted = false;
 	PhysMotor3D* left_wheel;
 	PhysMotor3D* right_wheel;
 	float timerGrav = 0;
 	Cube box;
+
+	int coin = 0;
 
 	p2List<Cube> buildingBlocks;
 

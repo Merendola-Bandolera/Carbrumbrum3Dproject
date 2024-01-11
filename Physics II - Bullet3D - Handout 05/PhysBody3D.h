@@ -23,9 +23,10 @@ public:
 	void SetAsSensor(bool is_sensor);
 	void SetId(int id);
 private:
+	
+public:
 	btRigidBody* body = nullptr;
 
-public:
 	p2List<Module*> collision_listeners;
 	bool isSensor;
 	int id;

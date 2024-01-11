@@ -30,6 +30,8 @@ bool ModuleSceneIntro::Start()
 
 	addBoosterUp({ 0, 3, 120 }, { 5, 5, 5 }, Orange, 0, 0, 0);
 
+	addCoin({ 0, 3, 40 }, { 5, 5, 5 }, Yellow, 0, 0, 30);
+
 	addCheckpoint({ 0, 2, 90 }, { 2, 2, 2 }, Yellow, 0, 0, 0);
 
 	addGravityChanger({ 0, 2, 150 }, { 2, 2, 2 }, Blue, 0, 0, 0);
@@ -137,26 +139,11 @@ bool ModuleSceneIntro::Start()
 	addCube({ -196,	-0.5f, -412 }, { 100, 2, 30 }, Grey, 0, -60, 0);
 	addCube({ -173,	-0.5f, -327 }, { 100, 2, 30 }, Grey, 0, -90, 0);
 
-	Cube trainn;
 
-	trainn.SetPos(-10, 0.5f, -20);
-	trainn.size = vec3(20,1,20);
-	trainn.color = Yellow;
-	
-	Train traino;
-	traino.body = App->physics->AddBody(trainn, 0.0f);
 
-	traino.body->SetAsSensor(true);
-	traino.body->SetId(1);
-	traino.cube = trainn;
-	traino.passed = false;
-	trainPointList.add(traino);
-
-	App->physics->AddBody(trainn, 0);
 
 	
-	box = Cube(1, 1, 1);
-	App->physics->AddBody(box, 1.0f);
+	
 	return ret;
 }
 
@@ -183,33 +170,7 @@ update_status ModuleSceneIntro::Update(float dt)
 		d->data.cube.Render();
 		d = d->next;
 	}*/
-	p2List_item<Train>* currentItem4 = trainPointList.getFirst();
-
-	while (currentItem4 != NULL) {
-
-		currentItem4->data.cube.Render();
-		btVector3 boosterPos = currentItem4->data.body->GetPos();
-		btVector3 carPos = App->player->vehicle->GetPos();
-		float Xdistance = abs(boosterPos.x()) - abs(carPos.x());
-		float Ydistance = abs(boosterPos.y()) - abs(carPos.y());
-		float Zdistance = abs(boosterPos.z()) - abs(carPos.z());
-
-		// Homebrew collision detection for sensors
-		if ((Xdistance > -3 && Xdistance < 3) && (Ydistance > -3 && Ydistance < 3) && (Zdistance > -3 && Zdistance < 3) && currentItem4 != nullptr) {
-			LOG("car touch coing");
-			//currentItem->data->pendingToDelete = true;
-
-			currentItem4 = currentItem4->next;
-			//App->audio->PlayFx(coinFx);
-
-
-		}
-		else {
-			currentItem4 = currentItem4->next;
-		}
-
-
-	}
+	
    
 	p2List_item<Cube>* c = buildingBlocks.getFirst();
 	while (c != NULL) {
@@ -253,6 +214,7 @@ update_status ModuleSceneIntro::Update(float dt)
 	p2List_item<BoosterUp>* currentItem6 = boosterUpPointList.getFirst();
 
 	while (currentItem6 != NULL) {
+		
 
 		currentItem6->data.cube.Render();
 		btVector3 boosterPos = currentItem6->data.body->GetPos();
@@ -275,6 +237,62 @@ update_status ModuleSceneIntro::Update(float dt)
 		else {
 			currentItem6 = currentItem6->next;
 		}
+
+
+	}
+
+	p2List_item<Coin>* currentItem4 = coinPointList.getFirst();
+
+	while (currentItem4 != NULL) {
+
+		if (currentItem4->data.deleted == false) {
+			currentItem4->data.timer++;
+			currentItem4->data.cylinder.Render();
+			btVector3 boosterPos = currentItem4->data.body->GetPos();
+
+			btVector3 carPos = App->player->vehicle->GetPos();
+			float Xdistance = abs(boosterPos.x()) - abs(carPos.x());
+			float Ydistance = abs(boosterPos.y()) - abs(carPos.y());
+			float Zdistance = abs(boosterPos.z()) - abs(carPos.z());
+
+			btVector3 speed = currentItem4->data.body->body->getAngularVelocity();
+			speed.setY(10);
+
+			currentItem4->data.body->body->setAngularVelocity(speed);
+
+			currentItem4->data.cylinder.Update(currentItem4->data.body);
+
+			if (currentItem4->data.timer < 48)
+				currentItem4->data.body->body->setLinearVelocity(btVector3(0, 1, 0));
+			else
+				currentItem4->data.body->body->setLinearVelocity(btVector3(0, -1, 0));
+
+
+			currentItem4->data.cylinder.SetPos(boosterPos.x(), boosterPos.y(), boosterPos.z());
+
+			if (currentItem4->data.timer > 80) {
+				currentItem4->data.timer = 0;
+			}
+			// Homebrew collision detection for sensors
+			if ((Xdistance > -3 && Xdistance < 3) && (Ydistance > -3 && Ydistance < 3) && (Zdistance > -3 && Zdistance < 3)) {
+				LOG("car touch coing");
+
+				currentItem4->data.deleted = true;
+				coin++;
+				currentItem4 = currentItem4->next;
+				//App->audio->PlayFx(coinFx);
+				//coin++;
+
+
+			}
+			else {
+				currentItem4 = currentItem4->next;
+			}
+		}
+		else {
+			currentItem4 = currentItem4->next;
+		}
+		
 
 
 	}
@@ -602,6 +620,33 @@ void ModuleSceneIntro::addCube(vec3 pos, vec3 size, Color rgb, float rotX, float
 
 	App->physics->AddBody(cube, 0);
 	buildingBlocks.add(cube);
+}
+
+void ModuleSceneIntro::addCoin(vec3 pos, vec3 size, Color rgb, int angle, bool rot_X, bool rot_Y, bool rot_Z, int id, bool passed_)
+{
+	Cylinder cube;
+
+	cube.SetPos(pos.x, pos.y, pos.z);
+	cube.radius = 1;
+	cube.height = 0.15f;
+	cube.color = rgb;
+
+	if (rot_X == true)
+		cube.SetRotation(angle, { 1, 0, 0 });	// X-axis
+	if (rot_Y == true)
+		cube.SetRotation(angle, { 0, 1, 0 });	// Y-axis
+	if (rot_Z == true)
+		cube.SetRotation(angle, { 0, 0, 1 });	// Z-axis
+
+	Coin booster;
+	booster.body = App->physics->AddBody(cube, 1.0f);
+	booster.body->SetAsSensor(true);
+	booster.body->SetId(id);
+	booster.cylinder = cube;
+	booster.passed = passed_;
+	coinPointList.add(booster);
+
+
 }
 
 void ModuleSceneIntro::createGround() {
