@@ -35,7 +35,7 @@ bool ModuleSceneIntro::Start()
 	addCheckpoint({ 0, 2, 90 }, { 2, 2, 2 }, Yellow, 0, 0, 0);
 
 	addGravityChanger({ 0, 2, 150 }, { 2, 2, 2 }, Blue, 0, 0, 0, 0, GravityVehicle);
-	addGravityChanger({ 0, 10, 150 }, { 2, 2, 2 }, Blue, 0, 0, 0, 0, NormalVehicle);
+	addGravityChanger({ 0, 10, 150 }, { 2, 2, 2 }, Blue, 0, 0, 0, 0, GravityVehicle);
 	
 	
 	//cubos de pau
@@ -176,12 +176,12 @@ bool ModuleSceneIntro::Start()
 	//ZONA BOCARRIBA
 	addCube({ -393,	20, -408 }, { 60, 2, 300 }, Grey, 0, 0, 0);
 	addCube({ -363,	20, -498 }, { 2, 50, 30 }, Grey, 0, 0, 0);
-	addGravityChanger({ -410 ,1, -490 }, { 2, 2, 2 }, Blue, 0, 0, 0, 0, GravityVehicle);  //NO VAN
-	addGravityChanger({ -410 ,1, -496 }, { 2, 2, 2 }, Blue, 0, 0, 0, 0, GravityVehicle);  //NO VAN
-	addGravityChanger({ -410 ,1, -502 }, { 2, 2, 2 }, Blue, 0, 0, 0, 0,GravityVehicle);   //NO VAN
-	addGravityChanger({ -410 ,1, -508 }, { 2, 2, 2 }, Blue, 0, 0, 0, 0,GravityVehicle);   //NO VAN
-	addGravityChanger({ -410, 18, -298 }, { 2, 2, 2 }, Blue, 0, 0, 0, 0,NormalVehicle);   //NO VAN
-																						  //NO VAN
+	addGravityChanger({ -410 ,1, -490 }, { 2, 2, 2 }, Blue, 0, 0, 0, 0, GravityVehicle);  //NO VAN //si que funciona bobolon
+	addGravityChanger({ -410 ,1, -496 }, { 2, 2, 2 }, Blue, 0, 0, 0, 0, GravityVehicle);  //NO VAN //si que funciona bobolon
+	addGravityChanger({ -410 ,1, -502 }, { 2, 2, 2 }, Blue, 0, 0, 0, 0,GravityVehicle);   //NO VAN //si que funciona bobolon
+	addGravityChanger({ -410 ,1, -508 }, { 2, 2, 2 }, Blue, 0, 0, 0, 0,GravityVehicle);   //NO VAN //si que funciona bobolon
+	addGravityChanger({ -410, 18, -298 }, { 2, 2, 2 }, Blue, 0, 0, 0, 0,NormalVehicle);   //NO VAN //si que funciona bobolon
+																						  //NO VAN //si que funciona bobolon
 
 	addCube({ -393,	-0.5f, -275 }, { 50, 2, 75 }, Grey, 0, 0, 0);
 	addCube({ -258 - 75,	-0.5f, -475 + 250 }, { 100, 2, 30 }, Grey, 0, -30, 0);
