@@ -151,7 +151,7 @@ bool ModulePlayer::Start()
 	vehicle->collision_listeners.add(this);
 	vehicle->SetId(1);
 
-	checkpoint = btVector3(0, 2, 0);
+	checkpoint = btVector3(0, 2, 90);
 
 	return true;
 }
