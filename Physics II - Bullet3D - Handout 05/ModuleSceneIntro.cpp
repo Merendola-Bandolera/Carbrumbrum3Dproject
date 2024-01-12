@@ -121,6 +121,15 @@ bool ModuleSceneIntro::Start()
 	addCoin({ -653,	22, 1050 }, { 5, 5, 5 }, Yellow, 0, 0, 30);
 	addBoosterUp({ -653, 19, 1010 }, { 5, 5, 5 }, Orange, 0, 0, 0);
 	addCube({ -653,	19, 710 }, { 120, 20, 500 }, Grey, 0, 0, 0);
+	addCoin({ -653,	32, 800 }, { 5, 5, 5 }, Yellow, 0, 0, 30);
+	addCoin({ -653 +50,	32, 800 -40 }, { 5, 5, 5 }, Yellow, 0, 0, 30);
+	addCoin({ -653 ,32, 800 - 80 }, { 5, 5, 5 }, Yellow, 0, 0, 30);
+	addCoin({ -653 -50,32, 800 - 120 }, { 5, 5, 5 }, Yellow, 0, 0, 30);
+	addCoin({ -653 ,32, 800 - 160 }, { 5, 5, 5 }, Yellow, 0, 0, 30);
+	addCoin({ -653 + 50,32, 800 - 200 }, { 5, 5, 5 }, Yellow, 0, 0, 30);
+	addCoin({ -653,32, 800 - 240 }, { 5, 5, 5 }, Yellow, 0, 0, 30);
+	addCoin({ -653 - 50,32, 800 - 280 }, { 5, 5, 5 }, Yellow, 0, 0, 30);
+	addCoin({ -653,32, 800 - 320 }, { 5, 5, 5 }, Yellow, 0, 0, 30);
 	addCube({ -653,	69, 810 }, { 120, 2, 500 }, Grey, 0, 0, 0);
 
 	//SETA 2
@@ -131,6 +140,15 @@ bool ModuleSceneIntro::Start()
 
 	//HIELO 2 + TUNEL
 	addCube({ -653,	39, 150 }, { 120, 20, 500 }, Grey, 0, 0, 0);
+	addCoin({ -653,	32, 800 }, { 5, 5, 5 }, Yellow, 0, 0, 30);
+	addCoin({ -653 + 50,50, 250 - 40 }, { 5, 5, 5 }, Yellow, 0, 0, 30);
+	addCoin({ -653,		50, 250 - 80 }, { 5, 5, 5 }, Yellow, 0, 0, 30);
+	addCoin({ -653 - 50,50, 250 - 120 }, { 5, 5, 5 }, Yellow, 0, 0, 30);
+	addCoin({ -653,		50, 250 - 160 }, { 5, 5, 5 }, Yellow, 0, 0, 30);
+	addCoin({ -653 + 50,50, 250 - 200 }, { 5, 5, 5 }, Yellow, 0, 0, 30);
+	addCoin({ -653,		50, 250 - 240 }, { 5, 5, 5 }, Yellow, 0, 0, 30);
+	addCoin({ -653 - 50,50, 250 - 280 }, { 5, 5, 5 }, Yellow, 0, 0, 30);
+	addCoin({ -653,		50, 250 - 320 }, { 5, 5, 5 }, Yellow, 0, 0, 30);
 	addCube({ -653,	89, 250 }, { 120, 2, 500 }, Grey, 0, 0, 0);
 	addCube({ -653,	10, -133 }, { 30, 2, 100 }, Grey, -50, 0, 0);
 	addCube({ -653 - 15,	25, -143 }, { 2, 60, 70 }, Blue, 0, 0, 0);
@@ -143,6 +161,7 @@ bool ModuleSceneIntro::Start()
 
 	//WALLRIDE
 	addCube({ -647 - 15,-0.5f, -353 }, { 50, 2, 300 }, Grey, 0, 0, -20);
+	addCoin({ -652,	10, -353 }, { 5, 5, 5 }, Yellow, 0, 0, 30);
 	addCube({ -647 - 25,-0.5f, -353 }, { 50, 2, 300 }, Grey, 0, 0, -40);
 	addCube({ -647 - 63,-0.5f, -353 }, { 50, 50, 300 }, Grey, 0, 0, 0);
 	addCube({ -647 - 35,-0.5f, -483 }, { 2, 50, 50 }, Grey, 0, -10, 0);
@@ -157,12 +176,12 @@ bool ModuleSceneIntro::Start()
 	//ZONA BOCARRIBA
 	addCube({ -393,	20, -408 }, { 60, 2, 300 }, Grey, 0, 0, 0);
 	addCube({ -363,	20, -498 }, { 2, 50, 30 }, Grey, 0, 0, 0);
-	addGravityChanger({ -410 ,1, -490 }, { 2, 2, 2 }, Blue, 0, 0, 0, GravityVehicle);
-	addGravityChanger({ -410 ,1, -496 }, { 2, 2, 2 }, Blue, 0, 0, 0, GravityVehicle);
-	addGravityChanger({ -410 ,1, -502 }, { 2, 2, 2 }, Blue, 0, 0, 0, GravityVehicle);
-	addGravityChanger({ -410 ,1, -508 }, { 2, 2, 2 }, Blue, 0, 0, 0, GravityVehicle);
-	addGravityChanger({ -410, 18, -298 }, { 2, 2, 2 }, Blue, 0, 0, 0, NormalVehicle);
-
+	addGravityChanger({ -410 ,1, -490 }, { 2, 2, 2 }, Blue, 0, 0, 0, 0, GravityVehicle);  //NO VAN
+	addGravityChanger({ -410 ,1, -496 }, { 2, 2, 2 }, Blue, 0, 0, 0, 0, GravityVehicle);  //NO VAN
+	addGravityChanger({ -410 ,1, -502 }, { 2, 2, 2 }, Blue, 0, 0, 0, 0,GravityVehicle);   //NO VAN
+	addGravityChanger({ -410 ,1, -508 }, { 2, 2, 2 }, Blue, 0, 0, 0, 0,GravityVehicle);   //NO VAN
+	addGravityChanger({ -410, 18, -298 }, { 2, 2, 2 }, Blue, 0, 0, 0, 0,NormalVehicle);   //NO VAN
+																						  //NO VAN
 
 	addCube({ -393,	-0.5f, -275 }, { 50, 2, 75 }, Grey, 0, 0, 0);
 	addCube({ -258 - 75,	-0.5f, -475 + 250 }, { 100, 2, 30 }, Grey, 0, -30, 0);
