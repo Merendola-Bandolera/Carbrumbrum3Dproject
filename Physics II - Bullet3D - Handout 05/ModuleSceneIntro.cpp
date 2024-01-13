@@ -265,7 +265,7 @@ update_status ModuleSceneIntro::Update(float dt)
 
 				currentItem = currentItem->next;
 				//App->audio->PlayFx(coinFx);
-				App->player->vehicle->Push(0,0,500);
+				App->player->vehicle->body->setLinearVelocity(App->player->vehicle->body->getLinearVelocity()*1.5);
 				
 			
 			}
