@@ -23,7 +23,8 @@ private:
 	void CalculateViewMatrix();
 
 public:
-	
+	bool camLock = false;
+	float speed = 0.5f;
 	vec3 X, Y, Z, Position, Reference;
 
 private:

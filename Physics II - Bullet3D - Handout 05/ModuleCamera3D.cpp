@@ -63,18 +63,65 @@ update_status ModuleCamera3D::Update(float dt)
 	/*Position.x = App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getX() - 15 * App->player->vehicle->vehicle->getForwardVector().getX();
 	Position.y = App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getY() + 7 * App->player->vehicle->vehicle->getUpAxis();
 	Position.z = App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getZ() - 15 * App->player->vehicle->vehicle->getForwardVector().getZ();*/
+	speed = 0.5;
+	if (App->input->GetKey(SDL_SCANCODE_L) == KEY_DOWN) {
+		
+		if (camLock == true)
+			camLock = false;
+		else
+			camLock = true;
 
-	if (App->scene_intro->inverted == false)
-	Position.Set(App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getX() - 15 * App->player->vehicle->vehicle->getForwardVector().getX(), App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getY() + 7 * App->player->vehicle->vehicle->getUpAxis(), App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getZ() - 15 * App->player->vehicle->vehicle->getForwardVector().getZ());
-	else 
-	Position.Set(App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getX() - 15 * App->player->vehicle->vehicle->getForwardVector().getX(), App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getY() - 5 * App->player->vehicle->vehicle->getUpAxis(), App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getZ() - 15 * App->player->vehicle->vehicle->getForwardVector().getZ());
+	}
 
-	float playerPosX = App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getX() + 10 * App->player->vehicle->vehicle->getForwardVector().getX();
-	float playerPosY = App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getY() + 15 * App->player->vehicle->vehicle->getForwardVector().getY();
-	float playerPosZ = App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getZ() + 10 * App->player->vehicle->vehicle->getForwardVector().getZ();
+	if (App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT) {
 
-	LookAt(vec3(playerPosX, playerPosY, playerPosZ));
+		speed = 2;
+	}
 
+	if (camLock == false) {
+		if (App->scene_intro->inverted == false)
+			Position.Set(App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getX() - 15 * App->player->vehicle->vehicle->getForwardVector().getX(), App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getY() + 7 * App->player->vehicle->vehicle->getUpAxis(), App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getZ() - 15 * App->player->vehicle->vehicle->getForwardVector().getZ());
+		else
+			Position.Set(App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getX() - 15 * App->player->vehicle->vehicle->getForwardVector().getX(), App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getY() - 5 * App->player->vehicle->vehicle->getUpAxis(), App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getZ() - 15 * App->player->vehicle->vehicle->getForwardVector().getZ());
+
+		float playerPosX = App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getX() + 10 * App->player->vehicle->vehicle->getForwardVector().getX();
+		float playerPosY = App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getY() + 15 * App->player->vehicle->vehicle->getForwardVector().getY();
+		float playerPosZ = App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getZ() + 10 * App->player->vehicle->vehicle->getForwardVector().getZ();
+
+		LookAt(vec3(playerPosX, playerPosY, playerPosZ));
+	}
+
+
+	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
+	{
+		Position -= Z * speed;
+		Reference -= Z *speed;
+	}
+	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
+	{
+		Position += Z * speed;
+		Reference += Z * speed;
+	}
+	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
+	{
+		Position -= X * speed;
+		Reference -= X * speed;
+	}
+	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
+	{
+		Position += X * speed;
+		Reference += X * speed;
+	}
+	if (App->input->GetKey(SDL_SCANCODE_Q) == KEY_REPEAT)
+	{
+		Position -= Y * speed;
+		Reference -= Y * speed;
+	}
+	if (App->input->GetKey(SDL_SCANCODE_E) == KEY_REPEAT)
+	{
+		Position += Y * speed;
+		Reference += Y * speed;
+	}
 	// Mouse motion ----------------
 
 	if(App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_REPEAT)
