@@ -291,6 +291,7 @@ update_status ModuleSceneIntro::Update(float dt)
 		if ((Xdistance > -3 && Xdistance < 3) && (Ydistance > -3 && Ydistance < 3) && (Zdistance > -3 && Zdistance < 3)) {
 			LOG("car touch coing");
 			//currentItem->data->pendingToDelete = true;
+			//patata
 
 			currentItem8 = currentItem8->next;
 			//App->audio->PlayFx(coinFx);
