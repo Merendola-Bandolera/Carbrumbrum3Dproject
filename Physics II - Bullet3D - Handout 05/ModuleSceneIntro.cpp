@@ -30,7 +30,7 @@ bool ModuleSceneIntro::Start()
 
 	//addBrake({ 0, 3, 120 }, { 5, 5, 5 }, Purple, 0, 0, 0);
 
-	addMud({ 0, 3, 120 }, { 5, 5, 5 }, Brown, 0, 0, 0);
+	addMud({ 0, 3, 120 }, { 10, 5, 10 }, Brown, 0, 0, 0);
 
 	addCoin({ 0, 3, 40 }, { 5, 5, 5 }, Yellow, 0, 0, 30);
 
@@ -41,7 +41,7 @@ bool ModuleSceneIntro::Start()
 	
 	
 	//cubos de pau
-	addCube({ 10, 12, 100 }, { 30, 2, 100 },   Grey, 0, 0, 0);
+	/*addCube({ 10, 12, 100 }, { 30, 2, 100 },   Grey, 0, 0, 0);
 	addCube({ 1.7f, 12, 195 }, { 30, 2, 100 }, Grey, 0, -10, 0);
 	addCube({ -24, 12, 288 }, { 30, 2, 100 },  Grey, 0, -20, 0);
 	addCube({ -64.8, 12, 375 }, { 30, 2, 100 },Grey, 0, -30, 0);
@@ -50,7 +50,7 @@ bool ModuleSceneIntro::Start()
 	addCube({ -262, 12, 570 }, { 30, 2, 100 }, Grey, 0, -60, 0);
 	addCube({ -350, 12, 610 }, { 30, 2, 100 }, Grey, 0, -70, 0);
 	addCube({ -443, 12, 635 }, { 30, 2, 100 }, Grey, 0, -80, 0);
-	addCube({ -539, 12, 643 }, { 30, 2, 100 }, Grey, 0, -90, 0);
+	addCube({ -539, 12, 643 }, { 30, 2, 100 }, Grey, 0, -90, 0);*/
 
 	//CIRCUITO
 
@@ -71,6 +71,7 @@ bool ModuleSceneIntro::Start()
 	addCoin({ 613, 3, 610 }, { 5, 5, 5 }, Yellow, 0, 0, 30);
 	addCube({ 694, -0.5f, 657 }, { 100, 2, 30 }, Grey, 0, -40, 0);
 	addCube({ 754, -0.5f, 728 }, { 100, 2, 30 }, Grey, 0, -60, 0);
+	addCheckpoint({ 786, 2, 816 }, { 2, 2, 2 }, Yellow, 0, 0, 0);
 	addCube({ 786, -0.5f, 816 }, { 100, 2, 30 }, Grey, 0, -80, 0);
 	addCoin({ 816, 7, 900 }, { 5, 5, 5 }, Yellow, 0, 0, 30);
 	addCube({ 807, -0.5f, 900 }, { 30, 2, 100 }, Grey, 0, 0, 30);	//Wallride
@@ -97,7 +98,22 @@ bool ModuleSceneIntro::Start()
 	addCube({ 244,	13, 1652 }, { 100, 2, 30 }, Grey, 0, 0, -10);
 	addCube({ 149,	38, 1652 }, { 100, 2, 30 }, Grey, 0, 0, -20);
 	addCube({ -148,	55, 1652 }, { 500, 2, 120 }, Grey, 0, 0, 0);
+	//barros	
+	addMud({ 78,		56, 1652 -35 }, { 50, 2, 50 }, Brown, 0, 0, 0);
+	addMud({ 78 -50,	56, 1652 - 35 }, { 50, 2, 50 }, Brown, 0, 0, 0);
+	addMud({ 78 - 100,	56, 1652 + 35 }, { 50, 2, 50 }, Brown, 0, 0, 0);
+	addMud({ 78 - 150,	56, 1652 + 35 }, { 50, 2, 50 }, Brown, 0, 0, 0);
+	addMud({ 78 - 125,	56, 1652 +10 }, { 50, 2, 50 }, Brown, 0, 0, 0);
+	addMud({ -118 - 100,56, 1652 + 35 }, { 50, 2, 50 }, Brown, 0, 0, 0);
+	addMud({ -118 - 150,56, 1652 + 35 }, { 50, 2, 50 }, Brown, 0, 0, 0);
+	addMud({ -118 - 125,56, 1652 + 10 }, { 50, 2, 50 }, Brown, 0, 0, 0);
+	addMud({ -78 - 40,	56, 1652 - 35 }, { 50, 2, 50 }, Brown, 0, 0, 0);
+	addMud({ -78 - 90,	56, 1652 - 35 }, { 50, 2, 50 }, Brown, 0, 0, 0);
+	addMud({ -78 - 240,	56, 1652 - 35 }, { 50, 2, 50 }, Brown, 0, 0, 0);
+	addMud({ -78 - 290,	56, 1652 - 35 }, { 50, 2, 50 }, Brown, 0, 0, 0);
+	addMud({ -78 - 300,	56, 1652 + 35 }, { 50, 2, 50 }, Brown, 0, 0, 0);
 	addCube({ 58,	150, 1652 }, { 2, 150, 120 }, Grey, 0, 0, 0);
+	//monedas
 	addCoin({ -148 + 180, 58, 1652 + 40 }, { 5, 5, 5 }, Yellow, 0, 0, 30);
 	addCoin({ -148 + 140, 58, 1652 }, { 5, 5, 5 }, Yellow, 0, 0, 30);
 	addCoin({ -148 + 100, 58, 1652 - 40 }, { 5, 5, 5 }, Yellow, 0, 0, 30);
@@ -109,6 +125,7 @@ bool ModuleSceneIntro::Start()
 	addCoin({ -148 - 180 , 58, 1652 + 40 }, { 5, 5, 5 }, Yellow, 0, 0, 30);
 	addCoin({ -148 - 220 , 58, 1652 }, { 5, 5, 5 }, Yellow, 0, 0, 30);
 	addCoin({ -148 - 300 , 58, 1652 }, { 5, 5, 5 }, Yellow, 0, 0, 30);
+	//out of barro
 	addCube({ -448,	55, 1652 }, { 100, 2, 30 }, Grey, 0, 0, 0);
 	addCube({ -534,	55, 1629 }, { 100, 2, 30 }, Grey, 0, -30, 0);
 	addCube({ -597,	55, 1566 }, { 100, 2, 30 }, Grey, 0, -60, 0);
@@ -178,12 +195,12 @@ bool ModuleSceneIntro::Start()
 	//ZONA BOCARRIBA
 	addCube({ -393,	20, -408 }, { 60, 2, 300 }, Grey, 0, 0, 0);
 	addCube({ -363,	20, -498 }, { 2, 50, 30 }, Grey, 0, 0, 0);
-	addGravityChanger({ -410 ,1, -490 }, { 2, 2, 2 }, Blue, 0);  //NO VAN //si que funciona bobolon
-	addGravityChanger({ -410 ,1, -496 }, { 2, 2, 2 }, Blue,  0);  //NO VAN //si que funciona bobolon
-	addGravityChanger({ -410 ,1, -502 }, { 2, 2, 2 }, Blue, 0);   //NO VAN //si que funciona bobolon
-	addGravityChanger({ -410 ,1, -508 }, { 2, 2, 2 }, Blue, 0);   //NO VAN //si que funciona bobolon
-	addGravityChanger({ -410, 18, -298 }, { 2, 2, 2 }, Blue,1);   //NO VAN //si que funciona bobolon
-																						  //NO VAN //si que funciona bobolon
+	addGravityChanger({ -410 ,1, -490 }, { 2, 2, 2 }, Blue, 0);  
+	addGravityChanger({ -410 ,1, -496 }, { 2, 2, 2 }, Blue,  0); 
+	addGravityChanger({ -410 ,1, -502 }, { 2, 2, 2 }, Blue, 0);  
+	addGravityChanger({ -410 ,1, -508 }, { 2, 2, 2 }, Blue, 0);  
+	addGravityChanger({ -410, 18, -298 }, { 2, 2, 2 }, Blue,1);  
+																
 
 	addCube({ -393,	-0.5f, -275 }, { 50, 2, 75 }, Grey, 0, 0, 0);
 	addCube({ -258 - 75,	-0.5f, -475 + 250 }, { 100, 2, 30 }, Grey, 0, -30, 0);
