@@ -209,6 +209,9 @@ update_status ModulePlayer::Update(float dt)
 		if (revs >= 2500) {
 			acceleration = MAX_ACCELERATION;
 		}
+		if (App->scene_intro->inverted == true) {
+			acceleration = 2000;
+		}
 		
 	}
 	if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT && gears == 2)
@@ -220,6 +223,9 @@ update_status ModulePlayer::Update(float dt)
 		if (revs >= 3500) {
 			acceleration = MAX_ACCELERATION;
 		}
+		if (App->scene_intro->inverted == true) {
+			acceleration = 2000;
+		}
 	}
 	if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT && gears == 3)
 	{
@@ -229,6 +235,9 @@ update_status ModulePlayer::Update(float dt)
 		}
 		if (revs >= 4000) {
 			acceleration = MAX_ACCELERATION;
+		}
+		if (App->scene_intro->inverted == true) {
+			acceleration = 2000;
 		}
 	}
 
@@ -277,6 +286,7 @@ update_status ModulePlayer::Update(float dt)
 		btVector3 p = vehicle->GetPos();
 		vehicle->ResetCarOrientation();
 		vehicle->SetPos(p.x(), p.y(), p.z());
+		vehicle->body->setLinearVelocity({0,0,0});
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_R) == KEY_REPEAT)

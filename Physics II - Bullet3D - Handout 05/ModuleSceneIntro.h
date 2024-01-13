@@ -13,7 +13,7 @@ struct PhysMotor3D;
 
 enum vehicles
 {
-	GravityVehicle = 0, NormalVehicle = 1,
+	GravityVehicle = 0, NormalVehicle = 1, AutobusVehicle = 2,
 };
 
 struct GravityChange
@@ -61,6 +61,15 @@ struct Coin
 	bool deleted = false;
 };
 
+struct Mud
+{
+	PhysBody3D* body;
+	Cube cube;
+	bool passed;
+	
+};
+
+
 
 class ModuleSceneIntro : public Module
 {
@@ -77,9 +86,10 @@ public:
 	void addCube(vec3 pos, vec3 size, Color rgb, float rotX, float rotY , float rotZ );
 	
 	void addCoin(vec3 pos, vec3 size, Color rgb, int angle = 0, bool rot_X = false, bool rot_Y = false, bool rot_Z = false, int id = -1, bool passed_ = false);
-	void addGravityChanger(vec3 pos, vec3 size, Color rgb, int angle = 0, bool rot_X = false, bool rot_Y = false, bool rot_Z = false, int id = GravityVehicle, bool passed_ = false);
+	void addGravityChanger(vec3 pos, vec3 size, Color rgb, int id = GravityVehicle, bool passed_ = false);
 	void addCubeSensor(vec3 pos, vec3 size, Color rgb, int angle = 0, bool rot_X = false, bool rot_Y = false, bool rot_Z = false, int id = -1);
 	void addBooster(vec3 pos, vec3 size, Color rgb, int angle = 0, bool rot_X = false, bool rot_Y = false, bool rot_Z = false, int id = -1, bool passed_ = false);
+	void addMud(vec3 pos, vec3 size, Color rgb, int angle = 0, bool rot_X = false, bool rot_Y = false, bool rot_Z = false, int id = -1, bool passed_ = false);
 	void addBrake(vec3 pos, vec3 size, Color rgb, int angle = 0, bool rot_X = false, bool rot_Y = false, bool rot_Z = false, int id = -1, bool passed_ = false);
 	void addBoosterUp(vec3 pos, vec3 size, Color rgb, int angle = 0, bool rot_X = false, bool rot_Y = false, bool rot_Z = false, int id = -1, bool passed_ = false);
 	void addCheckpoint(vec3 pos, vec3 size, Color rgb, int angle = 0, bool rot_X = false, bool rot_Y = false, bool rot_Z = false, int id = -1, bool passed_ = false);
@@ -108,6 +118,7 @@ public:
 	p2List<Checkpoint> checkpointPointList;
 	p2List<GravityChange> gravityChangePointList;
 	p2List<Coin> coinPointList;
+	p2List<Mud> mudPointList;
 
 	bool inverted = false;
 	PhysMotor3D* left_wheel;
@@ -115,6 +126,7 @@ public:
 	float timerGrav = 0;
 	Cube box;
 	int timer2 = 0;
+	int timer3 = 0;
 	int coin = 0;
 
 	p2List<Cube> buildingBlocks;
