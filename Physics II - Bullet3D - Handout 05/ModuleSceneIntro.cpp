@@ -81,6 +81,29 @@ bool ModuleSceneIntro::Start()
 	addCoin({ 355, 3+200, 618 }, { 5, 5, 5 }, Yellow, 0, 0, 30);
 	addCoin({ 190, 3+200, 636 }, { 5, 5, 5 }, Yellow, 0, 0, 30);
 
+	addDBox({ 10, 2 + 210, 350 }, { 2, 2, 2 }, Grey, 0, 0, 0);
+	addDBox({ -2, 2 + 210, 350 }, { 2, 2, 2 }, Grey, 0, 0, 0);
+	addDBox({ 20, 2 + 210, 350 }, { 2, 2, 2 }, Grey, 0, 0, 0);
+	addDBox({ 14, 2 + 210, 370 }, { 2, 2, 2 }, Grey, 0, 0, 0);
+	addDBox({ 13, 2 + 210, 380 }, { 2, 2, 2 }, Grey, 0, 0, 0);
+	addDBox({10, 2 + 210, 390 }, { 2, 2, 2 }, Grey, 0, 0, 0);
+	addDBox({ 2, 2 + 210, 340 }, { 2, 2, 2 }, Grey, 0, 0, 0);
+	addDBox({ 10, 2 + 240, 350 }, { 2, 2, 2 }, Grey, 0, 0, 0);
+	addDBox({ -2, 2 + 240, 350 }, { 2, 2, 2 }, Grey, 0, 0, 0);
+	addDBox({ 20, 2 + 240, 350 }, { 2, 2, 2 }, Grey, 0, 0, 0);
+	addDBox({ 14, 2 + 240, 370 }, { 2, 2, 2 }, Grey, 0, 0, 0);
+	addDBox({ 13, 2 + 240, 380 }, { 2, 2, 2 }, Grey, 0, 0, 0);
+	addDBox({ 10, 2 + 240, 390 }, { 2, 2, 2 }, Grey, 0, 0, 0);
+	addDBox({ 2, 2 + 240, 340 }, { 2, 2, 2 }, Grey, 0, 0, 0);
+
+	addDBox({ 12, 2 + 220, 350 }, { 2, 2, 2 }, Grey, 0, 0, 0);
+	addDBox({ -3, 2 + 220, 350 }, { 2, 2, 2 }, Grey, 0, 0, 0);
+	addDBox({ 22, 2 + 220, 350 }, { 2, 2, 2 }, Grey, 0, 0, 0);
+	addDBox({ 15, 2 + 220, 370 }, { 2, 2, 2 }, Grey, 0, 0, 0);
+	addDBox({ 11, 2 + 220, 380 }, { 2, 2, 2 }, Grey, 0, 0, 0);
+	addDBox({ 15, 2 + 220, 390 }, { 2, 2, 2 }, Grey, 0, 0, 0);
+	addDBox({ 2, 2 + 220, 340 }, { 2, 2, 2 }, Grey, 0, 0, 0);
+
 	//ZONA ANTES DEL WALLRIDE
 	addCube({ 475, -0.5f+200, 611 }, { 200, 2, 40 }, Grey, 0, 10, 0);
 	addCube({ 613, -0.5f+200, 610 }, { 100, 2, 30 }, Grey, 0, -20, 0);
@@ -325,6 +348,43 @@ update_status ModuleSceneIntro::Update(float dt)
 		d->data.cube.Render();
 		d = d->next;
 	}*/
+
+	p2List_item<DestructibleBox>* currentItem15 = dBoxPointList.getFirst();
+
+	while (currentItem15 != NULL) {
+		
+		if (currentItem15->data.passed == false) {
+			currentItem15->data.cube.Update(currentItem15->data.body);
+		}
+	
+		
+
+		btVector3 boosterPos = currentItem15->data.body->GetPos();
+		btVector3 carPos = App->player->object.body->GetPos();
+		float Xdistance = abs(boosterPos.x()) - abs(carPos.x());
+		float Ydistance = abs(boosterPos.y()) - abs(carPos.y());
+		float Zdistance = abs(boosterPos.z()) - abs(carPos.z());
+
+		// Homebrew collision detection for sensors
+		if ((Xdistance > -3 && Xdistance < 3) && (Ydistance > -3 && Ydistance < 3) && (Zdistance > -3 && Zdistance < 3)) {
+			LOG("car touch coing");
+			//currentItem->data->pendingToDelete = true;
+
+			
+			//App->audio->PlayFx(coinFx);
+		
+			currentItem15->data.body->SetPos(1200, 10, -390);
+			
+			currentItem15 = currentItem15->next;
+
+		}
+		else {
+			currentItem15 = currentItem15->next;
+		}
+
+
+	}
+
 	p2List_item<Booster>* currentItem = boosterPointList.getFirst();
 
 	while (currentItem != NULL) {
@@ -1674,6 +1734,33 @@ void ModuleSceneIntro::addHabiaOtroMasInterroganteVehicleChanger(vec3 pos, vec3 
 	booster.cube = cube;
 	booster.passed = passed_;
 	HabiaOtroMasInterroganteVehicleChangerPointList.add(booster);
+
+
+}
+
+void ModuleSceneIntro::addDBox(vec3 pos, vec3 size, Color rgb, int angle, bool rot_X, bool rot_Y, bool rot_Z, int id, bool passed_)
+{
+	Cube cube;
+
+	cube.SetPos(pos.x, pos.y, pos.z);
+	cube.size = size;
+	cube.color = rgb;
+
+	if (rot_X == true)
+		cube.SetRotation(angle, { 1, 0, 0 });	// X-axis
+	if (rot_Y == true)
+		cube.SetRotation(angle, { 0, 1, 0 });	// Y-axis
+	if (rot_Z == true)
+		cube.SetRotation(angle, { 0, 0, 1 });	// Z-axis
+
+	DestructibleBox booster;
+	booster.body = App->physics->AddBody(cube, 1.0f);
+
+	booster.body->SetAsSensor(false);
+	booster.body->SetId(id);
+	booster.cube = cube;
+	booster.passed = passed_;
+	dBoxPointList.add(booster);
 
 
 }

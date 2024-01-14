@@ -108,6 +108,14 @@ struct HabiaOtroMasInterroganteVehicleChanger
 
 };
 
+struct DestructibleBox
+{
+	PhysBody3D* body;
+	Cube cube;
+	bool passed;
+
+
+};
 
 class ModuleSceneIntro : public Module
 {
@@ -128,7 +136,7 @@ public:
 	void addTricicleVehicleChanger(vec3 pos, vec3 size, Color rgb, int angle = 0, bool rot_X = false, bool rot_Y = false, bool rot_Z = false, int id = -1, bool passed_ = false);
 	void addHabiaOtroMasInterroganteVehicleChanger(vec3 pos, vec3 size, Color rgb, int angle = 0, bool rot_X = false, bool rot_Y = false, bool rot_Z = false, int id = -1, bool passed_ = false);
 
-
+	void addDBox(vec3 pos, vec3 size, Color rgb, int angle = 0, bool rot_X = false, bool rot_Y = false, bool rot_Z = false, int id = -1, bool passed_ = false);
 	
 	void addCoin(vec3 pos, vec3 size, Color rgb, int angle = 0, bool rot_X = false, bool rot_Y = false, bool rot_Z = false, int id = -1, bool passed_ = false);
 	void addGravityChanger(vec3 pos, vec3 size, Color rgb, int id = GravityVehicle, bool passed_ = false);
@@ -160,6 +168,7 @@ public:
 	p2List<Booster> boosterPointList;
 	p2List<BoosterUp> boosterUpPointList;
 	p2List<Brake> brakePointList;
+	p2List<DestructibleBox> dBoxPointList;
 
 	p2List<NormalVehicleChanger> NormalVehicleChangerPointList;
 	p2List<TricicleVehicleChanger> TricicleVehicleChangerPointList;

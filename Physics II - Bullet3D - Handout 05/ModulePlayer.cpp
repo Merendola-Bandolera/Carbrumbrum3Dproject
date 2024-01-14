@@ -301,13 +301,13 @@ update_status ModulePlayer::Update(float dt)
 	char title[80];
 	sprintf_s(title, "Time: %.0f  %.1f Km/h Gear: %d Revs: %.1f Coins: %d", gameTimer,vehicle->GetKmh(), gears, revs, App->scene_intro->coin);
 	App->window->SetTitle(title);
-
+	
 	return UPDATE_CONTINUE;
 }
 
 void ModulePlayer::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 {
-
+	App->player->ice = false;
 	p2List_item<Mud>* currentItem8 =App->scene_intro->mudPointList.getFirst();
 
 	while (currentItem8 != NULL) {
