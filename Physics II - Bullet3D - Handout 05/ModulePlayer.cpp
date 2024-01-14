@@ -206,63 +206,36 @@ update_status ModulePlayer::Update(float dt)
 	//}
 	if (vehicle->GetKmh() <= 0 && App->input->GetKey(SDL_SCANCODE_DOWN) != KEY_REPEAT && revs >= 0) { revs = 0; }
 
-	if (App->input->GetKey(SDL_SCANCODE_UP) != KEY_REPEAT && revs >= 0.5f && vehicle->GetKmh() >= 0 )
+	if (App->input->GetKey(SDL_SCANCODE_UP) != KEY_REPEAT && vehicle->GetKmh() >= 0 )
 	{
-		revs = revs - 5.0f;
+		
 		if (ice == false)
 		acceleration = acceleration - 400;
 	}
-	if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT && gears == 1)
+	if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT && gears == 1 && App->player->vehicle->GetKmh() < 250)
 	{
-		if (revs <= 2000) {
-			revs = revs + 200.0f;
-			acceleration = MAX_ACCELERATION * revs;
-		}
-		else if (revs <= 2500) {
-			revs = revs + 10.0f;
-			acceleration = MAX_ACCELERATION * revs;
-		}
-		if (revs >= 2500) {
-			acceleration = MAX_ACCELERATION;
-		}
-		if (App->scene_intro->inverted == true) {
-			acceleration = 2000;
-		}
+		acceleration = MAX_ACCELERATION * 800;
 		
 	}
-	if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT && gears == 2)
-	{
-		if (revs <= 3500) {
-			revs = revs + 5.0f;
-			acceleration = MAX_ACCELERATION * revs;
-		}
-		if (revs >= 3500) {
-			acceleration = MAX_ACCELERATION;
-		}
-		if (App->scene_intro->inverted == true) {
-			acceleration = 2000;
-		}
-	}
-	if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT && gears == 3)
-	{
-		if (revs <= 4000) {
-			revs = revs + 5.0f;
-			acceleration = MAX_ACCELERATION * revs;
-		}
-		if (revs >= 4000) {
-			acceleration = MAX_ACCELERATION;
-		}
-		if (App->scene_intro->inverted == true) {
-			acceleration = 2000;
-		}
-	}
+
 
 	if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
 	{
 		if (turn < TURN_DEGREES) {
 			if (gears == 1) { turn += TURN_DEGREES; }
-			if (gears == 2) { turn += TURN_DEGREES * 0.5f; }
-			if (gears == 3) { turn += TURN_DEGREES * 0.3f; }
+
+			
+		
+			if (App->scene_intro->AutobusVehicle == true)
+				turn += TURN_DEGREES * 2;
+
+			if (App->scene_intro->tricicle == true)
+				turn += TURN_DEGREES;
+
+			if (App->scene_intro->monsterTruck == true)
+				turn += TURN_DEGREES;
+
+
 			if (ice == true) { turn += TURN_DEGREES * 2; }
 		}
 	}
@@ -271,8 +244,7 @@ update_status ModulePlayer::Update(float dt)
 	{
 		if (turn > -TURN_DEGREES) {
 			if (gears == 1) { turn -= TURN_DEGREES; }
-			if (gears == 2) { turn -= TURN_DEGREES * 0.5f; }
-			if (gears == 3) { turn -= TURN_DEGREES * 0.3f; }
+	
 			if (ice == true) { turn -= TURN_DEGREES * 2; }
 		}
 	}
@@ -292,8 +264,7 @@ update_status ModulePlayer::Update(float dt)
 	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT)
 	{
 		if (gears == 1) { brake = 100; }
-		if (gears == 2) { brake = 75; }
-		if (gears == 3) { brake = 50; }
+		
 		if (ice == true) { brake = 0; }
 	}
 
@@ -328,14 +299,53 @@ update_status ModulePlayer::Update(float dt)
 
 void ModulePlayer::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 {
-	p2List_item<Booster>* checkItem = App->scene_intro->boosterPointList.getFirst();
-	while (checkItem != NULL) {
-		if (checkItem->data.body->id == body2->id && checkItem->data.passed == false && body2->id != 6) {
-			checkItem->data.passed = true;
-			vehicle->Push(0,100,0);
+
+	p2List_item<Mud>* currentItem8 =App->scene_intro->mudPointList.getFirst();
+
+	while (currentItem8 != NULL) {
+		App->scene_intro->timer3+= 1* App->scene_intro->dt2;
+		currentItem8->data.cube.Render();
+	
+
+		// Homebrew collision detection for sensors
+		
+			LOG("car touch coing");
+			//currentItem->data->pendingToDelete = true;
+			//patata
+			
+		
+			//App->audio->PlayFx(coinFx);
+		
+			if (currentItem8->data.body == body2 && currentItem8->data.passed == false && body2->id != 6) {
+				currentItem8->data.passed = true;
+				App->scene_intro->timer3 = 0;
+				App->player->vehicle->body->setLinearVelocity(App->player->vehicle->body->getLinearVelocity() / 2);
+			}
+
+			currentItem8 = currentItem8->next;
+	}
+
+	p2List_item<Ice>* currentItem2 = App->scene_intro->icePointList.getFirst();
+
+	while (currentItem2 != NULL) {
+		App->scene_intro->timer3 += 1 * App->scene_intro->dt2;
+		currentItem2->data.cube.Render();
+
+
+		// Homebrew collision detection for sensors
+
+		LOG("car touch coing");
+		//currentItem->data->pendingToDelete = true;
+		//patata
+
+
+		//App->audio->PlayFx(coinFx);
+
+		if (currentItem2->data.body == body2 && currentItem2->data.passed == false && body2->id != 6) {
+			App->player->ice = true;
 		}
 
-		checkItem = checkItem->next;
+		currentItem2 = currentItem2->next;
 	}
 
 }

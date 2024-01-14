@@ -66,7 +66,15 @@ struct Mud
 	PhysBody3D* body;
 	Cube cube;
 	bool passed;
-	
+	float timer;
+};
+
+struct Ice
+{
+	PhysBody3D* body;
+	Cube cube;
+	bool passed;
+	float timer;
 };
 
 
@@ -126,6 +134,7 @@ public:
 	void addGravityChanger(vec3 pos, vec3 size, Color rgb, int id = GravityVehicle, bool passed_ = false);
 	void addCubeSensor(vec3 pos, vec3 size, Color rgb, int angle = 0, bool rot_X = false, bool rot_Y = false, bool rot_Z = false, int id = -1);
 	void addBooster(vec3 pos, vec3 size, Color rgb, int angle = 0, bool rot_X = false, bool rot_Y = false, bool rot_Z = false, int id = -1, bool passed_ = false);
+	void addIce(vec3 pos, vec3 size, Color rgb, int angle = 0, bool rot_X = false, bool rot_Y = false, bool rot_Z = false, int id = -1, bool passed_ = false);
 	void addMud(vec3 pos, vec3 size, Color rgb, int angle = 0, bool rot_X = false, bool rot_Y = false, bool rot_Z = false, int id = -1, bool passed_ = false);
 	void addBrake(vec3 pos, vec3 size, Color rgb, int angle = 0, bool rot_X = false, bool rot_Y = false, bool rot_Z = false, int id = -1, bool passed_ = false);
 	void addBoosterUp(vec3 pos, vec3 size, Color rgb, int angle = 0, bool rot_X = false, bool rot_Y = false, bool rot_Z = false, int id = -1, bool passed_ = false);
@@ -161,6 +170,7 @@ public:
 	p2List<GravityChange> gravityChangePointList;
 	p2List<Coin> coinPointList;
 	p2List<Mud> mudPointList;
+	p2List<Ice> icePointList;
 
 	bool inverted = false;
 	PhysMotor3D* left_wheel;
@@ -169,9 +179,15 @@ public:
 	Cube box;
 	float timerVehicleChange = 0;
 	int timer2 = 0;
-	int timer3 = 0;
+	float timer3 = 0;
 	int coin = 0;
+	float dt2 = 0;
 	float timer4 = 0;
+
+	bool normalVehicle = true;
+	bool AutobusVehicle = false;
+	bool monsterTruck = false;
+	bool tricicle = false;
 	p2List<Cube> buildingBlocks;
 
 };

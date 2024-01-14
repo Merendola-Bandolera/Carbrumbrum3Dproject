@@ -294,7 +294,7 @@ update_status ModuleSceneIntro::Update(float dt)
 	timerGrav++;
 	box.SetPos(1, 1, 1);
 	box.Render();
-	
+	dt2 = dt;
 
 	
 	/*p2List_item<Booster>* d = boosterPointList.getFirst();
@@ -351,34 +351,12 @@ update_status ModuleSceneIntro::Update(float dt)
 	p2List_item<Mud>* currentItem8 = mudPointList.getFirst();
 
 	while (currentItem8 != NULL) {
-		timer3++;
+
 			currentItem8->data.cube.Render();
-		btVector3 boosterPos = currentItem8->data.body->GetPos();
-		btVector3 carPos = App->player->vehicle->GetPos();
-		float Xdistance = abs(boosterPos.x()) - abs(carPos.x());
-		float Ydistance = abs(boosterPos.y()) - abs(carPos.y());
-		float Zdistance = abs(boosterPos.z()) - abs(carPos.z());
-
-		// Homebrew collision detection for sensors
-		if ((Xdistance > -3 && Xdistance < 3) && (Ydistance > -3 && Ydistance < 3) && (Zdistance > -3 && Zdistance < 3)) {
-			LOG("car touch coing");
-			//currentItem->data->pendingToDelete = true;
-			//patata
-
+	
+	
 			currentItem8 = currentItem8->next;
-			//App->audio->PlayFx(coinFx);
-			if (timer3 > 300) 
-			{
-				timer3 = 0;
-				App->player->vehicle->body->setLinearVelocity(App->player->vehicle->body->getLinearVelocity() / 2);
-			}
-			
-
-
-		}
-		else {
-			currentItem8 = currentItem8->next;
-		}
+		
 
 
 	}
@@ -826,7 +804,10 @@ update_status ModuleSceneIntro::Update(float dt)
 
 			currentItem10 = currentItem10->next;
 			//App->audio->PlayFx(coinFx);
-			
+			normalVehicle = true;
+			AutobusVehicle = false;
+			monsterTruck = false;
+			tricicle = false;
 			VehicleInfo car;
 
 			float half_width = 2 * 0.5f;
@@ -945,6 +926,11 @@ update_status ModuleSceneIntro::Update(float dt)
 			//App->audio->PlayFx(coinFx);
 			btVector3 p = App->player->vehicle->GetPos();
 
+			normalVehicle = false;
+			AutobusVehicle = false;
+			monsterTruck = false;
+			tricicle = true;
+
 			App->player->vehicle->SetPos(1000, 10, -1000);
 			VehicleInfo car;
 			float half_width = 2 * 0.5f;
@@ -1039,6 +1025,11 @@ update_status ModuleSceneIntro::Update(float dt)
 
 			App->player->vehicle->SetPos(1000, 10, -1000);
 			VehicleInfo car;
+			
+			normalVehicle = false;
+			AutobusVehicle = true;
+			monsterTruck = false;
+			tricicle = false;
 
 			//x el 2
 			float half_width = 2 * 0.5f;
@@ -1221,7 +1212,10 @@ update_status ModuleSceneIntro::Update(float dt)
 
 
 			// Don't change anything below this line ------------------
-
+			normalVehicle = false;
+			AutobusVehicle = false;
+			monsterTruck = true;
+			tricicle = false;
 
 
 			vec3 direction(0, -1, 0);
@@ -1453,6 +1447,33 @@ void ModuleSceneIntro::addMud(vec3 pos, vec3 size, Color rgb, int angle, bool ro
 
 }
 
+void ModuleSceneIntro::addIce(vec3 pos, vec3 size, Color rgb, int angle, bool rot_X, bool rot_Y, bool rot_Z, int id, bool passed_)
+{
+	Cube cube;
+
+	cube.SetPos(pos.x, pos.y, pos.z);
+	cube.size = size;
+	cube.color = rgb;
+
+	if (rot_X == true)
+		cube.SetRotation(angle, { 1, 0, 0 });	// X-axis
+	if (rot_Y == true)
+		cube.SetRotation(angle, { 0, 1, 0 });	// Y-axis
+	if (rot_Z == true)
+		cube.SetRotation(angle, { 0, 0, 1 });	// Z-axis
+
+	Ice booster;
+	booster.body = App->physics->AddBody(cube, 0.0f);
+
+	booster.body->SetAsSensor(true);
+	booster.body->SetId(id);
+	booster.cube = cube;
+	booster.passed = passed_;
+	icePointList.add(booster);
+
+
+}
+
 void ModuleSceneIntro::addBoosterUp(vec3 pos, vec3 size, Color rgb, int angle, bool rot_X, bool rot_Y, bool rot_Z, int id, bool passed_)
 {
 	Cube cube;
@@ -1536,6 +1557,9 @@ void ModuleSceneIntro::addCheckpoint(vec3 pos, vec3 size, Color rgb, int angle, 
 
 void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 {
+
+
+
 }
 
 void ModuleSceneIntro::addNormalVehicleChanger(vec3 pos, vec3 size, Color rgb, int angle, bool rot_X, bool rot_Y, bool rot_Z, int id, bool passed_)
