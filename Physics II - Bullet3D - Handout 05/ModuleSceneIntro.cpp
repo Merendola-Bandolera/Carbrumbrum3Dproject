@@ -322,6 +322,7 @@ bool ModuleSceneIntro::Start()
 	addCube({ 24,7.5f +	200,	200 }, { 2, 15, 2 }, Grey, 0, 0, 0);
 	addCube({ -4,7.5f +	200,	200 }, { 2, 15, 2 }, Grey, 0, 0, 0);
 	addCheckpoint({ 10,17 + 200,200 }, { 30, 5, 2 }, Brown, 0, 0, 0);
+	addWinBox({ 10,3+200,200 }, { 30, 2, 2 }, Invisible, 0, 0, 0);
 	//E
 	addCube({ 16 +3, 17 + 200,	199 }, { 2, 5, 2 }, Grey, 0, 0, 0);
 	addCube({ 13 +3, 17 + 200,	199 }, { 4, 1, 2 }, Grey, 0, 0, 0);
@@ -379,6 +380,12 @@ update_status ModuleSceneIntro::Update(float dt)
 	while (c4 != NULL) {
 		c4->data.cube.Render();
 		c4 = c4->next;
+	}
+
+	p2List_item<WinBox>* c6 = WinBoxPointList.getFirst();
+	while (c6 != NULL) {
+		c6->data.cube.Render();
+		c6 = c6->next;
 	}
 	/*p2List_item<Booster>* d = boosterPointList.getFirst();
 	while (d != NULL) {
@@ -1752,6 +1759,32 @@ void ModuleSceneIntro::addDBox(vec3 pos, vec3 size, Color rgb, int angle, bool r
 	booster.cube = cube;
 	booster.passed = passed_;
 	dBoxPointList.add(booster);
+
+
+}
+void ModuleSceneIntro::addWinBox(vec3 pos, vec3 size, Color rgb, int angle, bool rot_X, bool rot_Y, bool rot_Z, int id, bool passed_)
+{
+	Cube cube;
+
+	cube.SetPos(pos.x, pos.y, pos.z);
+	cube.size = size;
+	cube.color = rgb;
+
+	if (rot_X == true)
+		cube.SetRotation(angle, { 1, 0, 0 });	// X-axis
+	if (rot_Y == true)
+		cube.SetRotation(angle, { 0, 1, 0 });	// Y-axis
+	if (rot_Z == true)
+		cube.SetRotation(angle, { 0, 0, 1 });	// Z-axis
+
+	WinBox booster;
+	booster.body = App->physics->AddBody(cube, 1.0f);
+
+	booster.body->SetAsSensor(false);
+	booster.body->SetId(id);
+	booster.cube = cube;
+	booster.passed = passed_;
+	WinBoxPointList.add(booster);
 
 
 }

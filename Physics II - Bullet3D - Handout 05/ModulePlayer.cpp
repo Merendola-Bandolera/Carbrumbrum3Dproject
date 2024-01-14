@@ -209,7 +209,7 @@ update_status ModulePlayer::Update(float dt)
 	if (App->input->GetKey(SDL_SCANCODE_UP) != KEY_REPEAT && vehicle->GetKmh() >= 0 )
 	{
 		
-		if (ice == false)
+		if (ice == false || noPhysics == true)
 		acceleration = acceleration - 400;
 	}
 	if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT && gears == 1 && App->player->vehicle->GetKmh() < 250)
@@ -291,6 +291,39 @@ update_status ModulePlayer::Update(float dt)
 		vehicle->body->setLinearVelocity({0,0,0});
 	}
 
+	if (App->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN)
+	{
+		App->physics->world->setGravity({0,0,0});	
+		noPhysics = true;
+	}
+	if (App->input->GetKey(SDL_SCANCODE_F3) == KEY_DOWN)
+	{
+		App->physics->world->setGravity(GRAVITY);
+		noPhysics = false;
+	}
+	if (App->input->GetKey(SDL_SCANCODE_F4) == KEY_REPEAT && noPhysics == true)
+	{
+
+		gravplus--;
+		App->physics->world->setGravity({ 0,gravplus,0 });
+	
+	}
+	if (App->input->GetKey(SDL_SCANCODE_F5) == KEY_REPEAT && noPhysics == true)
+	{
+		gravplus++;
+		App->physics->world->setGravity({0,gravplus,0});
+	
+	}
+	if (App->input->GetKey(SDL_SCANCODE_F6) == KEY_REPEAT)
+	{
+		vehicle->info.mass--;
+	}
+	if (App->input->GetKey(SDL_SCANCODE_F7) == KEY_REPEAT)
+	{
+		vehicle->info.mass++;
+
+	}
+
 	if (App->input->GetKey(SDL_SCANCODE_R) == KEY_REPEAT)
 	{
 		
@@ -304,9 +337,15 @@ update_status ModulePlayer::Update(float dt)
 	vehicle->Brake(brake);
 
 	vehicle->Render();
+	if (win == false);
 	gameTimer += 1 * dt;
-	char title[80];
-	sprintf_s(title, "Time: %.0f  %.1f Km/h Gear: %d Revs: %.1f Coins: %d", gameTimer,vehicle->GetKmh(), gears, revs, App->scene_intro->coin);
+	char title[180];
+	if (win == false)
+	sprintf_s(title, "Time: %.0f  %.1f Km/h Coins: %d", gameTimer,vehicle->GetKmh(), App->scene_intro->coin);
+	else
+	{
+		sprintf_s(title, "Time: %.0f  %.1f Km/h Coins: %d YOU WIN YOU WIN YOU WIN YOU WIN YOU WIN YOU WIN YOU WIN YOU WIN YOU WIN YOU WIN YOU WIN", gameTimer, vehicle->GetKmh(),App->scene_intro->coin);
+	}
 	App->window->SetTitle(title);
 	
 	return UPDATE_CONTINUE;
@@ -361,6 +400,29 @@ void ModulePlayer::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 		}
 
 		currentItem2 = currentItem2->next;
+	}
+
+	p2List_item<WinBox>* currentItem4 = App->scene_intro->WinBoxPointList.getFirst();
+
+	while (currentItem4 != NULL) {
+		
+		currentItem4->data.cube.Render();
+
+
+		// Homebrew collision detection for sensors
+
+		LOG("car touch coing");
+		//currentItem->data->pendingToDelete = true;
+		//patata
+
+
+		//App->audio->PlayFx(coinFx);
+
+		if (currentItem4->data.body == body2 && currentItem4->data.passed == false && body2->id != 6 && App->scene_intro->coin > 0) {
+			App->player->win = true;
+		}
+
+		currentItem4 = currentItem4->next;
 	}
 
 }

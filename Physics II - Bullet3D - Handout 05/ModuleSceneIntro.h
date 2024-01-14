@@ -117,6 +117,15 @@ struct DestructibleBox
 
 };
 
+struct WinBox
+{
+	PhysBody3D* body;
+	Cube cube;
+	bool passed;
+
+
+};
+
 class ModuleSceneIntro : public Module
 {
 public:
@@ -137,6 +146,8 @@ public:
 	void addHabiaOtroMasInterroganteVehicleChanger(vec3 pos, vec3 size, Color rgb, int angle = 0, bool rot_X = false, bool rot_Y = false, bool rot_Z = false, int id = -1, bool passed_ = false);
 
 	void addDBox(vec3 pos, vec3 size, Color rgb, int angle = 0, bool rot_X = false, bool rot_Y = false, bool rot_Z = false, int id = -1, bool passed_ = false);
+
+	void addWinBox(vec3 pos, vec3 size, Color rgb, int angle = 0, bool rot_X = false, bool rot_Y = false, bool rot_Z = false, int id = -1, bool passed_ = false);
 	
 	void addCoin(vec3 pos, vec3 size, Color rgb, int angle = 0, bool rot_X = false, bool rot_Y = false, bool rot_Z = false, int id = -1, bool passed_ = false);
 	void addGravityChanger(vec3 pos, vec3 size, Color rgb, int id = GravityVehicle, bool passed_ = false);
@@ -175,6 +186,9 @@ public:
 	p2List<AutobusVehicleChanger> AutobusVehicleChangerPointList;
 	p2List<HabiaOtroMasInterroganteVehicleChanger> HabiaOtroMasInterroganteVehicleChangerPointList;
 	
+	p2List<WinBox> WinBoxPointList;
+
+
 	p2List<Checkpoint> checkpointPointList;
 	p2List<GravityChange> gravityChangePointList;
 	p2List<Coin> coinPointList;
