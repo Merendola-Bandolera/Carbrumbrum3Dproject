@@ -244,7 +244,15 @@ update_status ModulePlayer::Update(float dt)
 	{
 		if (turn > -TURN_DEGREES) {
 			if (gears == 1) { turn -= TURN_DEGREES; }
-	
+
+			if (App->scene_intro->AutobusVehicle == true)
+				turn += TURN_DEGREES * 2;
+
+			if (App->scene_intro->tricicle == true)
+				turn += TURN_DEGREES;
+
+			if (App->scene_intro->monsterTruck == true)
+				turn += TURN_DEGREES;
 			if (ice == true) { turn -= TURN_DEGREES * 2; }
 		}
 	}
