@@ -54,6 +54,13 @@ bool ModuleSceneIntro::Start()
 
 	//CIRCUITO
 
+	addNormalVehicleChanger({ 20,2 + 200,150 }, { 2, 2, 2 }, Purple, 0, 0, 0);
+	addTricicleVehicleChanger({ 20,2 + 200,125 }, { 2, 2, 2 }, Blue, 0, 0, 0);
+	addAutobusVehicleChanger({ 20,2 + 200,100 }, { 2, 2, 2 }, Orange, 0, 0, 0);
+	addHabiaOtroMasInterroganteVehicleChanger({ 20,2 + 200,175 }, { 2, 2, 2 }, Red, 0, 0, 0);
+
+
+
 	//SALIDA
 	addCube({ 10,  -0.5f +200, 300 }, { 30, 2, 500 }, Grey, 0, 0, 0);
 	addCheckpoint({ 0, 2+200, 250 }, { 2, 2, 2 }, Yellow, 0, 0, 0);
@@ -310,7 +317,7 @@ update_status ModuleSceneIntro::Update(float dt)
 	p2List_item<Booster>* currentItem = boosterPointList.getFirst();
 
 	while (currentItem != NULL) {
-		
+		timer4 += 1 * dt;
 		currentItem->data.cube.Render();
 			btVector3 boosterPos = currentItem->data.body->GetPos();
 			btVector3 carPos = App->player->vehicle->GetPos();
@@ -325,7 +332,12 @@ update_status ModuleSceneIntro::Update(float dt)
 
 				currentItem = currentItem->next;
 				//App->audio->PlayFx(coinFx);
-				App->player->vehicle->body->setLinearVelocity(App->player->vehicle->body->getLinearVelocity()*1.5);
+				if (timer4 > 3)
+				{
+					App->player->vehicle->body->setLinearVelocity(App->player->vehicle->body->getLinearVelocity() * 1.5);
+					timer4 = 0;
+				}
+			
 				
 			
 			}
@@ -781,7 +793,7 @@ update_status ModuleSceneIntro::Update(float dt)
 				}
 
 
-
+				timerVehicleChange = 0;
 				timerGrav = 0;
 			}
 
@@ -794,6 +806,489 @@ update_status ModuleSceneIntro::Update(float dt)
 
 
 	}
+
+	p2List_item<NormalVehicleChanger>* currentItem10 = NormalVehicleChangerPointList.getFirst();
+
+	while (currentItem10 != NULL) {
+	
+
+		currentItem10->data.cube.Render();
+		btVector3 boosterPos = currentItem10->data.body->GetPos();
+		btVector3 carPos = App->player->vehicle->GetPos();
+		float Xdistance = abs(boosterPos.x()) - abs(carPos.x());
+		float Ydistance = abs(boosterPos.y()) - abs(carPos.y());
+		float Zdistance = abs(boosterPos.z()) - abs(carPos.z());
+
+		// Homebrew collision detection for sensors
+		if ((Xdistance > -3 && Xdistance < 3) && (Ydistance > -3 && Ydistance < 3) && (Zdistance > -3 && Zdistance < 3) && timerVehicleChange > 6) {
+			LOG("car touch coing");
+			//currentItem->data->pendingToDelete = true;
+
+			currentItem10 = currentItem10->next;
+			//App->audio->PlayFx(coinFx);
+			
+			VehicleInfo car;
+
+			float half_width = 2 * 0.5f;
+			float half_length = 4 * 0.5f;
+
+			float connection_height = 1.2f;
+			float wheel_radius = 0.6f;
+			float wheel_width = 0.5f;
+			float suspensionRestLength = 1.2f;
+
+			// Car properties ----------------------------------------		//Lo del chasis Lo del chasisLo del chasisLo del chasisLo del chasisLo del chasisLo del chasisLo del chasisLo del chasisLo del chasis		//Lo del chasis Lo del chasisLo del chasisLo del chasisLo del chasisLo del chasisLo del chasisLo del chasisLo del chasisLo del chasis
+			car.chassis_size.Set(2, 1, 4);
+			car.chassis_offset.Set(0, 1, 0);
+			car.mass = 500.0f;
+			car.suspensionStiffness = 15.88f;
+			car.suspensionCompression = 0.83f;
+			car.suspensionDamping = 20;
+			car.maxSuspensionTravelCm = 1000.0f;
+			car.frictionSlip = 50.5;
+			car.maxSuspensionForce = 2000.0f;
+
+			// Wheel properties ---------------------------------------
+			btVector3 p = App->player->vehicle->GetPos();
+			float acx = App->player->acceleration;
+			App->player->vehicle->SetPos(1000, 10, -1000);
+
+			// Don't change anything below this line ------------------
+
+
+
+			vec3 direction(0, -1, 0);
+			vec3 axis(-1, 0, 0);
+
+			car.num_wheels = 4;
+			car.wheels = new Wheel[4];
+
+			// FRONT-LEFT ------------------------
+			car.wheels[0].connection.Set(half_width - 0.3f * wheel_width, connection_height, half_length - wheel_radius);
+			car.wheels[0].direction = direction;
+			car.wheels[0].axis = axis;
+			car.wheels[0].suspensionRestLength = suspensionRestLength;
+			car.wheels[0].radius = wheel_radius;
+			car.wheels[0].width = wheel_width;
+			car.wheels[0].front = true;
+			car.wheels[0].drive = true;
+			car.wheels[0].brake = false;
+			car.wheels[0].steering = true;
+
+			// FRONT-RIGHT ------------------------
+			car.wheels[1].connection.Set(-half_width + 0.3f * wheel_width, connection_height, half_length - wheel_radius);
+			car.wheels[1].direction = direction;
+			car.wheels[1].axis = axis;
+			car.wheels[1].suspensionRestLength = suspensionRestLength;
+			car.wheels[1].radius = wheel_radius;
+			car.wheels[1].width = wheel_width;
+			car.wheels[1].front = true;
+			car.wheels[1].drive = true;
+			car.wheels[1].brake = false;
+			car.wheels[1].steering = true;
+
+			// REAR-LEFT ------------------------
+			car.wheels[2].connection.Set(half_width - 0.3f * wheel_width, connection_height, -half_length + wheel_radius);
+			car.wheels[2].direction = direction;
+			car.wheels[2].axis = axis;
+			car.wheels[2].suspensionRestLength = suspensionRestLength;
+			car.wheels[2].radius = wheel_radius;
+			car.wheels[2].width = wheel_width;
+			car.wheels[2].front = false;
+			car.wheels[2].drive = false;
+			car.wheels[2].brake = true;
+			car.wheels[2].steering = false;
+
+			// REAR-RIGHT ------------------------
+			car.wheels[3].connection.Set(-half_width + 0.3f * wheel_width, connection_height, -half_length + wheel_radius);
+			car.wheels[3].direction = direction;
+			car.wheels[3].axis = axis;
+			car.wheels[3].suspensionRestLength = suspensionRestLength;
+			car.wheels[3].radius = wheel_radius;
+			car.wheels[3].width = wheel_width;
+			car.wheels[3].front = false;
+			car.wheels[3].drive = false;
+			car.wheels[3].brake = true;
+			car.wheels[3].steering = false;
+
+			App->player->vehicle = App->physics->AddVehicle(car);
+			App->player->vehicle->SetPos(p.x(), p.y(), p.z());
+			App->physics->world->setGravity(GRAVITY);
+			acx = App->player->acceleration;
+			inverted = false;
+			timerVehicleChange = 0;
+
+		}
+		else {
+			currentItem10 = currentItem10->next;
+		}
+	}
+
+	p2List_item<TricicleVehicleChanger>* currentItem11 = TricicleVehicleChangerPointList.getFirst();
+
+	while (currentItem11 != NULL) {
+
+
+		currentItem11->data.cube.Render();
+		btVector3 boosterPos = currentItem11->data.body->GetPos();
+		btVector3 carPos = App->player->vehicle->GetPos();
+		float Xdistance = abs(boosterPos.x()) - abs(carPos.x());
+		float Ydistance = abs(boosterPos.y()) - abs(carPos.y());
+		float Zdistance = abs(boosterPos.z()) - abs(carPos.z());
+
+		// Homebrew collision detection for sensors
+		if ((Xdistance > -3 && Xdistance < 3) && (Ydistance > -3 && Ydistance < 3) && (Zdistance > -3 && Zdistance < 3) && timerVehicleChange > 6) {
+			LOG("car touch coing");
+			//currentItem->data->pendingToDelete = true;
+
+			currentItem11 = currentItem11->next;
+			//App->audio->PlayFx(coinFx);
+			btVector3 p = App->player->vehicle->GetPos();
+
+			App->player->vehicle->SetPos(1000, 10, -1000);
+			VehicleInfo car;
+			float half_width = 2 * 0.5f;
+			float half_length = 4 * 0.5f;
+
+			float connection_height = 1.2f;
+			float wheel_radius = 0.6f;
+			float wheel_width = 0.5f;
+			float suspensionRestLength = 1.2f;
+
+			vec3 direction(0, -1, 0);
+			vec3 axis(-1, 0, 0);
+
+			car.num_wheels = 3;
+			car.wheels = new Wheel[3];
+
+			car.chassis_size.Set(3.5, 1.8, 7);
+			car.chassis_offset.Set(0, 2, 0);
+			car.mass = 100.0f;
+			car.suspensionStiffness = 15.88f;
+			car.suspensionCompression = 0.83f;
+			car.suspensionDamping = 10;
+			car.maxSuspensionTravelCm = 1000.0f;
+			car.frictionSlip = 50.5;
+			car.maxSuspensionForce = 10000;
+
+			car.wheels[0].connection.Set(0, connection_height, half_length - wheel_radius);
+			car.wheels[0].direction = direction;
+			car.wheels[0].axis = axis;
+			car.wheels[0].suspensionRestLength = suspensionRestLength;
+			car.wheels[0].radius = wheel_radius;
+			car.wheels[0].width = wheel_width * 0.75;
+			car.wheels[0].front = true;
+			car.wheels[0].drive = true;
+			car.wheels[0].brake = false;
+			car.wheels[0].steering = true;
+
+			// REAR-LEFT ------------------------
+			car.wheels[1].connection.Set(half_width - 0.3f * wheel_width, connection_height, -half_length + wheel_radius);
+			car.wheels[1].direction = direction;
+			car.wheels[1].axis = axis;
+			car.wheels[1].suspensionRestLength = suspensionRestLength;
+			car.wheels[1].radius = wheel_radius;
+			car.wheels[1].width = wheel_width;
+			car.wheels[1].front = false;
+			car.wheels[1].drive = true;
+			car.wheels[1].brake = true;
+			car.wheels[1].steering = false;
+
+			// REAR-RIGHT ------------------------
+			car.wheels[2].connection.Set(-half_width + 0.3f * wheel_width, connection_height, -half_length + wheel_radius);
+			car.wheels[2].direction = direction;
+			car.wheels[2].axis = axis;
+			car.wheels[2].suspensionRestLength = suspensionRestLength;
+			car.wheels[2].radius = wheel_radius;
+			car.wheels[2].width = wheel_width;
+			car.wheels[2].front = false;
+			car.wheels[2].drive = true;
+			car.wheels[2].brake = true;
+			car.wheels[2].steering = false;
+
+			App->player->vehicle = App->physics->AddVehicle(car);
+			App->player->vehicle->SetPos(p.x(), p.y(), p.z());
+			App->physics->world->setGravity(GRAVITY);
+		
+			timerVehicleChange = 0;
+		}
+		else {
+			currentItem11 = currentItem11->next;
+		}
+	}
+	p2List_item<AutobusVehicleChanger>* currentItem12 = AutobusVehicleChangerPointList.getFirst();
+
+	while (currentItem12 != NULL) {
+
+
+		currentItem12->data.cube.Render();
+		btVector3 boosterPos = currentItem12->data.body->GetPos();
+		btVector3 carPos = App->player->vehicle->GetPos();
+		float Xdistance = abs(boosterPos.x()) - abs(carPos.x());
+		float Ydistance = abs(boosterPos.y()) - abs(carPos.y());
+		float Zdistance = abs(boosterPos.z()) - abs(carPos.z());
+
+		// Homebrew collision detection for sensors
+		if ((Xdistance > -3 && Xdistance < 3) && (Ydistance > -3 && Ydistance < 3) && (Zdistance > -3 && Zdistance < 3) && timerVehicleChange > 6) {
+			LOG("car touch coing");
+			//currentItem->data->pendingToDelete = true;
+
+			currentItem12 = currentItem12->next;
+			//App->audio->PlayFx(coinFx);
+			btVector3 p = App->player->vehicle->GetPos();
+
+			App->player->vehicle->SetPos(1000, 10, -1000);
+			VehicleInfo car;
+
+			//x el 2
+			float half_width = 2 * 0.5f;
+			//y el 4 la z
+			float half_length = 18 * 0.5f;
+
+			float connection_height = 1.2f;
+			float wheel_radius = 0.6f;
+			float wheel_width = 0.5f;
+			float suspensionRestLength = 1.2f;
+		
+
+			//Lo del chasis Lo del chasisLo del chasisLo del chasisLo del chasisLo del chasisLo del chasisLo del chasisLo del chasisLo del chasis		//Lo del chasis Lo del chasisLo del chasisLo del chasisLo del chasisLo del chasisLo del chasisLo del chasisLo del chasisLo del chasis
+			car.chassis_size.Set(2, 1, 4);
+			car.chassis_offset.Set(0, 1, 0);
+			car.mass = 500.0f;
+			car.suspensionStiffness = 15.88f;
+			car.suspensionCompression = 0.83f;
+			car.suspensionDamping = 20;
+			car.maxSuspensionTravelCm = 1000.0f;
+			car.frictionSlip = 50.5;
+			car.maxSuspensionForce = 2000.0f;
+				
+			car.num_wheels = 8;
+			car.wheels = new Wheel[8];
+
+			vec3 direction(0, -1, 0);
+			vec3 axis(-1, 0, 0);
+
+			
+			// 1 right ------------------------
+			car.wheels[0].connection.Set(-half_width + 0.3f * wheel_width, connection_height, half_length - wheel_radius);
+			car.wheels[0].direction = direction;
+			car.wheels[0].axis = axis;
+			car.wheels[0].suspensionRestLength = suspensionRestLength;
+			car.wheels[0].radius = wheel_radius;
+			car.wheels[0].width = wheel_width;
+			car.wheels[0].front = true;
+			car.wheels[0].drive = true;
+			car.wheels[0].brake = false;
+			car.wheels[0].steering = true;
+
+			// 1 left ------------------------
+			car.wheels[1].connection.Set(half_width - 0.3f * wheel_width, connection_height, half_length - wheel_radius);
+			car.wheels[1].direction = direction;
+			car.wheels[1].axis = axis;
+			car.wheels[1].suspensionRestLength = suspensionRestLength;
+			car.wheels[1].radius = wheel_radius;
+			car.wheels[1].width = wheel_width;
+			car.wheels[1].front = true;
+			car.wheels[1].drive = true;
+			car.wheels[1].brake = false;
+			car.wheels[1].steering = true;
+
+			// 2 right ------------------------
+			car.wheels[2].connection.Set(-half_width + 0.3f * wheel_width, connection_height, -half_length + wheel_radius);
+			car.wheels[2].direction = direction;
+			car.wheels[2].axis = axis;
+			car.wheels[2].suspensionRestLength = suspensionRestLength;
+			car.wheels[2].radius = wheel_radius;
+			car.wheels[2].width = wheel_width;
+			car.wheels[2].front = false;
+			car.wheels[2].drive = false;
+			car.wheels[2].brake = true;
+			car.wheels[2].steering = false;
+
+			// 2 left ------------------------
+			car.wheels[3].connection.Set(half_width - 0.3f * wheel_width, connection_height, (-half_length + wheel_radius) / 2);
+			car.wheels[3].direction = direction;
+			car.wheels[3].axis = axis;
+			car.wheels[3].suspensionRestLength = suspensionRestLength;
+			car.wheels[3].radius = wheel_radius;
+			car.wheels[3].width = wheel_width;
+			car.wheels[3].front = false;
+			car.wheels[3].drive = false;
+			car.wheels[3].brake = true;
+			car.wheels[3].steering = false;
+
+			// 3 Right ------------------------
+			car.wheels[4].connection.Set(-half_width + 0.3f * wheel_width, connection_height, (+half_length + wheel_radius) / 2);
+			car.wheels[4].direction = direction;
+			car.wheels[4].axis = axis;
+			car.wheels[4].suspensionRestLength = suspensionRestLength;
+			car.wheels[4].radius = wheel_radius;
+			car.wheels[4].width = wheel_width;
+			car.wheels[4].front = false;
+			car.wheels[4].drive = false;
+			car.wheels[4].brake = true;
+			car.wheels[4].steering = false;
+
+			// 3 left ------------------------
+			car.wheels[5].connection.Set(half_width - 0.3f * wheel_width, connection_height, (+half_length + wheel_radius) / 2);
+			car.wheels[5].direction = direction;
+			car.wheels[5].axis = axis;
+			car.wheels[5].suspensionRestLength = suspensionRestLength;
+			car.wheels[5].radius = wheel_radius;
+			car.wheels[5].width = wheel_width;
+			car.wheels[5].front = false;
+			car.wheels[5].drive = false;
+			car.wheels[5].brake = true;
+			car.wheels[5].steering = false;
+
+			// 4 Right ------------------------
+			car.wheels[6].connection.Set(-half_width + 0.3f * wheel_width, connection_height, (-half_length + wheel_radius) / 2);
+			car.wheels[6].direction = direction;
+			car.wheels[6].axis = axis;
+			car.wheels[6].suspensionRestLength = suspensionRestLength;
+			car.wheels[6].radius = wheel_radius;
+			car.wheels[6].width = wheel_width;
+			car.wheels[6].front = false;
+			car.wheels[6].drive = false;
+			car.wheels[6].brake = true;
+			car.wheels[6].steering = false;
+
+			// 4 left ------------------------
+			car.wheels[7].connection.Set(half_width - 0.3f * wheel_width, connection_height, -half_length + wheel_radius);
+			car.wheels[7].direction = direction;
+			car.wheels[7].axis = axis;
+			car.wheels[7].suspensionRestLength = suspensionRestLength;
+			car.wheels[7].radius = wheel_radius;
+			car.wheels[7].width = wheel_width;
+			car.wheels[7].front = false;
+			car.wheels[7].drive = false;
+			car.wheels[7].brake = true;
+			car.wheels[7].steering = false;
+
+			App->player->vehicle = App->physics->AddVehicle(car);
+			App->player->vehicle->SetPos(p.x(), p.y(), p.z());
+			App->physics->world->setGravity(GRAVITY);
+			timerVehicleChange = 0;
+		}
+		else {
+			currentItem12 = currentItem12->next;
+		}
+	}
+	p2List_item<HabiaOtroMasInterroganteVehicleChanger>* currentItem13 = HabiaOtroMasInterroganteVehicleChangerPointList.getFirst();
+
+	while (currentItem13 != NULL) {
+
+
+		currentItem13->data.cube.Render();
+		btVector3 boosterPos = currentItem13->data.body->GetPos();
+		btVector3 carPos = App->player->vehicle->GetPos();
+		float Xdistance = abs(boosterPos.x()) - abs(carPos.x());
+		float Ydistance = abs(boosterPos.y()) - abs(carPos.y());
+		float Zdistance = abs(boosterPos.z()) - abs(carPos.z());
+
+		// Homebrew collision detection for sensors
+		if ((Xdistance > -3 && Xdistance < 3) && (Ydistance > -3 && Ydistance < 3) && (Zdistance > -3 && Zdistance < 3) && timerVehicleChange > 6) {
+			LOG("car touch coing");
+			//currentItem->data->pendingToDelete = true;
+
+			btVector3 p = App->player->vehicle->GetPos();
+
+			App->player->vehicle->SetPos(1000, 10, -1000);
+			currentItem13 = currentItem13->next;
+			//App->audio->PlayFx(coinFx);
+
+			float half_width = 2 * 0.5f;
+			float half_length = 4 * 0.5f;
+
+			float connection_height = 1.2f;
+			float wheel_radius = 1.8f;
+			float wheel_width = 1.5f;
+			float suspensionRestLength = 1.2f;
+			VehicleInfo car;
+
+			// Car properties ----------------------------------------		//Lo del chasis Lo del chasisLo del chasisLo del chasisLo del chasisLo del chasisLo del chasisLo del chasisLo del chasisLo del chasis		//Lo del chasis Lo del chasisLo del chasisLo del chasisLo del chasisLo del chasisLo del chasisLo del chasisLo del chasisLo del chasis
+			car.chassis_size.Set(3.5, 1.8, 7);
+			car.chassis_offset.Set(0, 2, 0);
+			car.mass = 100.0f;
+			car.suspensionStiffness = 15.88f;
+			car.suspensionCompression = 0.83f;
+			car.suspensionDamping = 10;
+			car.maxSuspensionTravelCm = 1000.0f;
+			car.frictionSlip = 50.5;
+			car.maxSuspensionForce = 10000;
+			//Lo del chasis Lo del chasisLo del chasisLo del chasisLo del chasisLo del chasisLo del chasisLo del chasisLo del chasisLo del chasis
+			// Wheel properties ---------------------------------------
+
+
+			// Don't change anything below this line ------------------
+
+
+
+			vec3 direction(0, -1, 0);
+			vec3 axis(-1, 0, 0);
+
+			car.num_wheels = 4;
+			car.wheels = new Wheel[4];
+
+			// FRONT-LEFT ------------------------
+			car.wheels[0].connection.Set(half_width * 2 - 0.3f * wheel_width, connection_height, half_length * 3 - wheel_radius);
+			car.wheels[0].direction = direction;
+			car.wheels[0].axis = axis;
+			car.wheels[0].suspensionRestLength = suspensionRestLength;
+			car.wheels[0].radius = wheel_radius;
+			car.wheels[0].width = wheel_width;
+			car.wheels[0].front = true;
+			car.wheels[0].drive = true;
+			car.wheels[0].brake = false;
+			car.wheels[0].steering = true;
+
+			// FRONT-RIGHT ------------------------
+			car.wheels[1].connection.Set(-half_width * 2 + 0.3f * wheel_width, connection_height, half_length * 3 - wheel_radius);
+			car.wheels[1].direction = direction;
+			car.wheels[1].axis = axis;
+			car.wheels[1].suspensionRestLength = suspensionRestLength;
+			car.wheels[1].radius = wheel_radius;
+			car.wheels[1].width = wheel_width;
+			car.wheels[1].front = true;
+			car.wheels[1].drive = true;
+			car.wheels[1].brake = false;
+			car.wheels[1].steering = true;
+
+			// REAR-LEFT ------------------------
+			car.wheels[2].connection.Set(half_width * 2 - 0.3f * wheel_width, connection_height, -half_length * 3 + wheel_radius);
+			car.wheels[2].direction = direction;
+			car.wheels[2].axis = axis;
+			car.wheels[2].suspensionRestLength = suspensionRestLength;
+			car.wheels[2].radius = wheel_radius;
+			car.wheels[2].width = wheel_width;
+			car.wheels[2].front = false;
+			car.wheels[2].drive = false;
+			car.wheels[2].brake = true;
+			car.wheels[2].steering = false;
+
+			// REAR-RIGHT ------------------------
+			car.wheels[3].connection.Set(-half_width * 2 + 0.3f * wheel_width, connection_height, -half_length * 3 + wheel_radius);
+			car.wheels[3].direction = direction;
+			car.wheels[3].axis = axis;
+			car.wheels[3].suspensionRestLength = suspensionRestLength;
+			car.wheels[3].radius = wheel_radius;
+			car.wheels[3].width = wheel_width;
+			car.wheels[3].front = false;
+			car.wheels[3].drive = false;
+			car.wheels[3].brake = true;
+			car.wheels[3].steering = false;
+
+			App->player->vehicle = App->physics->AddVehicle(car);
+			App->player->vehicle->SetPos(p.x(), p.y(), p.z());
+			App->physics->world->setGravity(GRAVITY);
+			timerVehicleChange = 0;
+		}
+		else {
+			currentItem13 = currentItem13->next;
+		}
+	}
+
+	timerVehicleChange += dt * 1;
 
 	return UPDATE_CONTINUE;
 }
@@ -1043,3 +1538,107 @@ void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 {
 }
 
+void ModuleSceneIntro::addNormalVehicleChanger(vec3 pos, vec3 size, Color rgb, int angle, bool rot_X, bool rot_Y, bool rot_Z, int id, bool passed_)
+{
+	Cube cube;
+
+	cube.SetPos(pos.x, pos.y, pos.z);
+	cube.size = size;
+	cube.color = rgb;
+
+	if (rot_X == true)
+		cube.SetRotation(angle, { 1, 0, 0 });	// X-axis
+	if (rot_Y == true)
+		cube.SetRotation(angle, { 0, 1, 0 });	// Y-axis
+	if (rot_Z == true)
+		cube.SetRotation(angle, { 0, 0, 1 });	// Z-axis
+
+	NormalVehicleChanger booster;
+	booster.body = App->physics->AddBody(cube, 0.0f);
+
+	booster.body->SetAsSensor(true);
+	booster.body->SetId(id);
+	booster.cube = cube;
+	booster.passed = passed_;
+	NormalVehicleChangerPointList.add(booster);
+
+
+}
+void ModuleSceneIntro::addTricicleVehicleChanger(vec3 pos, vec3 size, Color rgb, int angle, bool rot_X, bool rot_Y, bool rot_Z, int id, bool passed_)
+{
+	Cube cube;
+
+	cube.SetPos(pos.x, pos.y, pos.z);
+	cube.size = size;
+	cube.color = rgb;
+
+	if (rot_X == true)
+		cube.SetRotation(angle, { 1, 0, 0 });	// X-axis
+	if (rot_Y == true)
+		cube.SetRotation(angle, { 0, 1, 0 });	// Y-axis
+	if (rot_Z == true)
+		cube.SetRotation(angle, { 0, 0, 1 });	// Z-axis
+
+	TricicleVehicleChanger booster;
+	booster.body = App->physics->AddBody(cube, 0.0f);
+
+	booster.body->SetAsSensor(true);
+	booster.body->SetId(id);
+	booster.cube = cube;
+	booster.passed = passed_;
+	TricicleVehicleChangerPointList.add(booster);
+
+
+}
+void ModuleSceneIntro::addAutobusVehicleChanger(vec3 pos, vec3 size, Color rgb, int angle, bool rot_X, bool rot_Y, bool rot_Z, int id, bool passed_)
+{
+	Cube cube;
+
+	cube.SetPos(pos.x, pos.y, pos.z);
+	cube.size = size;
+	cube.color = rgb;
+
+	if (rot_X == true)
+		cube.SetRotation(angle, { 1, 0, 0 });	// X-axis
+	if (rot_Y == true)
+		cube.SetRotation(angle, { 0, 1, 0 });	// Y-axis
+	if (rot_Z == true)
+		cube.SetRotation(angle, { 0, 0, 1 });	// Z-axis
+
+	AutobusVehicleChanger booster;
+	booster.body = App->physics->AddBody(cube, 0.0f);
+
+	booster.body->SetAsSensor(true);
+	booster.body->SetId(id);
+	booster.cube = cube;
+	booster.passed = passed_;
+	AutobusVehicleChangerPointList.add(booster);
+
+
+}
+void ModuleSceneIntro::addHabiaOtroMasInterroganteVehicleChanger(vec3 pos, vec3 size, Color rgb, int angle, bool rot_X, bool rot_Y, bool rot_Z, int id, bool passed_)
+{
+	Cube cube;
+
+	cube.SetPos(pos.x, pos.y, pos.z);
+	cube.size = size;
+	cube.color = rgb;
+
+	if (rot_X == true)
+		cube.SetRotation(angle, { 1, 0, 0 });	// X-axis
+	if (rot_Y == true)
+		cube.SetRotation(angle, { 0, 1, 0 });	// Y-axis
+	if (rot_Z == true)
+		cube.SetRotation(angle, { 0, 0, 1 });	// Z-axis
+
+	HabiaOtroMasInterroganteVehicleChanger booster;
+	booster.body = App->physics->AddBody(cube, 0.0f);
+
+	booster.body->SetAsSensor(true);
+	booster.body->SetId(id);
+	booster.cube = cube;
+	booster.passed = passed_;
+	HabiaOtroMasInterroganteVehicleChangerPointList.add(booster);
+
+
+}

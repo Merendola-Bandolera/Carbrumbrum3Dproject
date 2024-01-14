@@ -146,7 +146,7 @@ bool ModulePlayer::Start()
 	//car.wheels[7].steering = false;
 
 	vehicle = App->physics->AddVehicle(car);
-	vehicle->SetPos(200, 206, 643 + 1009);
+	vehicle->SetPos (0, 2 + 200, 250);
 	
 	vehicle->collision_listeners.add(this);
 	vehicle->SetId(1);
@@ -190,6 +190,13 @@ update_status ModulePlayer::Update(float dt)
 			
 		acceleration = -MAX_ACCELERATION * 600;
 
+	}
+
+	if (vehicle->GetPos().y() < 175) 
+	{
+		vehicle->ResetCarOrientation();
+		vehicle->SetPos(checkpoint.x(), checkpoint.y(), checkpoint.z());
+		vehicle->body->setLinearVelocity({ 0,0,0 });
 	}
 	//if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
 	//{
@@ -303,6 +310,7 @@ update_status ModulePlayer::Update(float dt)
 		
 		vehicle->ResetCarOrientation();
 		vehicle->SetPos(checkpoint.x(),checkpoint.y(),checkpoint.z());
+		vehicle->body->setLinearVelocity({ 0,0,0 });
 	}
 
 	vehicle->ApplyEngineForce(acceleration);
@@ -310,9 +318,9 @@ update_status ModulePlayer::Update(float dt)
 	vehicle->Brake(brake);
 
 	vehicle->Render();
-
+	gameTimer += 1 * dt;
 	char title[80];
-	sprintf_s(title, "%.1f Km/h Gear: %d Revs: %.1f Coins: %d", vehicle->GetKmh(), gears, revs, App->scene_intro->coin);
+	sprintf_s(title, "Time: %.0f  %.1f Km/h Gear: %d Revs: %.1f Coins: %d", gameTimer,vehicle->GetKmh(), gears, revs, App->scene_intro->coin);
 	App->window->SetTitle(title);
 
 	return UPDATE_CONTINUE;
