@@ -135,15 +135,30 @@ bool ModuleSceneIntro::Start()
 	addCube({ -443 + 782, 4 + 200, 635 + 1009 }, { 30, 2, 100 }, Green, 0, -80, 0);
 	addCube({ -539 + 782, 4 + 200, 643 + 1009 }, { 30, 2, 100 }, Green, 0, -90, 0);
 	addCheckpoint({ 340, 6 + 200, 643 + 1000 }, { 2, 2, 2 }, Yellow, 0, 0, 0);
+	addCube({ 340,6 + 205,643 + 1000 + 50 }, { 10, 2, 2 }, Grey, 0, 0, 0);
+	addCube({ 337,6 + 206,643 + 1000 + 50 }, { 5, 2, 2 }, Grey, 0, 0, 45);
+	addCube({ 337,6 + 204,643 + 1000 + 50 }, { 5, 2, 2 }, Grey, 0, 0, -45);
 
 
 	//ZONA DEL BARRO
 	addNormalVehicleChanger({ 50,57 + 200,1652 }, { 2, 2, 2 }, Blue, 0, 0, 0);
+	addNormalVehicleChanger({ 60,57 + 200,1652 -30 }, { 2, 2, 2 }, Blue, 0, 0, 0);
+	addNormalVehicleChanger({ 60,57 + 200,1652 + 10 }, { 2, 2, 2 }, Blue, 0, 0, 0);
+	addNormalVehicleChanger({ 70,57 + 200,1652 - 10 }, { 2, 2, 2 }, Blue, 0, 0, 0);
+	addNormalVehicleChanger({ 80,57 + 200,1652 - 30 }, { 2, 2, 2 }, Blue, 0, 0, 0);
+	addNormalVehicleChanger({ 80,57 + 200,1652 + 10 }, { 2, 2, 2 }, Blue, 0, 0, 0);
+	addNormalVehicleChanger({ 90,57 + 200,1652 - 10 }, { 2, 2, 2 }, Blue, 0, 0, 0);
+	addCube({ 90,57 + 205,1652 + 50 }, { 10, 2, 2 }, Grey, 0, 0, 0);
+	addCube({ 87,57 + 206,1652 + 50 }, { 5, 2, 2 }, Grey, 0, 0, 45);
+	addCube({ 87,57 + 204,1652 + 50 }, { 5, 2, 2 }, Grey, 0, 0, -45);
+	addCube({ 90 - 30,57 + 205,1652 + 50 }, { 10, 2, 2 }, Grey, 0, 0, 0);
+	addCube({ 87 - 30,57 + 206,1652 + 50 }, { 5, 2, 2 }, Grey, 0, 0, 45);
+	addCube({ 87 - 30,57 + 204,1652 + 50 }, { 5, 2, 2 }, Grey, 0, 0, -45);
 	addCube({ 244,	13 +200, 1652 }, { 100, 2, 30 }, Orange, 0, 0, -10);
 	addCube({ 149,	38 +200, 1652 }, { 100, 2, 30 }, Orange, 0, 0, -20);
 	addCube({ -148,	55 +200, 1652 }, { 500, 2, 120 },Orange, 0, 0, 0);
 	//barros	
-	addMud({ 78,		56+200, 1652 -35 }, { 50, 2, 50 }, Brown, 0, 0, 0);
+	/*addMud({ 78,		56+200, 1652 -35 }, { 50, 2, 50 }, Brown, 0, 0, 0);*/
 	addMud({ 78 -50,	56+200, 1652 - 35 }, { 50, 2, 50 }, Brown, 0, 0, 0);
 	addMud({ 78 - 100,	56+200, 1652 + 35 }, { 50, 2, 50 }, Brown, 0, 0, 0);
 	addMud({ 78 - 150,	56+200, 1652 + 35 }, { 50, 2, 50 }, Brown, 0, 0, 0);
@@ -172,6 +187,9 @@ bool ModuleSceneIntro::Start()
 	//out of barro
 	addCube({ -448,	55 +200, 1652 }, { 100, 2, 30 }, Green, 0, 0, 0);
 	addCheckpoint({ -468,	57 +200, 1652 }, { 2, 2, 2 }, Yellow, 0, 0, 0);
+	addCube({ -468,57 + 205,1652 + 50 }, { 10, 2, 2 }, Grey, 0, 0, 0);
+	addCube({ -471,57 + 206,1652 + 50 }, { 5, 2, 2 }, Grey, 0, 0, 45);
+	addCube({ -471,57 + 204,1652 + 50 }, { 5, 2, 2 }, Grey, 0, 0, -45);
 	addCube({ -534,	55+200, 1629 }, { 100, 2, 30 }, Green, 0, -30, 0);
 	addCube({ -597,	55+200, 1566 }, { 100, 2, 30 }, Green, 0, -60, 0);
 	addCube({ -627 ,55+200, 1486 }, { 30, 2, 100 }, Green, 0, 0, -40); //Wallride
@@ -184,6 +202,18 @@ bool ModuleSceneIntro::Start()
 	addCube({ -653,			19 +200, 1010 }, { 30, 2, 300 }, Green, 0, 0, 0);
 	addCoin({ -653,			22 +200, 1050 }, { 5, 5, 5 }, Yellow, 0, 0, 30);
 	addCheckpoint({ -653,	21 +200, 1080 }, { 2, 2, 2 }, Yellow, 0, 0, 0);
+	addCube({ -669,21 + 205,1240 - 84 }, { 2, 2, 10 }, Grey, 0, 0, 0);
+	addCube({ -669,21 + 206,1240 - 87 }, { 2, 2, 5 }, Grey, -45, 0, 0);
+	addCube({ -669,21 + 204,1240 - 87 }, { 2, 2, 5 }, Grey, 45, 0, 0);
+	addCube({ -629,21 + 205,1240 - 84 }, { 2, 2, 10 }, Grey, 0, 0, 0);
+	addCube({ -629,21 + 206,1240 - 87 }, { 2, 2, 5 }, Grey, -45, 0, 0);
+	addCube({ -629,21 + 204,1240 - 87 }, { 2, 2, 5 }, Grey, 45, 0, 0);
+	addCube({ -669,21 + 205,1120 - 84 }, { 2, 2, 10 }, Grey, 0, 0, 0);
+	addCube({ -669,21 + 206,1120 - 87 }, { 2, 2, 5 }, Grey, -45, 0, 0);
+	addCube({ -669,21 + 204,1120 - 87 }, { 2, 2, 5 }, Grey, 45, 0, 0);
+	addCube({ -629,21 + 205,1120 - 84 }, { 2, 2, 10 }, Grey, 0, 0, 0);
+	addCube({ -629,21 + 206,1120 - 87 }, { 2, 2, 5 }, Grey, -45, 0, 0);
+	addCube({ -629,21 + 204,1120 - 87 }, { 2, 2, 5 }, Grey, 45, 0, 0);
 	addBoosterUp({ -653,	19 +200, 1010 }, { 5, 5, 5 }, Orange, 0, 0, 0);
 	//I
 	addCube({ -658,	35 + 200, 1040 }, { 2, 5, 2 }, Grey, 0, 0, 0);
@@ -203,7 +233,11 @@ bool ModuleSceneIntro::Start()
 
 	addIce({ -653,			19 +200, 710 }, { 120, 20, 500 }, Blue, 0, 0, 0);
 	addIce({ -653,			19 + 200, 710 }, { 120, 20, 500 }, Blue, 0, 0, 0);
-	addHabiaOtroMasInterroganteVehicleChanger({ -653,30 + 200, 710 +100}, { 2, 2, 2 }, Red, 0, 0, 0);
+	addHabiaOtroMasInterroganteVehicleChanger({ -653,30 + 200, 710 + 55 }, { 2, 2, 2 }, Red, 0, 0, 0);
+	addHabiaOtroMasInterroganteVehicleChanger({ -663,30 + 200, 710 +65}, { 2, 2, 2 }, Red, 0, 0, 0);
+	addHabiaOtroMasInterroganteVehicleChanger({ -673,30 + 200, 710 + 75 }, { 2, 2, 2 }, Red, 0, 0, 0);
+	addHabiaOtroMasInterroganteVehicleChanger({ -683,30 + 200, 710 + 85 }, { 2, 2, 2 }, Red, 0, 0, 0);
+	addHabiaOtroMasInterroganteVehicleChanger({ -693,30 + 200, 710 + 95 }, { 2, 2, 2 }, Red, 0, 0, 0);
 	addCube({ -683,	22 + 200, 790 }, { 2, 50, 100 }, Blue, 0, -45, 0);
 	addCube({ -683,	22 + 200, 717 }, { 2, 50, 100 }, Blue, 0, 45, 0);
 	addCube({ -593,	22 + 200, 710 }, { 2, 50, 500 }, Blue, 0, 0, 0);
@@ -255,7 +289,7 @@ bool ModuleSceneIntro::Start()
 	addCube({ -653,		 10 +200, -133 }, { 30, 2, 100 }, Blue, -50, 0, 0);
 	addCube({ -653 - 15, 25 +200, -143 }, { 2, 60, 70 }, Blue, 0, 0, 0);
 	addCube({ -653 + 15, 25 +200, -143 }, { 2, 60, 70 }, Blue, 0, 0, 0);
-	addCheckpoint({ -653,52 +200, -83 }, { 2, 2, 2 }, Yellow, 0, 0, 0);
+	addCheckpoint({ -652, 202, -200  }, { 2, 2, 2 }, Yellow, 0, 0, 0);
 	addCube({ -653,		 45 +200, -123 }, { 30, 2, 30 }, Blue, -40, 0, 0);
 	addCube({ -653,		  8 +200, -143 }, { 30, 2, 100 }, Blue, -30, 0, 0);
 	addCube({ -653,		  5 +200, -153 }, { 30, 2, 100 }, Blue, -10, 0, 0);
@@ -263,7 +297,13 @@ bool ModuleSceneIntro::Start()
 	addCube({ -653,		-0.5f +200, -368 }, { 30, 2, 230 }, Green, 0, 0, 0);
 
 	//WALLRIDE
-	addTricicleVehicleChanger({ -652, 202, -200 }, { 2, 2, 2 }, Blue, 0, 0, 0);
+	addCube({ -639,2 + 207,-204 +25 }, { 2, 2, 10 }, Grey, 0, 0, 0);
+	addCube({ -639,2 + 208,-207 +25 }, { 2, 2, 5 }, Grey, -45, 0, 0);
+	addCube({ -639 ,2 + 206,-207 +25 }, { 2, 2, 5 }, Grey, 45, 0, 0);
+	addCube({ -639 -27,2 + 207,-204 + 25 }, { 2, 2, 10 }, Grey, 0, 0, 0);
+	addCube({ -639 -27,2 + 208,-207 + 25 }, { 2, 2, 5 }, Grey, -45, 0, 0);
+	addCube({ -639 -27,2 + 206,-207 + 25 }, { 2, 2, 5 }, Grey, 45, 0, 0);
+	addTricicleVehicleChanger({ -652, 202, -220 }, { 2, 2, 2 }, Blue, 0, 0, 0);
 	addBooster({ -652, 202, -250 }, { 5, 5, 5 }, Red, 0, 0, 0);
 	addCube({ -647 - 15,-0.5f +200, -353 }, { 50, 2, 300 }, Green, 0, 0, -20);
 	addCoin({ -675,		  208, -353 }, { 5, 5, 5 }, Yellow, 0, 0, 30);
