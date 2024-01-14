@@ -178,13 +178,6 @@ update_status ModulePlayer::Update(float dt)
 {
 	turn = acceleration = brake = 0.0f;
 
-	if (App->input->GetKey(SDL_SCANCODE_Z) == KEY_DOWN && gears != 1) {
-		gears--;
-	}
-
-	if (App->input->GetKey(SDL_SCANCODE_X) == KEY_DOWN && gears != 3) {
-		gears++;
-	}
 	if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
 	{
 			
@@ -246,13 +239,13 @@ update_status ModulePlayer::Update(float dt)
 			if (gears == 1) { turn -= TURN_DEGREES; }
 
 			if (App->scene_intro->AutobusVehicle == true)
-				turn += TURN_DEGREES * 2;
+				turn -= TURN_DEGREES * 2;
 
 			if (App->scene_intro->tricicle == true)
-				turn += TURN_DEGREES;
+				turn -= TURN_DEGREES;
 
 			if (App->scene_intro->monsterTruck == true)
-				turn += TURN_DEGREES;
+				turn -= TURN_DEGREES;
 			if (ice == true) { turn -= TURN_DEGREES * 2; }
 		}
 	}

@@ -160,7 +160,7 @@ bool ModuleSceneIntro::Start()
 	addCoin({ -653,			22 +200, 1050 }, { 5, 5, 5 }, Yellow, 0, 0, 30);
 	addCheckpoint({ -653,	21 +200, 1080 }, { 2, 2, 2 }, Yellow, 0, 0, 0);
 	addBoosterUp({ -653,	19 +200, 1010 }, { 5, 5, 5 }, Orange, 0, 0, 0);
-	addCube({ -653,			19 +200, 710 }, { 120, 20, 500 }, Grey, 0, 0, 0);
+	addIce({ -653,			19 +200, 710 }, { 120, 20, 500 }, Blue, 0, 0, 0);
 	addHabiaOtroMasInterroganteVehicleChanger({ -653,30 + 200, 710 +100}, { 2, 2, 2 }, Red, 0, 0, 0);
 	addCube({ -683,	22 + 200, 790 }, { 2, 50, 100 }, Grey, 0, -45, 0);
 	addCube({ -683,	22 + 200, 717 }, { 2, 50, 100 }, Grey, 0, 45, 0);
