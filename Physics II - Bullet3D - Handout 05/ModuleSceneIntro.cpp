@@ -139,11 +139,17 @@ bool ModuleSceneIntro::Start()
 
 	//ZONA DEL BARRO
 	addNormalVehicleChanger({ 50,57 + 200,1652 }, { 2, 2, 2 }, Blue, 0, 0, 0);
+	addNormalVehicleChanger({ 60,57 + 200,1652 -30 }, { 2, 2, 2 }, Blue, 0, 0, 0);
+	addNormalVehicleChanger({ 60,57 + 200,1652 + 10 }, { 2, 2, 2 }, Blue, 0, 0, 0);
+	addNormalVehicleChanger({ 70,57 + 200,1652 - 10 }, { 2, 2, 2 }, Blue, 0, 0, 0);
+	addNormalVehicleChanger({ 80,57 + 200,1652 - 30 }, { 2, 2, 2 }, Blue, 0, 0, 0);
+	addNormalVehicleChanger({ 80,57 + 200,1652 + 10 }, { 2, 2, 2 }, Blue, 0, 0, 0);
+	addNormalVehicleChanger({ 90,57 + 200,1652 - 10 }, { 2, 2, 2 }, Blue, 0, 0, 0);
 	addCube({ 244,	13 +200, 1652 }, { 100, 2, 30 }, Orange, 0, 0, -10);
 	addCube({ 149,	38 +200, 1652 }, { 100, 2, 30 }, Orange, 0, 0, -20);
 	addCube({ -148,	55 +200, 1652 }, { 500, 2, 120 },Orange, 0, 0, 0);
 	//barros	
-	addMud({ 78,		56+200, 1652 -35 }, { 50, 2, 50 }, Brown, 0, 0, 0);
+	/*addMud({ 78,		56+200, 1652 -35 }, { 50, 2, 50 }, Brown, 0, 0, 0);*/
 	addMud({ 78 -50,	56+200, 1652 - 35 }, { 50, 2, 50 }, Brown, 0, 0, 0);
 	addMud({ 78 - 100,	56+200, 1652 + 35 }, { 50, 2, 50 }, Brown, 0, 0, 0);
 	addMud({ 78 - 150,	56+200, 1652 + 35 }, { 50, 2, 50 }, Brown, 0, 0, 0);
@@ -203,7 +209,11 @@ bool ModuleSceneIntro::Start()
 
 	addIce({ -653,			19 +200, 710 }, { 120, 20, 500 }, Blue, 0, 0, 0);
 	addIce({ -653,			19 + 200, 710 }, { 120, 20, 500 }, Blue, 0, 0, 0);
-	addHabiaOtroMasInterroganteVehicleChanger({ -653,30 + 200, 710 +100}, { 2, 2, 2 }, Red, 0, 0, 0);
+	addHabiaOtroMasInterroganteVehicleChanger({ -653,30 + 200, 710 + 55 }, { 2, 2, 2 }, Red, 0, 0, 0);
+	addHabiaOtroMasInterroganteVehicleChanger({ -663,30 + 200, 710 +65}, { 2, 2, 2 }, Red, 0, 0, 0);
+	addHabiaOtroMasInterroganteVehicleChanger({ -673,30 + 200, 710 + 75 }, { 2, 2, 2 }, Red, 0, 0, 0);
+	addHabiaOtroMasInterroganteVehicleChanger({ -683,30 + 200, 710 + 85 }, { 2, 2, 2 }, Red, 0, 0, 0);
+	addHabiaOtroMasInterroganteVehicleChanger({ -693,30 + 200, 710 + 95 }, { 2, 2, 2 }, Red, 0, 0, 0);
 	addCube({ -683,	22 + 200, 790 }, { 2, 50, 100 }, Blue, 0, -45, 0);
 	addCube({ -683,	22 + 200, 717 }, { 2, 50, 100 }, Blue, 0, 45, 0);
 	addCube({ -593,	22 + 200, 710 }, { 2, 50, 500 }, Blue, 0, 0, 0);
