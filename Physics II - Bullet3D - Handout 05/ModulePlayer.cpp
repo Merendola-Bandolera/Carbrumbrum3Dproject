@@ -222,10 +222,12 @@ update_status ModulePlayer::Update(float dt)
 	if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
 	{
 		if (turn < TURN_DEGREES) {
-			if (gears == 1) { turn += TURN_DEGREES; }
+			if (gears == 1) { 
+				if (App->player->vehicle->GetKmh() < 150) { turn += TURN_DEGREES; }
+				else if (App->player->vehicle->GetKmh() >= 150 && App->player->vehicle->GetKmh() < 250) { turn += TURN_DEGREES / 2; }
+				else if (App->player->vehicle->GetKmh() >= 250) { turn += TURN_DEGREES / 3; }
+			}
 
-			
-		
 			if (App->scene_intro->AutobusVehicle == true)
 				turn += TURN_DEGREES * 2;
 
@@ -243,7 +245,12 @@ update_status ModulePlayer::Update(float dt)
 	if(App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
 	{
 		if (turn > -TURN_DEGREES) {
-			if (gears == 1) { turn -= TURN_DEGREES; }
+			if (gears == 1) {
+			
+				if (App->player->vehicle->GetKmh() < 150) { turn -= TURN_DEGREES; }
+				else if (App->player->vehicle->GetKmh() >= 150 && App->player->vehicle->GetKmh() < 250) { turn -= TURN_DEGREES / 2; }
+				else if (App->player->vehicle->GetKmh() >= 250) { turn -= TURN_DEGREES / 3; }
+			}
 
 			if (App->scene_intro->AutobusVehicle == true)
 				turn -= TURN_DEGREES * 2;
