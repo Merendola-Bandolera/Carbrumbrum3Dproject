@@ -31,6 +31,7 @@ public:
 	void OnCollision(PhysBody3D* body1, PhysBody3D* body2);
 	bool CleanUp();
 	
+
 public:
 	int gears;
 	float revs = 0.0f;
@@ -45,6 +46,8 @@ public:
 	bool ice = false;
 	float half_width = 2 * 0.5f;
 	float half_length = 4 * 0.5f;
+
+	bool change = false;
 
 	float gameTimer = 0;
 	float connection_height = 1.2f;

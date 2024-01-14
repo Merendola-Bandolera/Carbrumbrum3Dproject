@@ -185,6 +185,13 @@ update_status ModulePlayer::Update(float dt)
 
 	}
 
+	if (change == true) {
+
+		vehicle->collision_listeners.add(this);
+
+		change = false;
+	}
+
 	if (vehicle->GetPos().y() < 175) 
 	{
 		vehicle->ResetCarOrientation();
@@ -350,6 +357,9 @@ void ModulePlayer::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 	}
 
 }
+
+
+
 
 
 

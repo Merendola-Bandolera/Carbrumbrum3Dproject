@@ -161,6 +161,7 @@ bool ModuleSceneIntro::Start()
 	addCheckpoint({ -653,	21 +200, 1080 }, { 2, 2, 2 }, Yellow, 0, 0, 0);
 	addBoosterUp({ -653,	19 +200, 1010 }, { 5, 5, 5 }, Orange, 0, 0, 0);
 	addIce({ -653,			19 +200, 710 }, { 120, 20, 500 }, Blue, 0, 0, 0);
+	addIce({ -653,			19 + 200, 710 }, { 120, 20, 500 }, Blue, 0, 0, 0);
 	addHabiaOtroMasInterroganteVehicleChanger({ -653,30 + 200, 710 +100}, { 2, 2, 2 }, Red, 0, 0, 0);
 	addCube({ -683,	22 + 200, 790 }, { 2, 50, 100 }, Grey, 0, -45, 0);
 	addCube({ -683,	22 + 200, 717 }, { 2, 50, 100 }, Grey, 0, 45, 0);
@@ -312,6 +313,12 @@ update_status ModuleSceneIntro::Update(float dt)
 	while (c != NULL) {
 		c->data.Render();
 		c = c->next;
+	}
+
+	p2List_item<Ice>* c4 = icePointList.getFirst();
+	while (c4 != NULL) {
+		c4->data.cube.Render();
+		c4 = c4->next;
 	}
 	/*p2List_item<Booster>* d = boosterPointList.getFirst();
 	while (d != NULL) {
@@ -565,7 +572,7 @@ update_status ModuleSceneIntro::Update(float dt)
 					float acx = App->player->acceleration;
 					App->player->vehicle->SetPos(1000, 10, -1000);
 
-
+					App->player->change = true;
 					// Don't change anything below this line ------------------
 
 
@@ -674,7 +681,7 @@ update_status ModuleSceneIntro::Update(float dt)
 					car.wheels[7].drive = true;
 					car.wheels[7].brake = true;
 					car.wheels[7].steering = false;
-
+					App->player->change = true;
 					App->player->vehicle = App->physics->AddVehicle(car);
 					App->player->vehicle->SetPos(p.x(), p.y(), p.z());
 					App->physics->world->setGravity(-GRAVITY);
@@ -766,7 +773,7 @@ update_status ModuleSceneIntro::Update(float dt)
 					car.wheels[3].drive = false;
 					car.wheels[3].brake = true;
 					car.wheels[3].steering = false;
-
+					App->player->change = true;
 					App->player->vehicle = App->physics->AddVehicle(car);
 					App->player->vehicle->SetPos(p.x(), p.y(), p.z());
 					App->physics->world->setGravity(GRAVITY);
@@ -883,7 +890,7 @@ update_status ModuleSceneIntro::Update(float dt)
 			car.wheels[2].drive = false;
 			car.wheels[2].brake = true;
 			car.wheels[2].steering = false;
-
+			App->player->change = true;
 			// REAR-RIGHT ------------------------
 			car.wheels[3].connection.Set(-half_width + 0.3f * wheel_width, connection_height, -half_length + wheel_radius);
 			car.wheels[3].direction = direction;
@@ -983,7 +990,7 @@ update_status ModuleSceneIntro::Update(float dt)
 			car.wheels[1].drive = true;
 			car.wheels[1].brake = true;
 			car.wheels[1].steering = false;
-
+			App->player->change = true;
 			// REAR-RIGHT ------------------------
 			car.wheels[2].connection.Set(-half_width + 0.3f * wheel_width, connection_height, -half_length + wheel_radius);
 			car.wheels[2].direction = direction;
@@ -1063,7 +1070,7 @@ update_status ModuleSceneIntro::Update(float dt)
 			vec3 direction(0, -1, 0);
 			vec3 axis(-1, 0, 0);
 
-			
+			App->player->change = true;
 			// 1 right ------------------------
 			car.wheels[0].connection.Set(-half_width + 0.3f * wheel_width, connection_height, half_length - wheel_radius);
 			car.wheels[0].direction = direction;
@@ -1185,7 +1192,7 @@ update_status ModuleSceneIntro::Update(float dt)
 		if ((Xdistance > -3 && Xdistance < 3) && (Ydistance > -3 && Ydistance < 3) && (Zdistance > -3 && Zdistance < 3) && timerVehicleChange > 6) {
 			LOG("car touch coing");
 			//currentItem->data->pendingToDelete = true;
-
+			
 			btVector3 p = App->player->vehicle->GetPos();
 
 			App->player->vehicle->SetPos(1000, 10, -1000);
@@ -1251,7 +1258,7 @@ update_status ModuleSceneIntro::Update(float dt)
 			car.wheels[1].drive = true;
 			car.wheels[1].brake = false;
 			car.wheels[1].steering = true;
-
+			App->player->change = true;
 			// REAR-LEFT ------------------------
 			car.wheels[2].connection.Set(half_width * 2 - 0.3f * wheel_width, connection_height, -half_length * 3 + wheel_radius);
 			car.wheels[2].direction = direction;
@@ -1469,7 +1476,7 @@ void ModuleSceneIntro::addIce(vec3 pos, vec3 size, Color rgb, int angle, bool ro
 	Ice booster;
 	booster.body = App->physics->AddBody(cube, 0.0f);
 
-	booster.body->SetAsSensor(true);
+	booster.body->SetAsSensor(false);
 	booster.body->SetId(id);
 	booster.cube = cube;
 	booster.passed = passed_;
