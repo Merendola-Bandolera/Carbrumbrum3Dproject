@@ -153,6 +153,15 @@ bool ModulePlayer::Start()
 
 	checkpoint = btVector3(0, 2, 90);
 
+	 object.body = App->physics->AddBody(Cube(1, 1, 1), 0.1f);
+	 object.body->body->setGravity({ 0,9.8f,0 });
+
+
+	
+	App->physics->AddConstraintHinge(*vehicle, *object.body, vec3(0, 1, 0), vec3(0, 0, 6), vec3(0, 1, 0), vec3(0, 1, 0), false);
+	
+	object.body->SetAsSensor(true);
+
 	return true;
 }
 
@@ -186,7 +195,7 @@ update_status ModulePlayer::Update(float dt)
 	//{
 	//	
 	//	acceleration = MAX_ACCELERATION;
-
+	object.cube.Update(object.body);
 	//}
 	if (vehicle->GetKmh() <= 0 && App->input->GetKey(SDL_SCANCODE_DOWN) != KEY_REPEAT && revs >= 0) { revs = 0; }
 
